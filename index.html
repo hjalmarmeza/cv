@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hjalmar Meza Cortez | Executive Profile</title>
+    
+    <!-- Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome para los íconos ejecutivos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fuentes de Google (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- React y Babel para que el código funcione directamente en el navegador -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #020617; margin: 0; padding: 0; }
+        /* Efectos para la ventana de impresión (PDF) */
+        @media print {
+            body { background-color: #0a1120 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const { useState } = React;
+
+
+        const StatCard = ({ iconClass, label, value, subtext }) => (
+          <div className="bg-slate-900/60 border border-amber-500/20 p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-2">
+              <i className={`${iconClass} text-amber-500 text-sm`}></i>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{label}</span>
+            </div>
+            <div className="text-2xl font-bold text-white mb-1">{value}</div>
+            <div className="text-[9px] leading-tight text-slate-400 uppercase tracking-wider">{subtext}</div>
+          </div>
+        );
+
+
+        const ExperienceItem = ({ title, period, company, location, items, isLast }) => (
+          <div className={`relative pl-8 ${isLast ? '' : 'border-l border-slate-800 pb-10'}`}>
+            <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)]"></div>
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1">
+              <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-tight">{title}</h3>
+              <span className="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap">{period}</span>
+            </div>
+            <div className="text-slate-400 text-sm font-semibold mb-4">{company} | {location}</div>
+            <ul className="space-y-3">
+              {items.map((item, idx) => (
+                <li key={idx} className="flex gap-3 text-sm text-slate-400 leading-relaxed">
+                  <i className="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+
+
+        const App = () => {
+          const [showToast, setShowToast] = useState(false);
+          
+          const infografiaURL = "https://drive.google.com/file/d/1LXMMH3QTbUlxzEDCZ62rnlwuEBXiAcTM/view?usp=sharing"; 
+          const miFotoURL = "https://lh3.googleusercontent.com/d/1deuM9cErfKSgeUM777akFZ0htDdMzwH7";
+          const backupFotoURL = "https://media.licdn.com/dms/image/v2/D4D03AQE-3z7U3v5u4A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706634358178?e=1746057600&v=beta&t=o1n46L9z_B07Y7iY0K1G_Y9B5Xf0u8-6S7K2Z8J9wY8";
+          const qrCodeImg = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(infografiaURL)}&color=D4AF37&bgcolor=0a1120`;
+
+
+          const handleDownloadPDF = () => {
+            window.print();
+          };
+
+
+          const stats = [
+            { iconClass: "fas fa-award", label: "Experiencia", value: "18 Años", subtext: "Liderazgo en Sector Telco" },
+            { iconClass: "fas fa-users", label: "Escalabilidad", value: "30M+", subtext: "Migración de Clientes" },
+            { iconClass: "fas fa-chart-line", label: "Rentabilidad", value: "110K €", subtext: "Ahorro en Modernización" },
+            { iconClass: "fas fa-store", label: "Infraestructura", value: "52", subtext: "Tiendas Gestionadas" }
+          ];
+
+
+          const certCategories = [
+            {
+              category: "IA & Estrategia Digital", iconClass: "fas fa-brain",
+              items: [{ title: "Human Skills in AI Era", org: "Microsoft" }, { title: "AI Agents Productivity", org: "Microsoft" }, { title: "Generative AI Strategy", org: "Microsoft" }, { title: "Prompt Engineering", org: "LinkedIn" }, { title: "Azure AI Fundamentals", org: "Microsoft" }, { title: "Digital Mindset", org: "LinkedIn" }]
+            },
+            {
+              category: "Transformación & CX", iconClass: "fas fa-chart-bar",
+              items: [{ title: "CX Strategy", org: "LinkedIn" }, { title: "Digital Transformation", org: "LinkedIn" }, { title: "NPS & Client Loyalty", org: "Telefónica" }, { title: "Strategic Thinking", org: "LinkedIn" }, { title: "Service Design", org: "LinkedIn" }, { title: "Omnichannel Exp", org: "LinkedIn" }]
+            },
+            {
+              category: "Liderazgo Exponencial", iconClass: "fas fa-users-cog",
+              items: [{ title: "Liderazgo Transformador", org: "LinkedIn" }, { title: "Culturas Alto Rendimiento", org: "LinkedIn" }, { title: "Innovation Skills", org: "LinkedIn" }, { title: "Emotional Intelligence", org: "LinkedIn" }, { title: "Coaching Directivo", org: "CENTRUM" }, { title: "Change Management", org: "LinkedIn" }]
+            },
+            {
+              category: "Eficiencia & Comunicación", iconClass: "fas fa-comments",
+              items: [{ title: "Time Management", org: "LinkedIn" }, { title: "Business Communication", org: "LinkedIn" }, { title: "Mindful Communication", org: "LinkedIn" }, { title: "Executive Presence", org: "LinkedIn" }, { title: "Productivity Hacks", org: "LinkedIn" }, { title: "Public Speaking", org: "LinkedIn" }]
+            },
+            {
+              category: "Gestión & Compliance", iconClass: "fas fa-shield-alt",
+              items: [{ title: "GDPR Expert (UE)", org: "LinkedIn" }, { title: "Agile Management", org: "LinkedIn" }, { title: "Design Thinking", org: "LinkedIn" }, { title: "Risk Mitigation", org: "Telefónica" }, { title: "Project Management", org: "LinkedIn" }, { title: "Business Ethics", org: "LinkedIn" }]
+            }
+          ];
+
+
+          return (
+            <div className="min-h-screen text-slate-300 font-sans p-4 md:p-10 flex justify-center selection:bg-amber-500/30 relative">
+              
+              <div className="max-w-6xl w-full bg-[#0a1120] border border-slate-800 shadow-2xl rounded-3xl overflow-hidden relative">
+                
+                {/* Background Effects (Ocultos al imprimir) */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none no-print"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 blur-[100px] pointer-events-none no-print"></div>
+
+
+                {/* HEADER */}
+                <header className="relative p-8 md:p-12 border-b border-slate-800/50 flex flex-col md:flex-row justify-between items-center md:items-start gap-10">
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="inline-block px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                      Perfil Ejecutivo / Senior Management
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
+                      HJALMAR <span className="text-amber-500">MEZA CORTEZ</span>
+                    </h1>
+                    <p className="text-lg md:text-xl font-medium text-slate-400 max-w-2xl leading-snug mb-8">
+                      Líder de Operaciones & Transformación Digital | Estratega en Automatización de Procesos e IA Generativa
+                    </p>
+                    
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                      <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                        <a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition-all text-sm font-bold">
+                          <i className="fab fa-linkedin text-amber-500"></i> Perfil LinkedIn
+                        </a>
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm">
+                          <i className="fas fa-envelope text-amber-500"></i> hjalmar.meza@gmail.com
+                        </div>
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm font-mono">
+                          <i className="fas fa-phone text-amber-500"></i> +34 634 655522
+                        </div>
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm">
+                          <i className="fas fa-map-marker-alt text-amber-500"></i> Salamanca, España
+                        </div>
+                      </div>
+
+
+                      {/* BOTONES DE ACCIÓN (Ocultos al imprimir) */}
+                      <div className="flex flex-wrap justify-center md:justify-start gap-3 no-print">
+                        <button onClick={handleDownloadPDF} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
+                          <i className="fas fa-download"></i> Descargar CV
+                        </button>
+                        <a href="https://wa.me/34634655522" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-green-500/10 border border-green-500/40 text-green-500 hover:bg-green-500 hover:text-white px-5 py-2 rounded-xl font-bold text-sm transition-all cursor-pointer">
+                          <i className="fab fa-whatsapp text-lg"></i> WhatsApp
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {/* Bloque Visual Derecho: Foto + QR */}
+                  <div className="flex flex-row md:flex-col items-center gap-4 md:gap-6 shrink-0 bg-slate-900/30 p-4 rounded-3xl border border-slate-800/50">
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700"></div>
+                      <div className="relative w-32 h-32 md:w-52 md:h-52 rounded-xl border border-amber-500/30 overflow-hidden bg-slate-900">
+                        <img 
+                          src={miFotoURL} 
+                          alt="Hjalmar Meza Cortez" 
+                          className="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-105"
+                          onError={(e) => { e.target.src = backupFotoURL; }}
+                        />
+                      </div>
+                    </div>
+
+
+                    <a href={infografiaURL} target="_blank" rel="noreferrer" className="flex flex-col items-center gap-2 bg-slate-950/80 p-2 md:p-3 rounded-2xl border border-amber-500/30 shadow-lg group hover:border-amber-500 transition-all cursor-pointer hover:-translate-y-1">
+                       <div className="bg-white p-1 rounded-lg">
+                          <img src={qrCodeImg} alt="QR Code Dashboard" className="w-14 h-14 md:w-20 md:h-20" />
+                       </div>
+                       <div className="text-center">
+                          <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">Escanea mi</p>
+                          <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-tighter flex items-center gap-1 justify-center">
+                             Infografía <i className="fas fa-external-link-alt text-[8px] ml-1"></i>
+                          </p>
+                       </div>
+                    </a>
+                  </div>
+                </header>
+
+
+                {/* DASHBOARD STATS */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-8 md:p-12 bg-slate-950/40">
+                  {stats.map((stat, idx) => <StatCard key={idx} {...stat} />)}
+                </div>
+
+
+                <div className="flex flex-col lg:flex-row">
+                  
+                  {/* COLUMNA IZQUIERDA */}
+                  <main className="flex-[1.2] p-8 md:p-12 border-r border-slate-800/50">
+                    
+                    {/* SECCIÓN: ACERCA DE MÍ + REGLA DE ORO */}
+                    <section className="mb-14">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="h-[2px] w-8 bg-amber-500"></div>
+                        <h2 className="text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+                          <i className="fas fa-user-circle text-amber-500"></i> Acerca de Mí
+                        </h2>
+                      </div>
+                      
+                      <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-14 text-justify">
+                        Líder de Operaciones con 18 años de trayectoria en el sector Telecomunicaciones, especializado en la transformación digital de canales de atención masiva y la optimización de la Experiencia del Cliente (CX). Experto en orquestar equipos de alto rendimiento y liderar la transición de entornos físicos a digitales, logrando eficiencias operativas demostradas. Actualmente, fusiono mi sólido background corporativo con la implementación estratégica de <strong className="text-slate-200 font-semibold">Inteligencia Artificial Generativa y automatización de procesos</strong> para escalar la rentabilidad empresarial de manera ágil y estructurada.
+                      </p>
+
+
+                      <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 via-slate-900/50 to-transparent border border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.05)] group hover:shadow-[0_0_40px_rgba(245,158,11,0.15)] transition-all duration-500">
+                        <div className="absolute top-[-10px] left-6 px-4 py-1 bg-[#0a1120] border border-amber-500/50 rounded-lg text-amber-500 text-[10px] font-black uppercase tracking-widest">
+                          Mi Regla de Oro
+                        </div>
+                        <p className="text-lg md:text-xl font-bold text-slate-300 italic leading-snug">
+                          "<span className="text-amber-500 font-black">Lo que funciona, NO se toca</span>; pero lo que puede optimizarse, lo transformo mediante flujos de trabajo autónomos y soluciones de IA que generan valor inmediato."
+                        </p>
+                      </div>
+                    </section>
+
+
+                    {/* SECCIÓN: EXPERIENCIA */}
+                    <section>
+                      <div className="flex items-center gap-4 mb-10">
+                        <div className="h-[2px] w-8 bg-amber-500"></div>
+                        <h2 className="text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+                          <i className="fas fa-briefcase text-amber-500"></i> Experiencia & Legado
+                        </h2>
+                      </div>
+
+
+                      <div className="space-y-12">
+                        {/* ROL 2021 - ACTUALIDAD */}
+                        <ExperienceItem 
+                          title="Gestor de Negocio Familiar & Consultor IA"
+                          period="2021 — Actualidad"
+                          company="Emprendimiento & Advisory"
+                          location="España / Remoto"
+                          items={[
+                            <React.Fragment key="item1">Dirección y administración integral de un <strong>negocio familiar</strong>, liderando las operaciones diarias, rentabilidad y estrategias de fidelización de clientes.</React.Fragment>,
+                            <React.Fragment key="item2">En paralelo, inmersión intensiva en tecnologías de vanguardia, logrando más de 50 certificaciones globales (IA, Cloud, CX, Agile).</React.Fragment>,
+                            <React.Fragment key="item3">Implementación estratégica de herramientas de <strong>IA Generativa (Gemini, Claude, ChatGPT)</strong> aplicadas a la rentabilidad y eficiencia de procesos operativos.</React.Fragment>
+                          ]}
+                        />
+
+
+                        <ExperienceItem 
+                          title="Supervisor de Operaciones"
+                          period="2021 — 2021"
+                          company="Telefónica"
+                          location="Lima, Perú"
+                          items={[
+                            "Dirección de 48 gestores de Call Center con foco en cumplimiento de SLAs y excelencia en atención masiva.",
+                            "Supervisión de logística de instalaciones fijas y gestión estratégica de cobranzas corporativas.",
+                            "Optimización de KPIs críticos elevando la productividad del personal mediante sesiones de coaching."
+                          ]}
+                        />
+
+
+                        {/* EL HITO DE LOS 30 MILLONES */}
+                        <ExperienceItem 
+                          title="Supervisor de Control de Calidad"
+                          period="2017 — 2021"
+                          company="Telefónica"
+                          location="Lima, Perú"
+                          items={[
+                            <React.Fragment key="qa1">Ejecución de pruebas técnicas y estabilización de sistemas para garantizar la <strong className="text-amber-500 font-black">migración masiva y exitosa de más de 30 MILLONES de clientes</strong>.</React.Fragment>,
+                            <React.Fragment key="qa2">Identificación proactiva de incidencias y testing exhaustivo, asegurando que la nueva plataforma igualara y superara las funciones del sistema anterior.</React.Fragment>,
+                            <React.Fragment key="qa3">Mitigación de riesgos y gestión de la fase 'Marcha Blanca', certificando la estabilidad operativa de productos fijos y móviles previo a la liberación masiva.</React.Fragment>
+                          ]}
+                        />
+
+
+                        <ExperienceItem 
+                          title="Supervisor Regional (Norte, Centro y Oriente)"
+                          period="2009 — 2017"
+                          company="Telefónica"
+                          location="Lima, Perú"
+                          isLast={true}
+                          items={[
+                            "Dirección estratégica de 52 Centros de Atención gestionando ~600.000 clientes mensuales.",
+                            "Ahorro de 110.000 € liderando el proyecto de remodelación y modernización integral de tiendas de atención y venta.",
+                            "Reducción del 15% en la carga de atención física presencial mediante virtualización estratégica."
+                          ]}
+                        />
+                      </div>
+                    </section>
+                  </main>
+
+
+                  {/* COLUMNA DERECHA */}
+                  <aside className="flex-1 bg-slate-950/20 p-8 md:p-12 space-y-16 overflow-hidden">
+                    
+                    {/* DOMINIOS DE IMPACTO */}
+                    <section>
+                      <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                        <i className="fas fa-balance-scale text-amber-500"></i> Dominios de Impacto
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          "Optimización OPEX", "Gestión de Crisis", "Liderazgo Masivo", 
+                          "Escalabilidad Operativa", "Cultura del Logro", "Mitigación de Riesgos", 
+                          "Negociación Regulatoria", "Eficiencia en KPIs", "Transformación Cultural"
+                        ].map(skill => (
+                          <span key={skill} className="px-3 py-1.5 bg-slate-900 border border-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-lg hover:border-amber-500 transition-all cursor-default">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </section>
+
+
+                    {/* CERTIFICACIONES */}
+                    <section>
+                      <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-10 flex items-center gap-2">
+                        <i className="fas fa-shield-alt text-amber-500"></i> Mapa de Especialización
+                      </h3>
+                      
+                      <div className="space-y-10">
+                        {certCategories.map((cat, i) => (
+                          <div key={i} className="space-y-4">
+                            <div className="flex items-center gap-2 border-l-2 border-amber-500 pl-3">
+                              <i className={`${cat.iconClass} text-amber-500/80 text-[10px]`}></i>
+                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{cat.category}</span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                              {cat.items.map((item, j) => (
+                                <div key={j} className="group p-2 bg-slate-900/60 border border-slate-800 rounded-xl hover:border-amber-500/30 transition-all flex flex-col justify-center min-h-[55px]">
+                                  <div className="text-white text-[7.5px] font-bold leading-[1.1] group-hover:text-amber-500 transition-colors line-clamp-2 uppercase tracking-tighter">{item.title}</div>
+                                  <div className="text-slate-500 text-[6px] uppercase font-black tracking-tighter mt-1">{item.org}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-8 p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl text-center">
+                        <p className="text-[8px] text-slate-500 italic uppercase tracking-widest">
+                          +50 Certificaciones Adicionales Vigentes en Gestión y Tecnología
+                        </p>
+                      </div>
+                    </section>
+
+
+                    {/* STACK DE HERRAMIENTAS IA */}
+                    <section>
+                      <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
+                        <i className="fas fa-wrench text-amber-500"></i> Tool Stack & IA
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["ChatGPT Plus/Enterprise", "Google AI Studio", "Make.com (Integromat)", "Claude", "Gemini", "Notion AI", "Antigravity"].map(tool => (
+                          <span key={tool} className="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-bold uppercase rounded hover:bg-amber-500 hover:text-slate-900 transition-all cursor-default">
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </section>
+
+
+                    {/* EDUCACIÓN COMPLETA */}
+                    <section>
+                      <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
+                        <i className="fas fa-graduation-cap text-amber-500"></i> Formación Académica
+                      </h3>
+                      <div className="space-y-4">
+                        <div className="relative pl-4 border-l-2 border-amber-500/20">
+                          <div className="text-white text-[10px] font-bold uppercase tracking-tight">Grado en Administración</div>
+                          <div className="text-amber-500/70 text-[8px] font-bold mt-1">Univ. César Vallejo | 2011-2014</div>
+                        </div>
+                        <div className="relative pl-4 border-l-2 border-slate-800">
+                          <div className="text-white text-[10px] font-bold uppercase tracking-tight">Coaching Directivo</div>
+                          <div className="text-slate-500 text-[8px] mt-1">CENTRUM PUCP</div>
+                        </div>
+                        <div className="relative pl-4 border-l-2 border-slate-800">
+                          <div className="text-white text-[10px] font-bold uppercase tracking-tight">Gestión del Logro</div>
+                          <div className="text-slate-500 text-[8px] mt-1">CENTRUM PUCP</div>
+                        </div>
+                      </div>
+                    </section>
+
+
+                    {/* IDIOMAS */}
+                    <section>
+                      <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-5 flex items-center gap-2">
+                        <i className="fas fa-globe text-amber-500"></i> Idiomas
+                      </h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-end border-b border-slate-800/50 pb-2">
+                          <span className="text-white text-[10px] font-bold uppercase tracking-tight">Español</span>
+                          <span className="text-amber-500/70 text-[8px] font-black tracking-widest uppercase">Nativo</span>
+                        </div>
+                        <div className="flex justify-between items-end border-b border-slate-800/50 pb-2">
+                          <span className="text-white text-[10px] font-bold uppercase tracking-tight">Inglés</span>
+                          <span className="text-slate-500 text-[8px] font-black tracking-widest uppercase">Básico / Técnico (A2)</span>
+                        </div>
+                      </div>
+                    </section>
+
+
+                  </aside>
+                </div>
+
+
+                {/* FOOTER */}
+                <footer className="bg-slate-950 border-t border-slate-800 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-[1px] w-12 bg-amber-500"></div>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-black">
+                      Hjalmar Meza Cortez • 2026
+                    </p>
+                  </div>
+                  <p className="text-[9px] text-slate-600 font-mono">
+                    Hjalmar Meza: 18 años liderando Operaciones y Transformación Digital
+                  </p>
+                </footer>
+              </div>
+            </div>
+          );
+        };
+
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
