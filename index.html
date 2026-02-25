@@ -322,21 +322,45 @@
               {/* COLUMNA DERECHA */}
               <aside className="flex-1 bg-slate-950/20 p-8 md:p-12 space-y-16 overflow-hidden">
 
-                {/* DOMINIOS DE IMPACTO */}
+                {/* APTITUDES CLAVE */}
                 <section>
-                  <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
-                    <i className="fas fa-balance-scale text-amber-500"></i> Dominios de Impacto
+                  <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-7 flex items-center gap-2">
+                    <i className="fas fa-bolt text-amber-500"></i> Aptitudes & Competencias
                   </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "Optimización OPEX", "Gestión de Crisis", "Liderazgo Masivo",
-                      "Escalabilidad Operativa", "Cultura del Logro", "Mitigación de Riesgos",
-                      "Negociación Regulatoria", "Eficiencia en KPIs", "Transformación Cultural"
-                    ].map(skill => (
-                      <span key={skill} className="px-3 py-1.5 bg-slate-900 border border-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-lg hover:border-amber-500 transition-all cursor-default">
-                        {skill}
-                      </span>
-                    ))}
+
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-[8px] font-black text-amber-500/70 uppercase tracking-widest mb-3 border-l-2 border-amber-500/50 pl-2">Liderazgo & Operaciones</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["Liderazgo Transformador", "Dirección de Equipos", "Rentabilidad de Negocios", "Optimización de KPIs", "Resolución de Problemas", "Mitigación de Riesgos", "Gestión de Proyectos"].map(skill => (
+                          <span key={skill} className="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-300 text-[9px] font-bold uppercase rounded hover:border-amber-500 transition-all cursor-default">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-[8px] font-black text-amber-500/70 uppercase tracking-widest mb-3 border-l-2 border-amber-500/50 pl-2">IA & Transformación Tech</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["Transformación Digital", "IA Generativa & Agentes", "Ingeniería de Prompts", "Ecosistemas Cloud (Azure)", "NLP / Machine Learning", "Análisis y Decisión Técnica"].map(skill => (
+                          <span key={skill} className="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-300 text-[9px] font-bold uppercase rounded hover:border-amber-500 transition-all cursor-default">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-[8px] font-black text-amber-500/70 uppercase tracking-widest mb-3 border-l-2 border-amber-500/50 pl-2">Ventas & Factor Humano</h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["Estrategia Comercial", "Experiencia del Cliente (CX)", "Inteligencia Emocional", "Comunicación Interpersonal", "Negociación de Conflictos", "Creatividad e Innovación"].map(skill => (
+                          <span key={skill} className="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-300 text-[9px] font-bold uppercase rounded hover:border-amber-500 transition-all cursor-default">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </section>
 
@@ -378,9 +402,9 @@
                   <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
                     <i className="fas fa-wrench text-amber-500"></i> Herramientas e Inteligencia Artificial
                   </h3>
-                  <div className="flex flex-wrap gap-2 items-center justify-start">
+                  <div className="flex flex-wrap gap-1.5">
                     {["Antigravity", "ChatGPT Plus/Enterprise", "Claude", "Gemini", "Google AI Studio", "Make.com (Integromat)", "Notion AI"].map(tool => (
-                      <span key={tool} className="flex-auto md:flex-none text-center px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-bold uppercase rounded hover:bg-amber-500 hover:text-slate-900 transition-all cursor-default shadow-sm basis-auto flex-grow-0">
+                      <span key={tool} className="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-bold uppercase rounded hover:bg-amber-500 hover:text-slate-900 transition-all cursor-default">
                         {tool}
                       </span>
                     ))}
