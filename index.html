@@ -425,8 +425,9 @@
             {/* APTITUDES CLAVE - PANELES HOLOGRÁFICOS (FULL WIDTH) */}
             <section className="p-8 md:p-12 border-t border-slate-800/50 bg-[#0a1120] relative z-20">
               <div className="text-center mb-10">
-                <h3 className="text-[10px] md:text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-3 border border-amber-500/20 bg-amber-500/10 inline-block px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.1)]">
-                  <i className="fas fa-bolt mr-2"></i> Competencias (Saber Hacer) & Aptitudes (Potencial)
+                <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] mb-3 border border-slate-800 bg-slate-900 shadow-[0_0_15px_rgba(245,158,11,0.1)] inline-flex items-center px-4 py-1.5 rounded-full">
+                  <i className="fas fa-bolt text-amber-500 mr-2"></i>
+                  <span className="text-white mr-1.5">Competencias</span> <span className="text-slate-500 mr-1.5">&</span> <span className="text-amber-500">Aptitudes</span>
                 </h3>
                 <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
                   Áreas de Dominio Técnico y Operativo
@@ -435,12 +436,36 @@
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
-                  { icon: "fas fa-users-cog", title: "Liderazgo Organizacional", skills: ["Liderazgo Transformador", "Dirección de Equipos", "Culturas de Alto Desempeño", "Resolución de Problemas", "Toma de Decisiones", "Conflictología"] },
-                  { icon: "fas fa-microchip", title: "Transformación & IA", skills: ["Transformación Digital", "IA Generativa & Agentes", "Ingeniería de Prompts", "Ecosistemas Cloud (Azure)", "NLP / Machine Learning", "Productividad de IA"] },
-                  { icon: "fas fa-cogs", title: "Gestión de Operaciones", skills: ["Rentabilidad de Negocios", "Optimización de KPIs", "Mitigación de Riesgos", "Gestión de Proyectos", "Coordinación Logística", "Control de Calidad"] },
-                  { icon: "fas fa-chart-line", title: "Desarrollo Comercial", skills: ["Estrategia Comercial", "Negociación", "Prospección de Ventas", "Marketing Digital", "Eficacia de Ventas", "Análisis de Tendencias"] },
-                  { icon: "fas fa-handshake", title: "Experiencia del Cliente (CX)", skills: ["Satisfacción del Cliente", "Relaciones CRM", "Gestión de Conflictos", "Comunicación Profesional", "Atención al Cliente"] },
-                  { icon: "fas fa-brain", title: "Habilidades Humanas", skills: ["Inteligencia Emocional", "Pensamiento Crítico", "Creatividad e Innovación", "Comunicación Interpersonal", "Gestión del Tiempo", "Adaptabilidad"] }
+                  {
+                    icon: "fas fa-users-cog", title: "Liderazgo Organizacional", skills: [
+                      { name: "Liderazgo Transformador", type: "comp" }, { name: "Dirección de Equipos", type: "comp" }, { name: "Culturas de Alto Desempeño", type: "comp" }, { name: "Resolución de Problemas", type: "apt" }, { name: "Toma de Decisiones", type: "apt" }, { name: "Conflictología", type: "comp" }
+                    ]
+                  },
+                  {
+                    icon: "fas fa-microchip", title: "Transformación & IA", skills: [
+                      { name: "Transformación Digital", type: "comp" }, { name: "IA Generativa & Agentes", type: "comp" }, { name: "Ingeniería de Prompts", type: "comp" }, { name: "Ecosistemas Cloud (Azure)", type: "comp" }, { name: "NLP / Machine Learning", type: "comp" }, { name: "Productividad de IA", type: "comp" }
+                    ]
+                  },
+                  {
+                    icon: "fas fa-cogs", title: "Gestión de Operaciones", skills: [
+                      { name: "Rentabilidad de Negocios", type: "comp" }, { name: "Optimización de KPIs", type: "comp" }, { name: "Mitigación de Riesgos", type: "comp" }, { name: "Gestión de Proyectos", type: "comp" }, { name: "Coordinación Logística", type: "comp" }, { name: "Control de Calidad", type: "comp" }
+                    ]
+                  },
+                  {
+                    icon: "fas fa-chart-line", title: "Desarrollo Comercial", skills: [
+                      { name: "Estrategia Comercial", type: "comp" }, { name: "Negociación", type: "comp" }, { name: "Prospección de Ventas", type: "comp" }, { name: "Marketing Digital", type: "comp" }, { name: "Eficacia de Ventas", type: "comp" }, { name: "Análisis de Tendencias", type: "apt" }
+                    ]
+                  },
+                  {
+                    icon: "fas fa-handshake", title: "Experiencia del Cliente (CX)", skills: [
+                      { name: "Satisfacción del Cliente", type: "comp" }, { name: "Relaciones CRM", type: "comp" }, { name: "Gestión de Conflictos", type: "comp" }, { name: "Comunicación Profesional", type: "comp" }, { name: "Atención al Cliente", type: "comp" }
+                    ]
+                  },
+                  {
+                    icon: "fas fa-brain", title: "Habilidades Humanas", skills: [
+                      { name: "Inteligencia Emocional", type: "apt" }, { name: "Pensamiento Crítico", type: "apt" }, { name: "Creatividad e Innovación", type: "apt" }, { name: "Comunicación Interpersonal", type: "apt" }, { name: "Gestión del Tiempo", type: "apt" }, { name: "Adaptabilidad", type: "apt" }
+                    ]
+                  }
                 ].map((grupo, idx) => (
                   <div key={idx} className="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500">
                     {/* Cabecera del Panel */}
@@ -453,8 +478,11 @@
                     {/* Skills Tags */}
                     <div className="p-6 w-full flex flex-wrap justify-center gap-2.5">
                       {grupo.skills.map((skill, i) => (
-                        <span key={i} className="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 bg-slate-800/50 text-slate-300 border border-slate-700 hover:bg-amber-500/10 hover:text-amber-500 hover:border-amber-500/30 hover:-translate-y-1">
-                          {skill}
+                        <span key={i} className={`px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border
+                          ${skill.type === 'apt'
+                            ? 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1'
+                            : 'bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1'}`}>
+                          {skill.name}
                         </span>
                       ))}
                     </div>
@@ -471,7 +499,7 @@
                   Centro de Innovación y Desarrollo
                 </h2>
                 <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">
-                  Ecosistema Global <span className="text-amber-500">Multisectorial</span>
+                  Portafolio de <span className="text-amber-500">Innovación Tecnológica</span>
                 </h1>
                 <p className="text-slate-400 text-sm md:text-base max-w-4xl mx-auto mt-5 leading-relaxed font-medium">
                   Desarrollo de una arquitectura de software diversificada en más de 20 proyectos (Aplicaciones Locales, Sistemas Serverless en la Nube y Motores de Inteligencia Artificial).
