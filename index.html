@@ -99,7 +99,7 @@
       const [showToast, setShowToast] = useState(false);
       const [activeTab, setActiveTab] = useState('perfil');
 
-      const infografiaURL = "https://drive.google.com/file/d/1LXMMH3QTbUlxzEDCZ62rnlwuEBXiAcTM/view?usp=sharing";
+      const infografiaURL = "https://hjalmarmeza.github.io/cv/carta_presentacion.html";
       const miFotoURL = "https://lh3.googleusercontent.com/d/1deuM9cErfKSgeUM777akFZ0htDdMzwH7";
       const backupFotoURL = "https://media.licdn.com/dms/image/v2/D4D03AQE-3z7U3v5u4A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706634358178?e=1746057600&v=beta&t=o1n46L9z_B07Y7iY0K1G_Y9B5Xf0u8-6S7K2Z8J9wY8";
       const qrCodeImg = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(infografiaURL)}&color=D4AF37&bgcolor=0a1120`;
@@ -187,9 +187,6 @@
                     <button onClick={handleDownloadPDF} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
                       <i className="fas fa-download"></i> Descargar CV
                     </button>
-                    <a href="carta_presentacion.html" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 bg-opacity-80 border border-slate-600 px-5 py-2 rounded-xl font-black text-sm text-white transition-all shadow-lg cursor-pointer">
-                      <i className="fas fa-file-signature text-amber-500"></i> Mi Carta Exec
-                    </a>
                     <a href="https://wa.me/34634655522?text=Hola%20Hjalmar,%20he%20visto%20tu%20CV%20Web%20y%20me%20gustar%C3%ADa%20conversar%20contigo." target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-green-500/10 border border-green-500/40 text-green-500 hover:bg-green-500 hover:text-white px-5 py-2 rounded-xl font-bold text-sm transition-all cursor-pointer">
                       <i className="fab fa-whatsapp text-lg"></i> WhatsApp
                     </a>
@@ -218,9 +215,9 @@
                     <img src={qrCodeImg} alt="QR Code Dashboard" className="w-14 h-14 md:w-20 md:h-20" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">Escanea mi</p>
+                    <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">Lee mi</p>
                     <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-tighter flex items-center gap-1 justify-center">
-                      Dashboard de Impacto <i className="fas fa-external-link-alt text-[8px] ml-1"></i>
+                      Carta de Presentación <i className="fas fa-external-link-alt text-[8px] ml-1"></i>
                     </p>
                   </div>
                 </a>
