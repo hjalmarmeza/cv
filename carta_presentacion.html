@@ -84,6 +84,10 @@
                 border-radius: 0;
                 margin: 0;
             }
+
+            .no-print {
+                display: none !important;
+            }
         }
     </style>
 
@@ -183,9 +187,13 @@
                     Gestión de Operaciones & Automatización Tecnológica
                 </div>
 
-                <div class="mt-8">
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 no-print">
+                    <button onclick="window.print()"
+                        class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-6 py-3 rounded-lg text-xs font-black uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(245,158,11,0.3)] w-full sm:w-auto cursor-pointer">
+                        <i class="fas fa-download"></i> Descargar Carta
+                    </button>
                     <a href="https://hjalmarmeza.github.io/cv/" target="_blank"
-                        class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 px-6 py-3 rounded-lg text-xs font-black uppercase tracking-widest transition-colors shadow-lg">
+                        class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 px-6 py-3 rounded-lg text-xs font-black uppercase tracking-widest transition-colors shadow-lg w-full sm:w-auto">
                         <i class="fas fa-external-link-alt text-amber-500"></i> Acceder al CV Web Interactivo
                     </a>
                 </div>
