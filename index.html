@@ -54,13 +54,13 @@
 
 
     const StatCard = ({ iconClass, label, value, subtext }) => (
-      <div className="bg-slate-900/60 border border-amber-500/20 p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300">
-        <div className="flex items-center gap-3 mb-2">
-          <i className={`${iconClass} text-amber-500 text-sm`}></i>
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{label}</span>
+      <div className="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full">
+          <i className={`${iconClass} text-amber-500 text-xs md:text-sm shrink-0`}></i>
+          <span className="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate w-full" title={label}>{label}</span>
         </div>
-        <div className="text-2xl font-bold text-white mb-1">{value}</div>
-        <div className="text-[9px] leading-tight text-slate-400 uppercase tracking-wider">{subtext}</div>
+        <div className="text-xl md:text-2xl font-bold text-white mb-1">{value}</div>
+        <div className="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest">{subtext}</div>
       </div>
     );
 
@@ -729,8 +729,8 @@
                   Hjalmar Meza Cortez • 2026
                 </p>
               </div>
-              <p className="text-[9px] text-slate-600 font-mono">
-                Hjalmar Meza: 18 años liderando Operaciones y Transformación Digital
+              <p className="text-[9px] text-slate-600 font-mono text-center md:text-right max-w-sm">
+                Maximizando rentabilidad corporativa mediante Operaciones y Arquitectura de IA
               </p>
             </footer>
           </div>
