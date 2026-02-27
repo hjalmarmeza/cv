@@ -215,7 +215,7 @@
                     <img src={qrCodeImg} alt="QR Code Dashboard" className="w-14 h-14 md:w-20 md:h-20" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">Lee mi</p>
+                    <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">📌 Escanea o Click aquí</p>
                     <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-tighter flex items-center gap-1 justify-center">
                       Carta de Presentación <i className="fas fa-external-link-alt text-[8px] ml-1"></i>
                     </p>
@@ -579,9 +579,9 @@
                         <i className="fas fa-database text-amber-500 text-lg"></i>
                       </div>
                     </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Extracción y Digitalización OCR</h3>
+                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Minería de Datos y Autopilotos</h3>
                     <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Agentes corporativos de extracción empresarial <span className="text-slate-300 font-bold">(Linkedinmatic, OptiCompra)</span> y digitalización óptica avanzada de documentos masivos <span className="text-slate-300 font-bold">(Scripto)</span>.
+                      Agentes de extracción empresarial y OCR <span className="text-slate-300 font-bold">(OptiCompra, Scripto)</span>, y sistemas autónomos Text-to-Image para el despliegue de contenido de Marketing en redes <span className="text-slate-300 font-bold">(Linkedinmatic V2)</span>.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
                       <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Minería Web</span>
@@ -673,8 +673,8 @@
                       <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Asistencia Cognitiva</span>
                     </div>
                   </div>
-
                 </div>
+
               </section>
 
 
@@ -743,10 +743,10 @@
                 Maximizando rentabilidad corporativa mediante Operaciones y Arquitectura de IA
               </p>
             </footer>
-          </div>
+          </div >
 
           {/* MOBILE NAVIGATION TABS (Sticky Bottom) - ONLY VISIBLE ON MOBILE */}
-          <nav className="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/90 backdrop-blur-md border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+          < nav className="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/90 backdrop-blur-md border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]" >
             <button
               onClick={() => { setActiveTab('perfil'); window.scrollTo(0, 0); }}
               className={`flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'perfil' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`}>
@@ -765,9 +765,9 @@
               <i className="fas fa-microchip text-[1.3rem]"></i>
               <span className="text-[9px] font-black uppercase tracking-wider">Innovación</span>
             </button>
-          </nav>
+          </nav >
 
-        </div>
+        </div >
       );
     };
 
