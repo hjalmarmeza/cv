@@ -98,6 +98,13 @@
       header h1 { color: #000000 !important; font-size: 24pt !important; margin-bottom: 0 !important; }
       header p { color: #1e293b !important; font-size: 11pt !important; line-height: 1.2 !important; font-weight: 500 !important; }
 
+      /* Ajuste de Foto en Print */
+      .print-photo-container {
+        width: 38mm !important;
+        height: 38mm !important;
+        border-width: 3px !important;
+      }
+
       /* Dashboard de Estadísticas */
       div[class*="bg-slate-950/40"] {
         display: grid !important;
@@ -426,7 +433,7 @@
 
                 {/* FOTO PRINT */}
                 <div className="hidden print:block mb-4">
-                   <div className="w-24 h-24 rounded-full border-4 border-amber-500 overflow-hidden bg-slate-800">
+                   <div className="w-24 h-24 rounded-full border-4 border-amber-500 overflow-hidden bg-slate-800 print-photo-container">
                       <img src={miFotoURL} alt="Hjalmar Meza Cortez" className="w-full h-full object-cover" />
                    </div>
                 </div>
