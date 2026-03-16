@@ -41,10 +41,20 @@
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        text-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
       }
       
+      body, html, #root, .max-w-6xl {
+        background-color: white !important;
+        background: white !important;
+        color: #000000 !important;
+      }
+
       header *, main *, aside *, section *, div *, p, span, li, h1, h2, h3, h4 {
-        color: #000000 !important; /* Fuerza negra absoluta */
+        color: #000000 !important;
+        background-image: none !important;
       }
 
       body, html {
@@ -355,13 +365,13 @@
 
 
     const StatCard = ({ iconClass, label, value, subtext }) => (
-      <div className="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between">
+      <div className="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50">
         <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full">
-          <i className={`${iconClass} text-amber-500 text-xs md:text-sm shrink-0`}></i>
-          <span className="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:overflow-visible print:whitespace-normal w-full" title={label}>{label}</span>
+          <i className={`${iconClass} text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800`}></i>
+          <span className="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title={label}>{label}</span>
         </div>
-        <div className="text-xl md:text-2xl font-bold text-white mb-1">{value}</div>
-        <div className="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest">{subtext}</div>
+        <div className="text-xl md:text-2xl font-bold text-white print:text-black mb-1">{value}</div>
+        <div className="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">{subtext}</div>
       </div>
     );
 
@@ -900,12 +910,12 @@
                       ]
                     }
                   ].map((grupo, idx) => (
-                    <div key={idx} className="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500">
+                    <div key={idx} className="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200">
                       {/* Cabecera del Panel */}
-                      <div className="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors"></div>
-                        <i className={`${grupo.icon} text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10`}></i>
-                        <h3 className="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10">{grupo.title}</h3>
+                      <div className="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200">
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div>
+                        <i className={`${grupo.icon} text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100`}></i>
+                        <h3 className="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">{grupo.title}</h3>
                       </div>
 
                       {/* Skills Tags */}
