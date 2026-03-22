@@ -495,11 +495,13 @@
 
 
                   {/* BOTONES DE ACCIÓN (Ocultos al imprimir) */}
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3 no-print">
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3 no-print mt-2">
                     <button onClick={handleDownloadPDF} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
                       <i className="fas fa-download"></i> Descargar CV
                     </button>
-
+                    <a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
+                      <i className="far fa-calendar-alt"></i> Agendar Cita
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1203,7 +1205,9 @@
                     <a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2">
                       <i className="fab fa-linkedin-in text-lg"></i> Conectar en LinkedIn
                     </a>
-
+                    <a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" className="no-print px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2">
+                      <i className="far fa-calendar-alt text-lg"></i> Agendar Cita
+                    </a>
                   </div>
                 </div>
 
