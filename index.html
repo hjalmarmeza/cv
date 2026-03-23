@@ -1299,15 +1299,23 @@
             verify: { projectID: '69c08d57a25a54e79a7e95c0' },
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
-            assistant: {
-              input: {
-                disabled: true
-              }
-            },
             voice: {
               url: "https://runtime-api.voiceflow.com"
             }
           });
+
+          // Ocultar barra de entrada (teclado) mediante inyección de CSS en Shadow DOM
+          const hideInputBar = () => {
+            const vfWidget = document.querySelector('#voiceflow-chat');
+            if (vfWidget && vfWidget.shadowRoot) {
+              const style = document.createElement('style');
+              style.textContent = '.vfrc-footer { display: none !important; }';
+              vfWidget.shadowRoot.appendChild(style);
+            } else {
+              setTimeout(hideInputBar, 300);
+            }
+          };
+          hideInputBar();
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
