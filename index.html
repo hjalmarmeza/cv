@@ -1304,12 +1304,27 @@
             },
             assistant: {
               stylesheet: `
-                .vfrc-launcher {
-                  bottom: 80px !important;
+                /* === MOBILE: Burbuja más pequeña, sobre las tabs de navegación === */
+                @media (max-width: 767px) {
+                  .vfrc-launcher {
+                    bottom: 96px !important;
+                    right: 12px !important;
+                    transform: scale(0.80) !important;
+                    transform-origin: bottom right !important;
+                  }
+                  .vfrc-chat-window {
+                    bottom: 160px !important;
+                    max-height: calc(100vh - 200px) !important;
+                    right: 8px !important;
+                    left: 8px !important;
+                    width: auto !important;
+                  }
                 }
+                /* === DESKTOP: Posición normal === */
                 @media (min-width: 768px) {
                   .vfrc-launcher {
                     bottom: 20px !important;
+                    right: 20px !important;
                   }
                 }
               `
