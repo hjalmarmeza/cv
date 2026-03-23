@@ -1282,15 +1282,14 @@
               <span className="text-[9px] font-black uppercase tracking-wider">Innovación</span>
             </button>
           </nav >
-
         </div >
       );
     };
 
-
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
+
   <script type="text/javascript">
     (function(d, t) {
         var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
@@ -1299,39 +1298,20 @@
             verify: { projectID: '69c08d57a25a54e79a7e95c0' },
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
-            voice: {
-              url: "https://runtime-api.voiceflow.com"
-            },
+            voice: { url: "https://runtime-api.voiceflow.com" },
             assistant: {
               stylesheet: `
-                /* === MOBILE: Burbuja más pequeña, sobre las tabs de navegación === */
+                .vfrc-launcher { display: none !important; }
                 @media (max-width: 767px) {
-                  .vfrc-launcher {
-                    bottom: 96px !important;
-                    right: 12px !important;
-                    transform: scale(0.80) !important;
-                    transform-origin: bottom right !important;
-                  }
-                  .vfrc-chat-window {
-                    bottom: 160px !important;
-                    max-height: calc(100vh - 200px) !important;
-                    right: 8px !important;
-                    left: 8px !important;
-                    width: auto !important;
-                  }
-                }
-                /* === DESKTOP: Posición normal === */
-                @media (min-width: 768px) {
-                  .vfrc-launcher {
-                    bottom: 20px !important;
-                    right: 20px !important;
+                  .vfrc-chat-window { 
+                    bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                    width: 100% !important; height: 100% !important; border-radius: 0 !important; 
+                    z-index: 10001 !important;
                   }
                 }
               `
             }
           });
-
-          // Ocultar barra de entrada (teclado) mediante inyección de CSS en Shadow DOM
           const hideInputBar = () => {
             const vfWidget = document.querySelector('#voiceflow-chat');
             if (vfWidget && vfWidget.shadowRoot) {
@@ -1347,6 +1327,13 @@
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
   </script>
-</body>
 
+  <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
+  <div id="custom-ia-btn" onclick="window.voiceflow?.chat?.open()" 
+       style="position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; z-index: 10000; cursor: pointer; border: 2px solid #020617; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);"
+       class="md:hidden no-print">
+    <i class="fas fa-comment" style="color: #020617; font-size: 24px;"></i>
+    <span style="position: absolute; color: #020617; font-size: 9px; font-weight: 900; transform: translateY(-1px);">IA</span>
+  </div>
+</body>
 </html>
