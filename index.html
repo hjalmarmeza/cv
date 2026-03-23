@@ -1289,7 +1289,6 @@
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
-
   <script type="text/javascript">
     (function(d, t) {
         var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
@@ -1301,7 +1300,7 @@
             voice: { url: "https://runtime-api.voiceflow.com" },
             assistant: {
               stylesheet: `
-                .vfrc-launcher { display: none !important; }
+                .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
                 @media (max-width: 767px) {
                   .vfrc-chat-window { 
                     bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
@@ -1316,7 +1315,7 @@
             const vfWidget = document.querySelector('#voiceflow-chat');
             if (vfWidget && vfWidget.shadowRoot) {
               const style = document.createElement('style');
-              style.textContent = '.vfrc-footer { display: none !important; }';
+              style.textContent = '.vfrc-footer { display: none !important; } .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }';
               vfWidget.shadowRoot.appendChild(style);
             } else {
               setTimeout(hideInputBar, 300);
@@ -1332,8 +1331,8 @@
   <div id="custom-ia-btn" onclick="window.voiceflow?.chat?.open()" 
        style="position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; z-index: 10000; cursor: pointer; border: 2px solid #020617; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);"
        class="md:hidden no-print">
-    <i class="fas fa-comment" style="color: #020617; font-size: 24px;"></i>
-    <span style="position: absolute; color: #020617; font-size: 9px; font-weight: 900; transform: translateY(-1px);">IA</span>
+    <i class="fas fa-comment" style="color: #020617; font-size: 26px;"></i>
+    <span style="position: absolute; color: #020617; font-size: 8px; font-weight: 900; transform: translateY(-1px); pointer-events: none; -webkit-text-stroke: 0.5px #f59e0b;">IA</span>
   </div>
 </body>
 </html>
