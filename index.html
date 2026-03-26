@@ -966,6 +966,149 @@
                   </p>
                 </div>
 
+                {/* CARRUSEL DE FOTOGRAMAS REALES (Factor Wow Innovador) */}
+                <div className="relative w-full overflow-hidden mb-16 py-12 no-print group">
+                  <style dangerouslySetInnerHTML={{ __html: `
+                    @keyframes slide-infinite {
+                      0% { transform: translateX(0); }
+                      100% { transform: translateX(-50%); }
+                    }
+                    .glass-rail {
+                      position: absolute;
+                      top: 50%;
+                      left: 0;
+                      right: 0;
+                      height: 1px;
+                      background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), transparent);
+                      transform: translateY(-50%);
+                      z-index: 0;
+                    }
+                    .carousel-track {
+                      display: flex;
+                      width: calc(262px * 34); /* (250px + 12px margin) * 34 */
+                      animation: slide-infinite 60s linear infinite;
+                      position: relative;
+                      z-index: 10;
+                    }
+                    /* ELIMINADO: Ya no se detiene al pasar el mouse */
+                    .frame-container {
+                      width: 250px;
+                      height: 150px;
+                      flex-shrink: 0;
+                      margin-right: 12px;
+                      overflow: visible;
+                      position: relative;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      z-index: 10;
+                    }
+                    .frame-container:hover {
+                      z-index: 50;
+                    }
+                    .frame-img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: contain; 
+                      border-radius: 12px; /* ESQUINAS REDONDEADAS COMO SOLICITADO */
+                      filter: saturate(0.8) drop-shadow(0 8px 15px rgba(0,0,0,0.4));
+                      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                      cursor: pointer;
+                    }
+                    .frame-container:hover .frame-img {
+                      filter: saturate(1.1) drop-shadow(0 15px 30px rgba(245, 158, 11, 0.25));
+                      transform: translateY(-8px) scale(1.05);
+                    }
+                    .frame-indicator {
+                      position: absolute;
+                      top: -30px; /* Un poco más de espacio */
+                      left: 0;
+                      right: 0;
+                      text-align: center;
+                      opacity: 0;
+                      transform: translateY(10px);
+                      transition: all 0.3s ease;
+                      pointer-events: none;
+                      z-index: 100 !important; /* ASEGURAR QUE SALGA SIEMPRE POR DELANTE */
+                    }
+                    .frame-container:hover .frame-indicator {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                    .cat-label {
+                      display: inline-block;
+                      background: rgba(245, 158, 11, 0.25);
+                      color: #fff;
+                      border: 1px solid rgba(245, 158, 11, 0.5);
+                      padding: 4px 12px;
+                      border-radius: 6px;
+                      font-size: 8px;
+                      font-weight: 900;
+                      text-transform: uppercase;
+                      letter-spacing: 0.15em;
+                      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+                      backdrop-filter: blur(8px);
+                    }
+                    .frame-name {
+                      position: absolute;
+                      bottom: -30px;
+                      left: 0;
+                      right: 0;
+                      color: white;
+                      font-size: 10px;
+                      font-weight: 900;
+                      text-transform: uppercase;
+                      letter-spacing: 0.1em;
+                      opacity: 0;
+                      transition: all 0.3s ease;
+                      text-align: center;
+                      z-index: 100;
+                    }
+                    .frame-container:hover .frame-name {
+                      opacity: 1;
+                      bottom: -22px;
+                    }
+                  `}} />
+                  
+                  <div className="glass-rail"></div>
+
+                  <div className="carousel-track">
+                    {(() => {
+                      const appData = [
+                        { file: "Alerta vecinal.png", cat: "Telemetría y Operaciones Geo", name: "Alerta Vecinal" },
+                        { file: "Allimentate.png", cat: "Tecnología de Salud e Inclusión", name: "Allimentate" },
+                        { file: "Allivision.png", cat: "Interfaces de Teleoperación", name: "Allivision" },
+                        { file: "chartless.png", cat: "Tecnología de Salud e Inclusión", name: "Chart Less" },
+                        { file: "Facecut.png", cat: "Asesoría de Modas Computarizada", name: "FaceCut" },
+                        { file: "Georadio.png", cat: "Auditoría de Redes y Medios", name: "GeoRadio" },
+                        { file: "Handracer.png", cat: "Interfaces de Teleoperación", name: "HandRacer" },
+                        { file: "Jardim de historia.png", cat: "Experiencias Narrativas con IA", name: "Jardim de Historia" },
+                        { file: "Kopilot.png", cat: "Sistemas de Gestión Comercial", name: "Kopilot" },
+                        { file: "Linkedinmatic.png", cat: "Minería de Datos y Autopilotos", name: "Linkedinmatic" },
+                        { file: "Moodweather.png", cat: "Tecnología de Salud e Inclusión", name: "MoodWeather" },
+                        { file: "Musichris.png", cat: "Auditoría de Redes y Medios", name: "MusiChris" },
+                        { file: "Restaurant.png", cat: "Sistemas de Gestión Comercial", name: "Restaurante360" },
+                        { file: "Talkme.png", cat: "Ingeniería de Voz y Comunicaciones", name: "Talk.Me" },
+                        { file: "Tara.png", cat: "Asesoría de Modas Computarizada", name: "Style TARA" },
+                        { file: "Vigilante Ai.png", cat: "Agentes Inteligentes de Monitoreo", name: "Vigilante AI" },
+                        { file: "voxmind.png", cat: "Ingeniería de Voz y Comunicaciones", name: "VoxMind AI" }
+                      ];
+                      
+                      const allApps = [...appData, ...appData]; // Double for seamless loop
+                      
+                      return allApps.map((app, idx) => (
+                        <div key={idx} className="frame-container">
+                          <div className="frame-indicator">
+                            <span className="cat-label">{app.cat}</span>
+                          </div>
+                          <img src={`fotogramas/fotogramas%20hjal/${app.file.replace(/ /g, '%20')}`} alt={app.name} className="frame-img" />
+                          <div className="frame-name">{app.name}</div>
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                </div>
+
 
                 {/* GRID DE 9 CATEGORÍAS (3x3 en Desktop) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-8">
