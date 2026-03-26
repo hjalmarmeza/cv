@@ -551,69 +551,61 @@
       <span style="position: absolute; color: #ffffff; font-size: 8px; font-weight: 900; transform: translateY(-1px); pointer-events: none;">IA</span>
     </div>
 
-    <!-- Script de Tabs para Móvil (Reemplazo de React) -->
+    
+    <!-- Script de Tabs para Móvil (Optimizado) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const tabs = ['perfil', 'experiencia', 'innovacion'];
-            
-            // Localizar botones de navegación móvil (están en el <nav> al final de #root)
-            const mobileNav = document.querySelector('nav.md\\:hidden');
-            if (!mobileNav) return;
-            
-            const tabButtons = Array.from(mobileNav.querySelectorAll('button'));
-            
             const sections = {
                 perfil: document.getElementById('content-perfil'),
                 experiencia: document.getElementById('content-experiencia'),
                 innovacion: document.getElementById('content-innovacion')
             };
+            
+            const mobileNav = document.querySelector('nav.md\:hidden');
+            if (!mobileNav || !sections.perfil || !sections.experiencia || !sections.innovacion) {
+                console.error('Navegacion o secciones no encontradas');
+                return;
+            }
+            
+            const buttons = Array.from(mobileNav.querySelectorAll('button'));
+            const tabs = ['perfil', 'experiencia', 'innovacion'];
 
-            tabButtons.forEach((btn, index) => {
-                const targetTab = tabs[index];
-                
-                btn.addEventListener('click', () => {
-                    // Update active tab logic
-                    tabs.forEach(t => {
-                        const section = sections[t];
-                        if (section) {
-                            if (t === targetTab) {
-                                // Mostrar sección
-                                if (t === 'perfil') {
-                                    section.classList.remove('hidden');
-                                    section.classList.add('block');
-                                } else {
-                                    section.classList.remove('hidden', 'md:block');
-                                    section.classList.add('block');
-                                }
-                            } else {
-                                // Ocultar sección (mantener md:block para desktop)
-                                if (t === 'perfil') {
-                                    section.classList.remove('block');
-                                    section.classList.add('hidden');
-                                } else {
-                                    section.classList.remove('block');
-                                    section.classList.add('hidden', 'md:block');
-                                }
-                            }
-                        }
-                    });
-
-                    // Update button styles
-                    tabButtons.forEach((b, i) => {
-                        if (i === index) {
-                            b.classList.add('text-amber-500');
-                            b.classList.remove('text-slate-500', 'hover:text-slate-300');
-                        } else {
-                            b.classList.remove('text-amber-500');
-                            b.classList.add('text-slate-500', 'hover:text-slate-300');
-                        }
-                    });
-
-                    // Scroll to top
-                    window.scrollTo({ top: 0, behavior: 'instant' });
+            function switchTab(targetIndex) {
+                tabs.forEach((tab, i) => {
+                    const section = sections[tab];
+                    const btn = buttons[i];
+                    
+                    if (i === targetIndex) {
+                        // Mostrar activo
+                        section.classList.remove('hidden');
+                        if (tab !== 'perfil') section.classList.remove('md:block');
+                        section.classList.add('block');
+                        
+                        // Estilo boton activo
+                        btn.classList.add('text-amber-500');
+                        btn.classList.remove('text-slate-500', 'hover:text-slate-300');
+                    } else {
+                        // Ocultar inactivos
+                        section.classList.remove('block');
+                        section.classList.add('hidden');
+                        if (tab !== 'perfil') section.classList.add('md:block');
+                        
+                        // Estilo boton inactivo
+                        btn.classList.remove('text-amber-500');
+                        btn.classList.add('text-slate-500', 'hover:text-slate-300');
+                    }
                 });
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+
+            buttons.forEach((btn, index) => {
+                btn.onclick = () => switchTab(index);
             });
+
+            // Inicializar en perfil
+            switchTab(0);
         });
     </script>
+
 </body>
 </html>
