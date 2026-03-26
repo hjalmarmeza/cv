@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +16,7 @@
     rel="stylesheet">
 
   <!-- React y Babel para que el código funcione directamente en el navegador -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
+      
 
   <style>
     body {
@@ -362,613 +358,45 @@
   <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 
 </head>
-
-
-<body>
-  <div id="root"></div>
-
-
-  <script type="text/babel">
-    const { useState } = React;
-
-
-    const StatCard = ({ iconClass, label, value, subtext }) => (
-      <div className="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full">
-          <i className={`${iconClass} text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800`}></i>
-          <span className="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title={label}>{label}</span>
-        </div>
-        <div className="text-xl md:text-2xl font-bold text-white print:text-black mb-1">{value}</div>
-        <div className="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">{subtext}</div>
-      </div>
-    );
-
-
-    const ExperienceItem = ({ title, period, company, location, items, isLast }) => (
-      <div className={`relative pl-8 experience-item ${isLast ? '' : 'border-l border-slate-800 pb-10'}`}>
-        <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] no-print"></div>
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1">
-          <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-tight">{title}</h3>
-          <span className="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge">{period}</span>
-        </div>
-        <div className="text-slate-400 text-sm font-semibold mb-4 company-info">{company} | {location}</div>
-        <ul className="space-y-3 experience-list">
-          {items.map((item, idx) => (
-            <li key={idx} className="flex gap-3 text-sm text-slate-400 leading-relaxed">
-              <i className="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-
-
-    const App = () => {
-      const [showToast, setShowToast] = useState(false);
-      const [activeTab, setActiveTab] = useState('perfil');
-
-      const infografiaURL = "https://hjalmarmeza.github.io/cv/carta_presentacion.html";
-      const miFotoURL = "fotogramas/profile_photo.jpg";
-      const backupFotoURL = "https://media.licdn.com/dms/image/v2/D4D03AQE-3z7U3v5u4A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706634358178?e=1746057600&v=beta&t=o1n46L9z_B07Y7iY0K1G_Y9B5Xf0u8-6S7K2Z8J9wY8";
-      const qrCodeImg = "fotogramas/qr_code.png";
-
-
-      const handleDownloadPDF = () => {
-        window.print();
-      };
-
-
-      const stats = [
-        { iconClass: "fas fa-award", label: "Experiencia", value: "18 Años", subtext: "Liderazgo en Sector Telco" },
-        { iconClass: "fas fa-users", label: "Escalabilidad", value: "30M+", subtext: "Migración de Clientes" },
-        { iconClass: "fas fa-chart-line", label: "Rentabilidad", value: "110K €", subtext: "Ahorro en Modernización" },
-        { iconClass: "fas fa-store", label: "Infraestructura", value: "52", subtext: "Tiendas Gestionadas" }
-      ];
-
-
-      const certCategories = [
-        {
-          category: "IA & Estrategia Digital", iconClass: "fas fa-brain",
-          items: [{ title: "Habilidades Humanas en la Era de IA", org: "Microsoft" }, { title: "Productividad con Agentes de IA", org: "Microsoft" }, { title: "Estrategia de IA Generativa", org: "Microsoft" }, { title: "Ingeniería de Prompts", org: "LinkedIn" }, { title: "Fundamentos de IA en Azure", org: "Microsoft" }, { title: "Mentalidad Digital", org: "LinkedIn" }]
-        },
-        {
-          category: "Transformación & CX", iconClass: "fas fa-chart-bar",
-          items: [{ title: "Estrategia de Experiencia del Cliente", org: "LinkedIn" }, { title: "Transformación Digital", org: "LinkedIn" }, { title: "NPS y Lealtad del Cliente", org: "Telefónica" }, { title: "Pensamiento Estratégico", org: "LinkedIn" }, { title: "Diseño de Servicios", org: "LinkedIn" }, { title: "Experiencia Omnicanal", org: "LinkedIn" }]
-        },
-        {
-          category: "Liderazgo Exponencial", iconClass: "fas fa-users-cog",
-          items: [{ title: "Liderazgo en la Era Digital", org: "Tec. de Monterrey" }, { title: "Liderazgo Transformador", org: "LinkedIn" }, { title: "Culturas de Alto Rendimiento", org: "LinkedIn" }, { title: "Habilidades de Innovación", org: "LinkedIn" }, { title: "Inteligencia Emocional", org: "LinkedIn" }, { title: "Coaching Directivo", org: "CENTRUM" }, { title: "Gestión del Cambio", org: "LinkedIn" }]
-        },
-        {
-          category: "Eficiencia & Comunicación", iconClass: "fas fa-comments",
-          items: [{ title: "Gestión del Tiempo", org: "LinkedIn" }, { title: "Comunicación Empresarial", org: "LinkedIn" }, { title: "Comunicación Consciente", org: "LinkedIn" }, { title: "Presencia Ejecutiva", org: "LinkedIn" }, { title: "Optimización de Productividad", org: "LinkedIn" }, { title: "Oratoria y Hablar en Público", org: "LinkedIn" }]
-        },
-        {
-          category: "Gestión & Compliance", iconClass: "fas fa-shield-alt",
-          items: [{ title: "Experto en RGPD (UE)", org: "LinkedIn" }, { title: "Gestión Ágil", org: "LinkedIn" }, { title: "Pensamiento de Diseño (Design Thinking)", org: "LinkedIn" }, { title: "Mitigación de Riesgos", org: "Telefónica" }, { title: "Gestión de Proyectos", org: "LinkedIn" }, { title: "Ética Empresarial", org: "LinkedIn" }]
-        }
-      ];
-
-
-      return (
-        <div className="min-h-screen text-slate-300 font-sans p-0 md:p-10 bg-slate-950 flex justify-center selection:bg-amber-500/30 relative pb-20 md:pb-10">
-
-          <div className="max-w-6xl w-full bg-[#0a1120] md:border border-slate-800 md:shadow-2xl md:rounded-3xl overflow-hidden relative">
-
-            {/* Background Effects (Ocultos al imprimir) */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none no-print"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 blur-[100px] pointer-events-none no-print"></div>
-
-
-            {/* HEADER */}
-            <header className={`relative p-6 md:p-12 border-b border-slate-800/50 ${activeTab === 'perfil' ? 'flex' : 'hidden md:flex'} flex-col md:flex-row justify-between items-center md:items-start gap-10`}>
-              <div className="flex-1 text-center md:text-left">
-                <div className="inline-block px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">
-                  Perfil Ejecutivo / Senior Management
-                </div>
-                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
-                  HJALMAR <span className="text-amber-500">MEZA CORTEZ</span>
-                </h1>
-                <p className="text-lg md:text-xl font-medium text-slate-400 max-w-2xl leading-snug mb-8">
-                  Líder de Operaciones & Transformación Digital | Estratega en Automatización de Procesos e IA Generativa
-                </p>
-
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                    <a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition-all text-sm font-bold print:border-slate-300 print:bg-white">
-                      <i className="fab fa-linkedin text-amber-500"></i> 
-                      <span className="no-print">Perfil LinkedIn</span>
-                      <span className="hidden print:inline text-[8pt]">linkedin.com/in/hjalmar-meza</span>
-                    </a>
-                    <div className="hidden print:flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-bold">
-                      <i className="fas fa-globe text-amber-600"></i> hjalmarmeza.github.io/cv
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm print:border-slate-200 print:bg-white">
-                      <i className="fas fa-envelope text-amber-500"></i> hjalmar.meza@gmail.com
-                    </div>
-
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm">
-                      <i className="fas fa-map-marker-alt text-amber-500"></i> Salamanca, España
-                    </div>
-                  </div>
-
-
-                  {/* BOTONES DE ACCIÓN (Ocultos al imprimir) */}
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3 no-print mt-2">
-                    <button onClick={handleDownloadPDF} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
-                      <i className="fas fa-download"></i> Descargar CV
-                    </button>
-                    <a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer">
-                      <i className="far fa-calendar-alt"></i> Agendar Cita
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-
-              {/* Bloque Visual Derecho: Foto + QR */}
-              <div className="flex flex-row md:flex-col items-center gap-4 md:gap-6 shrink-0 bg-slate-900/30 p-4 rounded-3xl border border-slate-800/50">
-                
-                {/* FOTO WEB */}
-                <div className="relative group no-print">
-                  <div className="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700"></div>
-                  <div className="relative w-32 h-32 md:w-52 md:h-52 rounded-xl border border-amber-500/30 overflow-hidden bg-slate-900">
-                    <img
-                      src={miFotoURL}
-                      alt="Hjalmar Meza Cortez"
-                      className="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-105"
-                      onError={(e) => { e.target.src = backupFotoURL; }}
-                    />
-                  </div>
-                </div>
-
-                {/* FOTO PRINT */}
-                <div className="hidden print:block mb-4">
-                   <div className="w-24 h-24 rounded-full border-4 border-amber-500 overflow-hidden bg-slate-800 print-photo-container">
-                      <img src={miFotoURL} alt="Hjalmar Meza Cortez" className="w-full h-full object-cover" />
-                   </div>
-                </div>
-
-                {/* QR WEB */}
-                <a href={infografiaURL} target="_blank" rel="noreferrer" className="flex flex-col items-center gap-2 bg-slate-950/80 p-2 md:p-3 rounded-2xl border border-amber-500/30 shadow-lg group hover:border-amber-500 transition-all cursor-pointer hover:-translate-y-1 no-print">
-                  <div className="bg-white p-1 rounded-lg">
-                    <img src={qrCodeImg} alt="QR Code Dashboard" className="w-14 h-14 md:w-20 md:h-20" />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">📌 Escanea o Click aquí</p>
-                    <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-tighter flex items-center gap-1 justify-center">
-                      Carta de Presentación <i className="fas fa-external-link-alt text-[8px] ml-1"></i>
-                    </p>
-                  </div>
-                </a>
-              </div>
-            </header>
-
-
-            {/* DASHBOARD STATS */}
-            <div className={`gap-4 p-6 md:p-12 bg-slate-950/40 grid-cols-2 md:grid-cols-4 print:bg-white print:border-b-2 print:border-slate-100 ${activeTab === 'perfil' ? 'grid' : 'hidden md:grid'}`}>
-              {stats.map((stat, idx) => <StatCard key={idx} {...stat} />)}
-            </div>
-
-
-            <div className="flex flex-col lg:flex-row print:flex-row">
-
-              {/* COLUMNA IZQUIERDA */}
-              <main className={`flex-[1.2] p-6 md:p-12 md:border-r border-slate-800/50 print:block ${activeTab === 'perfil' ? 'block' : 'hidden md:block'}`}>
-
-                {/* SECCIÓN: ACERCA DE MÍ + REGLA DE ORO */}
-                <section className="mb-14">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="h-[2px] w-8 bg-amber-500"></div>
-                    <h2 className="text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
-                      <i className="fas fa-user-circle text-amber-500"></i> Acerca de Mí
-                    </h2>
-                  </div>
-
-                  <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-14 text-justify print:text-slate-800">
-                    Líder de Operaciones con 18 años de trayectoria en el sector Telecomunicaciones, especializado en la transformación digital de canales de atención masiva y la optimización de la Experiencia del Cliente (CX). Experto en orquestar equipos de alto rendimiento y liderar la transición de entornos físicos a digitales, logrando eficiencias operativas demostradas. Actualmente, fusiono mi sólido background corporativo con la implementación estratégica de <strong className="text-slate-200 font-semibold print:text-black">Inteligencia Artificial Generativa y automatización de procesos</strong> para escalar la rentabilidad empresarial de manera ágil y estructurada.
-                  </p>
-
-
-                  <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 via-slate-900/50 to-transparent border border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.05)] group hover:shadow-[0_0_40px_rgba(245,158,11,0.15)] transition-all duration-500 print-no-break">
-                    <div className="absolute top-[-10px] left-6 px-4 py-1 bg-[#0a1120] border border-amber-500/50 rounded-lg text-amber-500 text-[10px] font-black uppercase tracking-widest no-print">
-                      Mi Regla de Oro
-                    </div>
-                    <div className="hidden print:block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">MI REGLA DE ORO</div>
-                    <p className="text-lg md:text-xl font-bold text-slate-300 italic leading-snug print:text-slate-800 print:text-base">
-                      "<span className="text-amber-500 font-black">Lo que funciona, NO se toca</span>; pero lo que puede optimizarse, lo transformo mediante flujos de trabajo autónomos y soluciones de IA que generan valor inmediato."
-                    </p>
-                  </div>
-                </section>
-
-
-                {/* SECCIÓN: EXPERIENCIA (FORZAR HOJA 2) */}
-                <section className="page-break-experience">
-                  <div className="flex items-center gap-4 mb-10">
-                    <div className="h-[2px] w-8 bg-amber-500"></div>
-                    <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3 print:text-lg">
-                      <i className="fas fa-briefcase text-amber-500"></i> Experiencia & Legado
-                    </h2>
-                  </div>
-
-
-                  <div className="space-y-12">
-                    {/* ROL 2021 - ACTUALIDAD */}
-                    <ExperienceItem
-                      title="Gestor de Negocio Familiar & Consultor IA"
-                      period="2021 — Actualidad"
-                      company="Emprendimiento & Advisory"
-                      location="España / Remoto"
-                      items={[
-                        <React.Fragment key="item1">Dirección y administración integral de un <strong>negocio familiar</strong>, liderando las operaciones diarias, rentabilidad y estrategias de fidelización de clientes.</React.Fragment>,
-                        <React.Fragment key="item2">En paralelo, inmersión intensiva en tecnologías de vanguardia, logrando más de 50 certificaciones globales (IA, Cloud, CX, Agile).</React.Fragment>,
-                        <React.Fragment key="item3">Implementación estratégica de herramientas de <strong>IA Generativa (Gemini, Claude, ChatGPT)</strong> aplicadas a la rentabilidad y eficiencia de procesos operativos.</React.Fragment>
-                      ]}
-                    />
-
-
-                    <ExperienceItem
-                      title="Supervisor de Operaciones"
-                      period="2021 — 2021"
-                      company="Telefónica"
-                      location="Lima, Perú"
-                      items={[
-                        "Dirección de 48 gestores de Call Center con foco en cumplimiento de SLAs y excelencia en atención masiva.",
-                        "Supervisión de logística de instalaciones fijas y gestión estratégica de cobranzas corporativas.",
-                        "Optimización de KPIs críticos elevando la productividad del personal mediante sesiones de coaching."
-                      ]}
-                    />
-
-
-                    {/* EL HITO DE LOS 30 MILLONES */}
-                    <ExperienceItem
-                      title="Supervisor de Control de Calidad"
-                      period="2017 — 2021"
-                      company="Telefónica"
-                      location="Lima, Perú"
-                      items={[
-                        <React.Fragment key="qa1">Ejecución de pruebas técnicas y estabilización de sistemas para garantizar la <strong className="text-amber-500 font-black">migración masiva y exitosa de más de 30 MILLONES de clientes</strong>.</React.Fragment>,
-                        <React.Fragment key="qa2">Identificación proactiva de incidencias y testing exhaustivo, asegurando que la nueva plataforma igualara y superara las funciones del sistema anterior.</React.Fragment>,
-                        <React.Fragment key="qa3">Mitigación de riesgos y gestión de la fase 'Marcha Blanca', certificando la estabilidad operativa de productos fijos y móviles previo a la liberación masiva.</React.Fragment>
-                      ]}
-                    />
-
-
-                    <ExperienceItem
-                      title="Supervisor Regional (Norte, Centro y Oriente)"
-                      period="2009 — 2017"
-                      company="Telefónica"
-                      location="Lima, Perú"
-                      isLast={true}
-                      items={[
-                        "Dirección estratégica de 52 Centros de Atención gestionando ~600.000 clientes mensuales.",
-                        "Ahorro de 110.000 € liderando el proyecto de remodelación y modernización integral de tiendas de atención y venta.",
-                        "Reducción del 15% en la carga de atención física presencial mediante virtualización estratégica."
-                      ]}
-                    />
-                  </div>
-                </section>
-
-                {/* FORMACIÓN ACADÉMICA E IDIOMAS (Visible en Web, Oculto en PDF) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 pt-12 border-t border-slate-800/50 no-print">
-                  {/* EDUCACIÓN COMPLETA */}
-                  <section>
-                    <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                      <i className="fas fa-graduation-cap text-amber-500"></i> Formación
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="relative pl-5 border-l-2 border-amber-500/30">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Grado en Administración</div>
-                        <div className="text-amber-500/80 text-[10px] md:text-[11px] font-bold mt-1.5">Univ. César Vallejo | 2011-2014</div>
-                      </div>
-                      <div className="relative pl-5 border-l-2 border-slate-800">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Liderazgo en la Era Digital</div>
-                        <div className="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium uppercase">Tecnológico de Monterrey | 2026</div>
-                      </div>
-                      <div className="relative pl-5 border-l-2 border-slate-800">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Coaching Directivo</div>
-                        <div className="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium">CENTRUM PUCP</div>
-                      </div>
-                      <div className="relative pl-5 border-l-2 border-slate-800">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Gestión del Logro</div>
-                        <div className="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium">CENTRUM PUCP</div>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* IDIOMAS (WEB) */}
-                  <section>
-                    <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                      <i className="fas fa-language text-amber-500"></i> Idiomas
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="relative pl-5 border-l-2 border-amber-500/30">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Español</div>
-                        <div className="text-amber-500/80 text-[10px] md:text-[11px] font-bold mt-1.5 uppercase">Nativo</div>
-                      </div>
-                      <div className="relative pl-5 border-l-2 border-slate-800">
-                        <div className="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Inglés</div>
-                        <div className="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium uppercase">Básico (A2)</div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </main>
-
-
-              {/* COLUMNA DERECHA */}
-              <aside className={`flex-1 bg-slate-950/20 p-6 md:p-12 space-y-16 overflow-hidden print:block ${activeTab === 'skills' ? 'block' : 'hidden md:block'}`}>
-
-                {/* LOGROS CLAVE - SOLO PDF (POSICIÓN SUPERIOR ESTRATÉGICA) */}
-                <section className="print-only print-sidebar-block">
-                  <h3 className="print-sidebar-title">
-                    <i className="fas fa-trophy"></i> Logros Corporativos
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Migración Masiva 30M</span>
-                      <span className="text-[9px] text-slate-600 leading-tight">Estabilización de sistemas críticos en el hito más grande de Telefónica Perú.</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Eficiencia de Reducción (15%)</span>
-                      <span className="text-[9px] text-slate-600 leading-tight">Virtualización exitosa de la atención física a canales digitales.</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Gestión Senior Multi-Sede</span>
-                      <span className="text-[9px] text-slate-600 leading-tight">Dirección de 52 centros de atención a nivel nacional.</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Ahorro OpEx (110k €)</span>
-                      <span className="text-[9px] text-slate-600 leading-tight">Optimización mediante remodelación estratégica de infraestructura.</span>
-                    </div>
-                  </div>
-                </section>
-
-                {/* IDIOMAS VISUAL - SOLO PDF (POSICIÓN SUPERIOR) */}
-                <section className="print-only print-sidebar-block">
-                  <h3 className="print-sidebar-title">
-                    <i className="fas fa-language"></i> Idiomas
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex flex-col gap-1.5">
-                      <div className="flex justify-between items-center px-1">
-                        <span className="text-[10px] font-black text-slate-800 uppercase">Español</span>
-                        <span className="text-[9px] text-amber-600 font-bold uppercase">Nativo</span>
-                      </div>
-                      <div className="lang-bar-bg"><div className="lang-bar-fill" style={{ width: '100%' }}></div></div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <div className="flex justify-between items-center px-1">
-                        <span className="text-[10px] font-black text-slate-800 uppercase">Inglés</span>
-                        <span className="text-[9px] text-slate-500 font-bold uppercase">Básico (A2)</span>
-                      </div>
-                      <div className="lang-bar-bg"><div className="lang-bar-fill" style={{ width: '35%' }}></div></div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* EDUCACIÓN - SOLO PDF */}
-                <section className="print-only print-sidebar-block">
-                  <h3 className="print-sidebar-title">
-                    <i className="fas fa-graduation-cap"></i> Formación
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex flex-col border-l-2 border-amber-500/20 pl-3">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Grado en Administración</span>
-                      <span className="text-[9px] text-slate-500">Univ. César Vallejo | 2011-2014</span>
-                    </div>
-                    <div className="flex flex-col border-l-2 border-slate-200 pl-3">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Liderazgo en la Era Digital</span>
-                      <span className="text-[9px] text-slate-500 uppercase">Tecnológico de Monterrey | 2026</span>
-                    </div>
-                    <div className="flex flex-col border-l-2 border-slate-200 pl-3">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Coaching Directivo</span>
-                      <span className="text-[9px] text-slate-500">CENTRUM PUCP</span>
-                    </div>
-                    <div className="flex flex-col border-l-2 border-slate-200 pl-3">
-                      <span className="text-[10px] font-black text-slate-800 uppercase leading-tight">Gestión del Logro</span>
-                      <span className="text-[9px] text-slate-500">CENTRUM PUCP</span>
-                    </div>
-                  </div>
-                </section>
-
-                {/* SECCIÓN ORIGINAL: CERTIFICACIONES EN PDF (DIFERENTE FORMATO) */}
-                <section className="print-only print-sidebar-block">
-                   <h3 className="print-sidebar-title">
-                    <i className="fas fa-shield-alt"></i> Top Certificaciones
-                   </h3>
-                   <div className="print-cert-grid">
-                      <div className="print-cert-item">
-                        <h4>IA Generativa</h4>
-                        <p>Microsoft / LinkedIn</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>Productividad IA</h4>
-                        <p>Microsoft / LinkedIn</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>Azure AI Studio</h4>
-                        <p>Microsoft</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>Liderazgo Digital</h4>
-                        <p>Tec. de Monterrey</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>CX Strategy</h4>
-                        <p>LinkedIn</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>Experto RGPD</h4>
-                        <p>LinkedIn (UE)</p>
-                      </div>
-                      <div className="print-cert-item">
-                        <h4>Agile & Design Thinking</h4>
-                        <p>LinkedIn</p>
-                      </div>
-                   </div>
-                </section>
-
-                {/* SECCIÓN ORIGINAL: CERTIFICACIONES (Visible en Web, Oculto en PDF) */}
-                <section className="no-print">
-                  <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-10 flex items-center gap-2">
-                    <i className="fas fa-shield-alt text-amber-500"></i> Evolución de Certificaciones
-                  </h3>
-
-                  <div className="relative cert-grid">
-                    {/* Línea central */}
-                    <div className="absolute left-[20px] top-6 bottom-6 w-[2px] bg-gradient-to-b from-amber-500/80 via-amber-500/20 to-transparent cert-line-p"></div>
-
-                    {certCategories.map((cat, idx) => (
-                      <div key={idx} className="relative flex flex-col pl-16 mb-8 group cert-container-p">
-                        {/* Nodo Central */}
-                        <div className="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p">
-                          <i className={`${cat.iconClass} text-base`}></i>
-                        </div>
-
-                        {/* Contenido */}
-                        <div className="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p">
-                          <h3 className="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">{cat.category}</h3>
-                          <div className="flex flex-wrap gap-2">
-                            {cat.items.map((item, i) => (
-                              <span key={i} className="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">
-                                {item.title} <span className="opacity-40 ml-1 font-black">({item.org})</span>
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl text-center">
-                    <p className="text-[10px] text-slate-500 italic uppercase tracking-widest">
-                      +50 Certificaciones Adicionales Vigentes en Gestión y Tecnología
-                    </p>
-                  </div>
-                </section>
-
-
-                {/* HERRAMIENTAS - SOLO PDF */}
-                <section className="print-only print-sidebar-block">
-                  <h3 className="print-sidebar-title">
-                    <i className="fas fa-microchip"></i> Ecosistema Tech
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {["GEMINI / CLAUDE", "AZURE AI", "MAKE.COM", "FIREBASE", "OCR / MLLM", "SERVERLESS", "AGILE MGMT", "CX STRATEGY"].map(tool => (
-                      <span key={tool} className="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-
-              </aside>
-            </div>
-
-
-            <div className={`${activeTab === 'innovacion' ? 'block' : 'hidden md:block'} print:block`}>
-              {/* APTITUDES CLAVE - PANELES HOLOGRÁFICOS (FULL WIDTH) */}
-              {/* SECCIÓN: COMPETENCIAS (FORZAR HOJA 3) */}
-              <section className="p-6 md:p-12 border-t border-slate-800/50 bg-[#0a1120] relative z-20 print:bg-white print:border-slate-100 page-break-skills">
-                <div className="text-center mb-10 print:mb-6">
-                  <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] mb-3 border border-slate-800 bg-slate-900 shadow-[0_0_15px_rgba(245,158,11,0.1)] inline-flex items-center px-4 py-1.5 rounded-full print:bg-white print:text-amber-600 print:border-amber-500 no-print">
-                    <i className="fas fa-bolt text-amber-500 mr-2"></i>
-                    <span className="text-white mr-1.5 print:text-amber-600">Competencias</span> <span className="text-slate-500 mr-1.5 print:text-slate-400">&</span> <span className="text-amber-500">Aptitudes</span>
-                  </h3>
-                  <div className="hidden print:block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-4">⚡ COMPETENCIAS & APTITUDES</div>
-                  <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter print:text-slate-900 print:text-xl print:mb-2">
-                    Áreas de Dominio Técnico y Operativo
-                  </h2>
-                  
-                  {/* Leyenda de distinción */}
-                  <div className="flex justify-center gap-6 mt-6 mb-6 flex-wrap">
-                    <div className="flex items-center gap-2 text-[9px] uppercase font-bold text-slate-400 print:text-slate-600">
-                      <i className="fas fa-check-circle text-slate-500"></i> Competencias (Executive)
-                    </div>
-                    <div className="flex items-center gap-2 text-[9px] uppercase font-bold text-amber-500 print:text-amber-700">
-                      <i className="fas fa-star text-amber-500"></i> Habilidades (Aptitudes)
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 print:gap-x-14 print:gap-y-20 relative z-10 print:mt-10">
-                  {[
-                    {
-                      icon: "fas fa-users-cog", title: "Liderazgo Organizacional", skills: [
-                        { name: "Liderazgo Transformador", type: "comp" }, { name: "Dirección de Equipos", type: "comp" }, { name: "Culturas de Alto Desempeño", type: "comp" }, { name: "Resolución de Problemas", type: "apt" }, { name: "Toma de Decisiones", type: "apt" }, { name: "Conflictología", type: "comp" }
-                      ]
-                    },
-                    {
-                      icon: "fas fa-microchip", title: "Transformación & IA", skills: [
-                        { name: "Transformación Digital", type: "comp" }, { name: "IA Generativa & Agentes", type: "comp" }, { name: "Ingeniería de Prompts", type: "comp" }, { name: "Ecosistemas Cloud (Azure)", type: "comp" }, { name: "Análisis y Decisión Técnica", type: "apt" }, { name: "Productividad de IA", type: "apt" }
-                      ]
-                    },
-                    {
-                      icon: "fas fa-cogs", title: "Gestión de Operaciones", skills: [
-                        { name: "Rentabilidad de Negocios", type: "comp" }, { name: "Optimización de KPIs", type: "comp" }, { name: "Mitigación de Riesgos", type: "comp" }, { name: "Gestión de Proyectos", type: "comp" }, { name: "Coordinación Logística", type: "comp" }, { name: "Agilidad Estratégica", type: "apt" }
-                      ]
-                    },
-                    {
-                      icon: "fas fa-chart-line", title: "Desarrollo Comercial", skills: [
-                        { name: "Estrategia Comercial", type: "comp" }, { name: "Negociación", type: "comp" }, { name: "Prospección de Ventas", type: "comp" }, { name: "Marketing Digital", type: "comp" }, { name: "Eficacia de Ventas", type: "comp" }, { name: "Análisis de Tendencias", type: "apt" }
-                      ]
-                    },
-                    {
-                      icon: "fas fa-handshake", title: "Experiencia del Cliente (CX)", skills: [
-                        { name: "Satisfacción del Cliente", type: "comp" }, { name: "Relaciones CRM", type: "comp" }, { name: "Gestión de Conflictos", type: "comp" }, { name: "Comunicación Profesional", type: "comp" }, { name: "Atención al Cliente", type: "comp" }, { name: "Empatía", type: "apt" }
-                      ]
-                    },
-                    {
-                      icon: "fas fa-brain", title: "Habilidades Humanas", skills: [
-                        { name: "Inteligencia Emocional", type: "comp" }, { name: "Pensamiento Crítico", type: "comp" }, { name: "Creatividad e Innovación", type: "apt" }, { name: "Comunicación Interpersonal", type: "comp" }, { name: "Gestión del Tiempo", type: "comp" }, { name: "Adaptabilidad", type: "apt" }
-                      ]
-                    }
-                  ].map((grupo, idx) => (
-                    <div key={idx} className="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200">
-                      {/* Cabecera del Panel */}
-                      <div className="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div>
-                        <i className={`${grupo.icon} text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100`}></i>
-                        <h3 className="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">{grupo.title}</h3>
-                      </div>
-
-                      {/* Skills Tags */}
-                      <div className="p-6 w-full flex flex-wrap justify-center gap-2.5">
-                        {grupo.skills.map((skill, i) => (
-                          <span key={i} className={`px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
-                          ${skill.type === 'apt'
-                              ? 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1'
-                              : 'bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1'}`}>
-                            <i className={skill.type === 'apt' ? 'fas fa-star text-[7px]' : 'fas fa-check-circle text-[7px]'}></i>
-                            {skill.name}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-
-              {/* SECCIÓN: PORTAFOLIO MULTISECTORIAL (ANTIGRAVITY + GOOGLE AI STUDIO + FIREBASE) */}
-              <section id="innovacion-section" className="p-8 md:p-12 mb-8 mt-8 border-t border-slate-800/50 bg-slate-950/20 print:bg-white">
-                <div className="mb-12 text-center relative z-10 w-full col-span-full print:mb-8">
-                  <h2 className="text-[10px] md:text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-4 border border-amber-500/20 bg-amber-500/10 inline-block px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.1)] print:border-amber-500 print:text-amber-600 print:tracking-normal">
-                    Centro de Innovación y Desarrollo
-                  </h2>
-                  <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter print:text-slate-900">
-                    Portafolio de <span className="text-amber-500">Innovación Tecnológica</span>
-                  </h1>
-                  <p className="text-slate-400 text-sm md:text-base max-w-4xl mx-auto mt-5 leading-relaxed font-medium print:text-slate-600">
-                    Desarrollo de una arquitectura de software diversificada en más de 20 proyectos (Aplicaciones Locales, Sistemas Serverless en la Nube y Motores de Inteligencia Artificial).
-                  </p>
-                </div>
-
-                {/* CARRUSEL DE FOTOGRAMAS REALES (Factor Wow Innovador) */}
-                <div className="relative w-full overflow-hidden mb-16 py-12 no-print group">
-                  <style dangerouslySetInnerHTML={{ __html: `
+<body class="bg-slate-950">
+    <div id="root">
+<div class="min-h-screen text-slate-300 font-sans p-0 md:p-10 bg-slate-950 flex justify-center selection:bg-amber-500/30 relative pb-20 md:pb-10"><div class="max-w-6xl w-full bg-[#0a1120] md:border border-slate-800 md:shadow-2xl md:rounded-3xl overflow-hidden relative"><div class="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none no-print"></div><div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 blur-[100px] pointer-events-none no-print"></div><header class="relative p-6 md:p-12 border-b border-slate-800/50 flex flex-col md:flex-row justify-between items-center md:items-start gap-10"><div class="flex-1 text-center md:text-left"><div class="inline-block px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Perfil Ejecutivo / Senior Management</div><h1 class="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">HJALMAR <span class="text-amber-500">MEZA CORTEZ</span></h1><p class="text-lg md:text-xl font-medium text-slate-400 max-w-2xl leading-snug mb-8">Líder de Operaciones &amp; Transformación Digital | Estratega en Automatización de Procesos e IA Generativa</p><div class="flex flex-col md:flex-row items-center md:items-start gap-6"><div class="flex flex-wrap justify-center md:justify-start gap-3"><a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" class="flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 transition-all text-sm font-bold print:border-slate-300 print:bg-white"><i class="fab fa-linkedin text-amber-500"></i><span class="no-print">Perfil LinkedIn</span><span class="hidden print:inline text-[8pt]">linkedin.com/in/hjalmar-meza</span></a><div class="hidden print:flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-bold"><i class="fas fa-globe text-amber-600"></i> hjalmarmeza.github.io/cv</div><div class="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm print:border-slate-200 print:bg-white"><i class="fas fa-envelope text-amber-500"></i> hjalmar.meza@gmail.com</div><div class="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-800 bg-slate-900/40 text-sm"><i class="fas fa-map-marker-alt text-amber-500"></i> Salamanca, España</div></div><div class="flex flex-wrap justify-center md:justify-start gap-3 no-print mt-2"><button class="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"><i class="fas fa-download"></i> Descargar CV</button><a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" class="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2 rounded-xl font-black text-sm transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"><i class="far fa-calendar-alt"></i> Agendar Cita</a></div></div></div><div class="flex flex-row md:flex-col items-center gap-4 md:gap-6 shrink-0 bg-slate-900/30 p-4 rounded-3xl border border-slate-800/50"><div class="relative group no-print"><div class="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700"></div><div class="relative w-32 h-32 md:w-52 md:h-52 rounded-xl border border-amber-500/30 overflow-hidden bg-slate-900"><img src="https://lh3.googleusercontent.com/d/1deuM9cErfKSgeUM777akFZ0htDdMzwH7" alt="Hjalmar Meza Cortez" class="w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-105"></div></div><div class="hidden print:block mb-4"><div class="w-24 h-24 rounded-full border-4 border-amber-500 overflow-hidden bg-slate-800 print-photo-container"><img src="https://lh3.googleusercontent.com/d/1deuM9cErfKSgeUM777akFZ0htDdMzwH7" alt="Hjalmar Meza Cortez" class="w-full h-full object-cover"></div></div><a href="https://hjalmarmeza.github.io/cv/carta_presentacion.html" target="_blank" rel="noreferrer" class="flex flex-col items-center gap-2 bg-slate-950/80 p-2 md:p-3 rounded-2xl border border-amber-500/30 shadow-lg group hover:border-amber-500 transition-all cursor-pointer hover:-translate-y-1 no-print"><div class="bg-white p-1 rounded-lg"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https%3A%2F%2Fhjalmarmeza.github.io%2Fcv%2Fcarta_presentacion.html&amp;color=D4AF37&amp;bgcolor=0a1120" alt="QR Code Dashboard" class="w-14 h-14 md:w-20 md:h-20"></div><div class="text-center"><p class="text-[7px] md:text-[8px] font-black text-amber-500 uppercase tracking-widest">📌 Escanea o Click aquí</p><p class="text-[9px] md:text-[10px] font-black text-white uppercase tracking-tighter flex items-center gap-1 justify-center">Carta de Presentación <i class="fas fa-external-link-alt text-[8px] ml-1"></i></p></div></a></div></header><div class="gap-4 p-6 md:p-12 bg-slate-950/40 grid-cols-2 md:grid-cols-4 print:bg-white print:border-b-2 print:border-slate-100 grid"><div class="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50"><div class="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full"><i class="fas fa-award text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800"></i><span class="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title="Experiencia">Experiencia</span></div><div class="text-xl md:text-2xl font-bold text-white print:text-black mb-1">18 Años</div><div class="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">Liderazgo en Sector Telco</div></div><div class="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50"><div class="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full"><i class="fas fa-users text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800"></i><span class="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title="Escalabilidad">Escalabilidad</span></div><div class="text-xl md:text-2xl font-bold text-white print:text-black mb-1">30M+</div><div class="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">Migración de Clientes</div></div><div class="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50"><div class="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full"><i class="fas fa-chart-line text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800"></i><span class="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title="Rentabilidad">Rentabilidad</span></div><div class="text-xl md:text-2xl font-bold text-white print:text-black mb-1">110K €</div><div class="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">Ahorro en Modernización</div></div><div class="bg-slate-900/60 border border-amber-500/20 p-3 md:p-4 rounded-xl backdrop-blur-md hover:border-amber-500/50 transition-all duration-300 overflow-hidden flex flex-col justify-between print:border-slate-300 print:bg-slate-50"><div class="flex flex-col sm:flex-row sm:items-center gap-1.5 md:gap-3 mb-2 w-full"><i class="fas fa-store text-amber-500 text-xs md:text-sm shrink-0 print:text-amber-800"></i><span class="text-[8.5px] md:text-[10px] font-black uppercase tracking-wider md:tracking-widest text-slate-500 truncate print:text-slate-700 w-full" title="Infraestructura">Infraestructura</span></div><div class="text-xl md:text-2xl font-bold text-white print:text-black mb-1">52</div><div class="text-[8px] md:text-[9px] leading-tight text-slate-400 uppercase tracking-widest print:text-slate-600">Tiendas Gestionadas</div></div></div><div class="flex flex-col lg:flex-row print:flex-row"><main id="content-perfil" class="flex-[1.2] p-6 md:p-12 md:border-r border-slate-800/50 print:block block"><section class="mb-14"><div class="flex items-center gap-4 mb-6"><div class="h-[2px] w-8 bg-amber-500"></div><h2 class="text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3"><i class="fas fa-user-circle text-amber-500"></i> Acerca de Mí</h2></div><p class="text-sm md:text-base text-slate-400 leading-relaxed mb-14 text-justify print:text-slate-800">Líder de Operaciones con 18 años de trayectoria en el sector Telecomunicaciones, especializado en la transformación digital de canales de atención masiva y la optimización de la Experiencia del Cliente (CX). Experto en orquestar equipos de alto rendimiento y liderar la transición de entornos físicos a digitales, logrando eficiencias operativas demostradas. Actualmente, fusiono mi sólido background corporativo con la implementación estratégica de <strong class="text-slate-200 font-semibold print:text-black">Inteligencia Artificial Generativa y automatización de procesos</strong> para escalar la rentabilidad empresarial de manera ágil y estructurada.</p><div class="relative p-6 md:p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 via-slate-900/50 to-transparent border border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.05)] group hover:shadow-[0_0_40px_rgba(245,158,11,0.15)] transition-all duration-500 print-no-break"><div class="absolute top-[-10px] left-6 px-4 py-1 bg-[#0a1120] border border-amber-500/50 rounded-lg text-amber-500 text-[10px] font-black uppercase tracking-widest no-print">Mi Regla de Oro</div><div class="hidden print:block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">MI REGLA DE ORO</div><p class="text-lg md:text-xl font-bold text-slate-300 italic leading-snug print:text-slate-800 print:text-base">"<span class="text-amber-500 font-black">Lo que funciona, NO se toca</span>; pero lo que puede optimizarse, lo transformo mediante flujos de trabajo autónomos y soluciones de IA que generan valor inmediato."</p></div></section><section class="page-break-experience"><div class="flex items-center gap-4 mb-10"><div class="h-[2px] w-8 bg-amber-500"></div><h2 class="text-xl md:text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-3 print:text-lg"><i class="fas fa-briefcase text-amber-500"></i> Experiencia &amp; Legado</h2></div><div class="space-y-12"><div class="relative pl-8 experience-item border-l border-slate-800 pb-10"><div class="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] no-print"></div><div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1"><h3 class="text-lg font-bold text-white uppercase tracking-tight leading-tight">Gestor de Negocio Familiar &amp; Consultor IA</h3><span class="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge">2021 — Actualidad</span></div><div class="text-slate-400 text-sm font-semibold mb-4 company-info">Emprendimiento &amp; Advisory | España / Remoto</div><ul class="space-y-3 experience-list"><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Dirección y administración integral de un <strong>negocio familiar</strong>, liderando las operaciones diarias, rentabilidad y estrategias de fidelización de clientes.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>En paralelo, inmersión intensiva en tecnologías de vanguardia, logrando más de 50 certificaciones globales (IA, Cloud, CX, Agile).</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Implementación estratégica de herramientas de <strong>IA Generativa (Gemini, Claude, ChatGPT)</strong> aplicadas a la rentabilidad y eficiencia de procesos operativos.</span></li></ul></div><div class="relative pl-8 experience-item border-l border-slate-800 pb-10"><div class="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] no-print"></div><div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1"><h3 class="text-lg font-bold text-white uppercase tracking-tight leading-tight">Supervisor de Operaciones</h3><span class="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge">2021 — 2021</span></div><div class="text-slate-400 text-sm font-semibold mb-4 company-info">Telefónica | Lima, Perú</div><ul class="space-y-3 experience-list"><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Dirección de 48 gestores de Call Center con foco en cumplimiento de SLAs y excelencia en atención masiva.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Supervisión de logística de instalaciones fijas y gestión estratégica de cobranzas corporativas.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Optimización de KPIs críticos elevando la productividad del personal mediante sesiones de coaching.</span></li></ul></div><div class="relative pl-8 experience-item border-l border-slate-800 pb-10"><div class="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] no-print"></div><div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1"><h3 class="text-lg font-bold text-white uppercase tracking-tight leading-tight">Supervisor de Control de Calidad</h3><span class="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge">2017 — 2021</span></div><div class="text-slate-400 text-sm font-semibold mb-4 company-info">Telefónica | Lima, Perú</div><ul class="space-y-3 experience-list"><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Ejecución de pruebas técnicas y estabilización de sistemas para garantizar la <strong class="text-amber-500 font-black">migración masiva y exitosa de más de 30 MILLONES de clientes</strong>.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Identificación proactiva de incidencias y testing exhaustivo, asegurando que la nueva plataforma igualara y superara las funciones del sistema anterior.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Mitigación de riesgos y gestión de la fase 'Marcha Blanca', certificando la estabilidad operativa de productos fijos y móviles previo a la liberación masiva.</span></li></ul></div><div class="relative pl-8 experience-item "><div class="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] no-print"></div><div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1"><h3 class="text-lg font-bold text-white uppercase tracking-tight leading-tight">Supervisor Regional (Norte, Centro y Oriente)</h3><span class="text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge">2009 — 2017</span></div><div class="text-slate-400 text-sm font-semibold mb-4 company-info">Telefónica | Lima, Perú</div><ul class="space-y-3 experience-list"><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Dirección estratégica de 52 Centros de Atención gestionando ~600.000 clientes mensuales.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Ahorro de 110.000 € liderando el proyecto de remodelación y modernización integral de tiendas de atención y venta.</span></li><li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><i class="fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"></i><span>Reducción del 15% en la carga de atención física presencial mediante virtualización estratégica.</span></li></ul></div></div></section><div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 pt-12 border-t border-slate-800/50 no-print"><section><h3 class="text-xs font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2"><i class="fas fa-graduation-cap text-amber-500"></i> Formación</h3><div class="space-y-4"><div class="relative pl-5 border-l-2 border-amber-500/30"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Grado en Administración</div><div class="text-amber-500/80 text-[10px] md:text-[11px] font-bold mt-1.5">Univ. César Vallejo | 2011-2014</div></div><div class="relative pl-5 border-l-2 border-slate-800"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Liderazgo en la Era Digital</div><div class="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium uppercase">Tecnológico de Monterrey | 2026</div></div><div class="relative pl-5 border-l-2 border-slate-800"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Coaching Directivo</div><div class="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium">CENTRUM PUCP</div></div><div class="relative pl-5 border-l-2 border-slate-800"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Gestión del Logro</div><div class="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium">CENTRUM PUCP</div></div></div></section><section><h3 class="text-xs font-black text-white uppercase tracking-[0.3em] mb-6 flex items-center gap-2"><i class="fas fa-language text-amber-500"></i> Idiomas</h3><div class="space-y-4"><div class="relative pl-5 border-l-2 border-amber-500/30"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Español</div><div class="text-amber-500/80 text-[10px] md:text-[11px] font-bold mt-1.5 uppercase">Nativo</div></div><div class="relative pl-5 border-l-2 border-slate-800"><div class="text-white text-xs md:text-sm font-bold uppercase tracking-tight">Inglés</div><div class="text-slate-500 text-[10px] md:text-[11px] mt-1.5 font-medium uppercase">Básico (A2)</div></div></div></section></div></main><aside id="content-experiencia" class="flex-1 bg-slate-950/20 p-6 md:p-12 space-y-16 overflow-hidden print:block hidden md:block"><section class="print-only print-sidebar-block"><h3 class="print-sidebar-title"><i class="fas fa-trophy"></i> Logros Corporativos</h3><div class="space-y-4"><div class="flex flex-col gap-1"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Migración Masiva 30M</span><span class="text-[9px] text-slate-600 leading-tight">Estabilización de sistemas críticos en el hito más grande de Telefónica Perú.</span></div><div class="flex flex-col gap-1"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Eficiencia de Reducción (15%)</span><span class="text-[9px] text-slate-600 leading-tight">Virtualización exitosa de la atención física a canales digitales.</span></div><div class="flex flex-col gap-1"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Gestión Senior Multi-Sede</span><span class="text-[9px] text-slate-600 leading-tight">Dirección de 52 centros de atención a nivel nacional.</span></div><div class="flex flex-col gap-1"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Ahorro OpEx (110k €)</span><span class="text-[9px] text-slate-600 leading-tight">Optimización mediante remodelación estratégica de infraestructura.</span></div></div></section><section class="print-only print-sidebar-block"><h3 class="print-sidebar-title"><i class="fas fa-language"></i> Idiomas</h3><div class="space-y-4"><div class="flex flex-col gap-1.5"><div class="flex justify-between items-center px-1"><span class="text-[10px] font-black text-slate-800 uppercase">Español</span><span class="text-[9px] text-amber-600 font-bold uppercase">Nativo</span></div><div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 100%;"></div></div></div><div class="flex flex-col gap-1.5"><div class="flex justify-between items-center px-1"><span class="text-[10px] font-black text-slate-800 uppercase">Inglés</span><span class="text-[9px] text-slate-500 font-bold uppercase">Básico (A2)</span></div><div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 35%;"></div></div></div></div></section><section class="print-only print-sidebar-block"><h3 class="print-sidebar-title"><i class="fas fa-graduation-cap"></i> Formación</h3><div class="space-y-4"><div class="flex flex-col border-l-2 border-amber-500/20 pl-3"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Grado en Administración</span><span class="text-[9px] text-slate-500">Univ. César Vallejo | 2011-2014</span></div><div class="flex flex-col border-l-2 border-slate-200 pl-3"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Liderazgo en la Era Digital</span><span class="text-[9px] text-slate-500 uppercase">Tecnológico de Monterrey | 2026</span></div><div class="flex flex-col border-l-2 border-slate-200 pl-3"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Coaching Directivo</span><span class="text-[9px] text-slate-500">CENTRUM PUCP</span></div><div class="flex flex-col border-l-2 border-slate-200 pl-3"><span class="text-[10px] font-black text-slate-800 uppercase leading-tight">Gestión del Logro</span><span class="text-[9px] text-slate-500">CENTRUM PUCP</span></div></div></section><section class="print-only print-sidebar-block"><h3 class="print-sidebar-title"><i class="fas fa-shield-alt"></i> Top Certificaciones</h3><div class="print-cert-grid"><div class="print-cert-item"><h4>IA Generativa</h4><p>Microsoft / LinkedIn</p></div><div class="print-cert-item"><h4>Productividad IA</h4><p>Microsoft / LinkedIn</p></div><div class="print-cert-item"><h4>Azure AI Studio</h4><p>Microsoft</p></div><div class="print-cert-item"><h4>Liderazgo Digital</h4><p>Tec. de Monterrey</p></div><div class="print-cert-item"><h4>CX Strategy</h4><p>LinkedIn</p></div><div class="print-cert-item"><h4>Experto RGPD</h4><p>LinkedIn (UE)</p></div><div class="print-cert-item"><h4>Agile &amp; Design Thinking</h4><p>LinkedIn</p></div></div></section><section class="no-print"><h3 class="text-xs font-black text-white uppercase tracking-[0.3em] mb-10 flex items-center gap-2"><i class="fas fa-shield-alt text-amber-500"></i> Evolución de Certificaciones</h3><div class="relative cert-grid"><div class="absolute left-[20px] top-6 bottom-6 w-[2px] bg-gradient-to-b from-amber-500/80 via-amber-500/20 to-transparent cert-line-p"></div><div class="relative flex flex-col pl-16 mb-8 group cert-container-p"><div class="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p"><i class="fas fa-brain text-base"></i></div><div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p"><h3 class="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">IA &amp; Estrategia Digital</h3><div class="flex flex-wrap gap-2"><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Habilidades Humanas en la Era de IA <span class="opacity-40 ml-1 font-black">(Microsoft)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Productividad con Agentes de IA <span class="opacity-40 ml-1 font-black">(Microsoft)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Estrategia de IA Generativa <span class="opacity-40 ml-1 font-black">(Microsoft)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Ingeniería de Prompts <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Fundamentos de IA en Azure <span class="opacity-40 ml-1 font-black">(Microsoft)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Mentalidad Digital <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span></div></div></div><div class="relative flex flex-col pl-16 mb-8 group cert-container-p"><div class="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p"><i class="fas fa-chart-bar text-base"></i></div><div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p"><h3 class="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">Transformación &amp; CX</h3><div class="flex flex-wrap gap-2"><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Estrategia de Experiencia del Cliente <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Transformación Digital <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">NPS y Lealtad del Cliente <span class="opacity-40 ml-1 font-black">(Telefónica)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Pensamiento Estratégico <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Diseño de Servicios <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Experiencia Omnicanal <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span></div></div></div><div class="relative flex flex-col pl-16 mb-8 group cert-container-p"><div class="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p"><i class="fas fa-users-cog text-base"></i></div><div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p"><h3 class="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">Liderazgo Exponencial</h3><div class="flex flex-wrap gap-2"><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Liderazgo en la Era Digital <span class="opacity-40 ml-1 font-black">(Tec. de Monterrey)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Liderazgo Transformador <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Culturas de Alto Rendimiento <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Habilidades de Innovación <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Inteligencia Emocional <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Coaching Directivo <span class="opacity-40 ml-1 font-black">(CENTRUM)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Gestión del Cambio <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span></div></div></div><div class="relative flex flex-col pl-16 mb-8 group cert-container-p"><div class="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p"><i class="fas fa-comments text-base"></i></div><div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p"><h3 class="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">Eficiencia &amp; Comunicación</h3><div class="flex flex-wrap gap-2"><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Gestión del Tiempo <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Comunicación Empresarial <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Comunicación Consciente <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Presencia Ejecutiva <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Optimización de Productividad <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Oratoria y Hablar en Público <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span></div></div></div><div class="relative flex flex-col pl-16 mb-8 group cert-container-p"><div class="absolute left-0 top-3 w-11 h-11 rounded-full bg-slate-950 border-2 border-slate-800 group-hover:border-amber-500 flex items-center justify-center text-slate-500 group-hover:text-amber-500 z-10 shadow-[0_0_10px_rgba(245,158,11,0)] group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all duration-500 cert-icon-p"><i class="fas fa-shield-alt text-base"></i></div><div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800 group-hover:border-amber-500/30 transition-all duration-500 cert-item-p"><h3 class="text-amber-500 font-black uppercase text-[11px] md:text-xs tracking-widest mb-4">Gestión &amp; Compliance</h3><div class="flex flex-wrap gap-2"><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Experto en RGPD (UE) <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Gestión Ágil <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Pensamiento de Diseño (Design Thinking) <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Mitigación de Riesgos <span class="opacity-40 ml-1 font-black">(Telefónica)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Gestión de Proyectos <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span><span class="px-2.5 py-1.5 bg-slate-950 border border-slate-800/80 text-[10px] md:text-[11px] font-bold text-slate-300 uppercase rounded hover:border-amber-500/50 transition-colors">Ética Empresarial <span class="opacity-40 ml-1 font-black">(LinkedIn)</span></span></div></div></div></div><div class="mt-8 p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl text-center"><p class="text-[10px] text-slate-500 italic uppercase tracking-widest">+50 Certificaciones Adicionales Vigentes en Gestión y Tecnología</p></div></section><section class="print-only print-sidebar-block"><h3 class="print-sidebar-title"><i class="fas fa-microchip"></i> Ecosistema Tech</h3><div class="flex flex-wrap gap-2"><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">GEMINI / CLAUDE</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">AZURE AI</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">MAKE.COM</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">FIREBASE</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">OCR / MLLM</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">SERVERLESS</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">AGILE MGMT</span><span class="px-2 py-1 bg-slate-50 border border-slate-200 text-[8px] font-black uppercase text-slate-900 rounded">CX STRATEGY</span></div></section></aside></div><div id="content-innovacion" class="hidden md:block print:block"><section class="p-6 md:p-12 border-t border-slate-800/50 bg-[#0a1120] relative z-20 print:bg-white print:border-slate-100 page-break-skills"><div class="text-center mb-10 print:mb-6"><h3 class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] mb-3 border border-slate-800 bg-slate-900 shadow-[0_0_15px_rgba(245,158,11,0.1)] inline-flex items-center px-4 py-1.5 rounded-full print:bg-white print:text-amber-600 print:border-amber-500 no-print"><i class="fas fa-bolt text-amber-500 mr-2"></i><span class="text-white mr-1.5 print:text-amber-600">Competencias</span> <span class="text-slate-500 mr-1.5 print:text-slate-400">&amp;</span> <span class="text-amber-500">Aptitudes</span></h3><div class="hidden print:block text-[10px] font-black text-amber-600 uppercase tracking-widest mb-4">⚡ COMPETENCIAS &amp; APTITUDES</div><h2 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter print:text-slate-900 print:text-xl print:mb-2">Áreas de Dominio Técnico y Operativo</h2><div class="flex justify-center gap-6 mt-6 mb-6 flex-wrap"><div class="flex items-center gap-2 text-[9px] uppercase font-bold text-slate-400 print:text-slate-600"><i class="fas fa-check-circle text-slate-500"></i> Competencias (Executive)</div><div class="flex items-center gap-2 text-[9px] uppercase font-bold text-amber-500 print:text-amber-700"><i class="fas fa-star text-amber-500"></i> Habilidades (Aptitudes)</div></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 print:gap-x-14 print:gap-y-20 relative z-10 print:mt-10"><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-users-cog text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Liderazgo Organizacional</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Liderazgo Transformador</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Dirección de Equipos</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Culturas de Alto Desempeño</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Resolución de Problemas</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Toma de Decisiones</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Conflictología</span></div></div><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-microchip text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Transformación &amp; IA</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Transformación Digital</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>IA Generativa &amp; Agentes</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Ingeniería de Prompts</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Ecosistemas Cloud (Azure)</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Análisis y Decisión Técnica</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Productividad de IA</span></div></div><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-cogs text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Gestión de Operaciones</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Rentabilidad de Negocios</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Optimización de KPIs</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Mitigación de Riesgos</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Gestión de Proyectos</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Coordinación Logística</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Agilidad Estratégica</span></div></div><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-chart-line text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Desarrollo Comercial</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Estrategia Comercial</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Negociación</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Prospección de Ventas</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Marketing Digital</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Eficacia de Ventas</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Análisis de Tendencias</span></div></div><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-handshake text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Experiencia del Cliente (CX)</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Satisfacción del Cliente</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Relaciones CRM</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Gestión de Conflictos</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Comunicación Profesional</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Atención al Cliente</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Empatía</span></div></div><div class="relative flex flex-col items-center bg-gradient-to-b from-slate-900/80 to-transparent border-t-4 border-amber-500 rounded-b-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-all duration-500 print:bg-white print:border-2 print:border-slate-200"><div class="flex flex-col items-center justify-center p-6 bg-slate-900/50 w-full border-b border-slate-800 relative overflow-hidden print:bg-slate-50 print:border-slate-200"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors print:hidden"></div><i class="fas fa-brain text-3xl md:text-4xl text-amber-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 print:text-amber-800 print:opacity-100"></i><h3 class="mt-4 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white text-center leading-tight relative z-10 print:text-black">Habilidades Humanas</h3></div><div class="p-6 w-full flex flex-wrap justify-center gap-2.5"><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Inteligencia Emocional</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Pensamiento Crítico</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Creatividad e Innovación</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Comunicación Interpersonal</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-slate-800/50 text-slate-300 border-slate-700 hover:border-slate-500 hover:-translate-y-1"><i class="fas fa-check-circle text-[7px]"></i>Gestión del Tiempo</span><span class="px-2.5 py-1 md:px-3 md:py-1.5 text-[8px] md:text-[9px] font-bold uppercase tracking-wide rounded-lg backdrop-blur-md transition-all duration-300 border flex items-center gap-1.5
+                          bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/30 hover:-translate-y-1"><i class="fas fa-star text-[7px]"></i>Adaptabilidad</span></div></div></div></section><section id="innovacion-section" class="p-8 md:p-12 mb-8 mt-8 border-t border-slate-800/50 bg-slate-950/20 print:bg-white"><div class="mb-12 text-center relative z-10 w-full col-span-full print:mb-8"><h2 class="text-[10px] md:text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-4 border border-amber-500/20 bg-amber-500/10 inline-block px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.1)] print:border-amber-500 print:text-amber-600 print:tracking-normal">Centro de Innovación y Desarrollo</h2><h1 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter print:text-slate-900">Portafolio de <span class="text-amber-500">Innovación Tecnológica</span></h1><p class="text-slate-400 text-sm md:text-base max-w-4xl mx-auto mt-5 leading-relaxed font-medium print:text-slate-600">Desarrollo de una arquitectura de software diversificada en más de 20 proyectos (Aplicaciones Locales, Sistemas Serverless en la Nube y Motores de Inteligencia Artificial).</p></div><div class="relative w-full overflow-hidden mb-16 py-12 no-print group"><style>
                     @keyframes slide-infinite {
                       0% { transform: translateX(0); }
                       100% { transform: translateX(-50%); }
@@ -1068,414 +496,124 @@
                       opacity: 1;
                       bottom: -22px;
                     }
-                  `}} />
-                  
-                  <div className="glass-rail"></div>
-
-                  <div className="carousel-track">
-                    {(() => {
-                      const appData = [
-                        { file: "Alerta vecinal.jpg", cat: "Telemetría y Operaciones Geo", name: "Alerta Vecinal" },
-                        { file: "Allimentate.jpg", cat: "Tecnología de Salud e Inclusión", name: "Allimentate" },
-                        { file: "Allivision.jpg", cat: "Interfaces de Teleoperación", name: "Allivision" },
-                        { file: "chartless.jpg", cat: "Tecnología de Salud e Inclusión", name: "Chart Less" },
-                        { file: "Facecut.jpg", cat: "Asesoría de Modas Computarizada", name: "FaceCut" },
-                        { file: "Georadio.jpg", cat: "Auditoría de Redes y Medios", name: "GeoRadio" },
-                        { file: "Handracer.jpg", cat: "Interfaces de Teleoperación", name: "HandRacer" },
-                        { file: "Jardim de historia.jpg", cat: "Experiencias Narrativas con IA", name: "Jardim de Historia" },
-                        { file: "Kopilot.jpg", cat: "Sistemas de Gestión Comercial", name: "Kopilot" },
-                        { file: "Linkedinmatic.jpg", cat: "Minería de Datos y Autopilotos", name: "Linkedinmatic" },
-                        { file: "Moodweather.jpg", cat: "Tecnología de Salud e Inclusión", name: "MoodWeather" },
-                        { file: "Musichris.jpg", cat: "Auditoría de Redes y Medios", name: "MusiChris" },
-                        { file: "Restaurant.jpg", cat: "Sistemas de Gestión Comercial", name: "Restaurante360" },
-                        { file: "Talkme.jpg", cat: "Ingeniería de Voz y Comunicaciones", name: "Talk.Me" },
-                        { file: "Tara.jpg", cat: "Asesoría de Modas Computarizada", name: "Style TARA" },
-                        { file: "Vigilante Ai.jpg", cat: "Agentes Inteligentes de Monitoreo", name: "Vigilante AI" },
-                        { file: "voxmind.jpg", cat: "Ingeniería de Voz y Comunicaciones", name: "VoxMind AI" }
-                      ];
-                      
-                      const allApps = [...appData, ...appData]; // Double for seamless loop
-                      
-                      return allApps.map((app, idx) => (
-                        <div key={idx} className="frame-container">
-                          <div className="frame-indicator">
-                            <span className="cat-label">{app.cat}</span>
-                          </div>
-                          <img src={`fotogramas/fotogramas_hjal/optimized/${app.file.replace(/ /g, '%20')}`} alt={app.name} className="frame-img" loading="lazy" />
-                          <div className="frame-name">{app.name}</div>
-                        </div>
-                      ));
-                    })()}
-                  </div>
-                </div>
-
-
-                {/* GRID DE 9 CATEGORÍAS (3x3 en Desktop) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-8">
-
-                  {/* 1. Quick-commerce -> Comercio Rápido */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-motorcycle text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Logística y Entregas Rápidas</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Arquitecturas de comercio digital y reservas <span className="text-slate-300 font-bold">(Alacena)</span>. Ecosistemas alojados en <span className="text-amber-500/80 font-bold">Firebase</span> gestionando reglas de horarios nocturnos en tiempo real, integrados nativamente.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Comercio Digital</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Bases NoSQL</span>
-                    </div>
-                  </div>
-
-                  {/* 2. ERP Retail -> Gestión Comercial */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-store text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Sistemas de Gestión Comercial</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Planificación de recursos de bases de datos serverless <span className="text-slate-300 font-bold">(Kopilot)</span> y gestión del sector de restaurantes <span className="text-slate-300 font-bold">(Restaurante360)</span>. Consolidación de inventarios y atención.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Puntos de Venta</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Planificación</span>
-                    </div>
-                  </div>
-
-                  {/* 3. Geo Tracking -> Geolocalización */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-map-marked-alt text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Telemetría y Operaciones Geo</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Sistemas Web Progresivos de radares geolocalizados para control y prevención comunitaria <span className="text-slate-300 font-bold">(Alerta Vecinal, ChrisLocation)</span>, emitiendo alertas de emergencia al instante.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Mapas Digitales</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Tiempo Real</span>
-                    </div>
-                  </div>
-
-                  {/* 4. Data Scraping -> Extracción de Datos */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-database text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Minería de Datos y Autopilotos</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Agentes de extracción empresarial y OCR <span className="text-slate-300 font-bold">(OptiCompra, Scripto)</span>, y sistemas autónomos Text-to-Image para el despliegue de contenido de Marketing en redes <span className="text-slate-300 font-bold">(Linkedinmatic V2)</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Minería Web</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Reconocimiento Óptico</span>
-                    </div>
-                  </div>
-
-                  {/* 5. Infraestructura */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-wifi text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Auditoría de Redes y Medios</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Plataformas unificadas para escaneo y auditoría perimetral de redes <span className="text-slate-300 font-bold">(WiFiSentinel)</span>, orquestadas junto a ecosistemas de transmisión sin servidor <span className="text-slate-300 font-bold">(GeoRadio, Musichris)</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Topología Local</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Transmisión</span>
-                    </div>
-                  </div>
-
-                  {/* 6. Health & A11y -> Salud y Accesibilidad */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-heartbeat text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Tecnología de Salud e Inclusión</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Prevención mediante algoritmos predictivos <span className="text-slate-300 font-bold">(MoodWeather)</span>, interfaces inclusivas <span className="text-slate-300 font-bold">(CHART_LESS)</span> y controles de nutrición médica <span className="text-slate-300 font-bold">(Mediclock, AlliMentate)</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Salud Integral</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Inclusión Digital</span>
-                    </div>
-                  </div>
-
-                  {/* 7. Visión Computacional HMI -> Control Físico */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-hand-paper text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Interfaces de Teleoperación</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Integración de sistemas de reconocimiento gestual a manos libres <span className="text-slate-300 font-bold">(HandRacer)</span> y controladores virtuales asíncronos <span className="text-slate-300 font-bold">(Allivision, MediPresenter)</span> para teleoperación física.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Sensores Ópticos</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Mandos a Distancia</span>
-                    </div>
-                  </div>
-
-                  {/* 8. Estética IA Multimodal -> Asesoría Estética */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-camera-retro text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Asesoría de Modas Computarizada</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Modelos predictivos de geometría facial y asesoría visual de indumentaria mediante probadores sintéticos <span className="text-slate-300 font-bold">(FaceCut, Style TARA)</span> procesados analíticamente con el motor MLLM.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Generación Gráfica</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Análisis Predictivo</span>
-                    </div>
-                  </div>
-
-                  {/* 9. Motores Semánticos LLM -> Inteligencia Lingüística */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col md:col-span-2 lg:col-span-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-brain text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Procesadores Lingüísticos</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Arquitecturas de interacción avanzadas conectadas a hojas de cálculo. Asistentes estructurales de redacción y comprensión semántica profunda <span className="text-slate-300 font-bold">(SELAH, Biblia-Cool, Lírica Celestial)</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Razonamiento Lógico</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Asistencia Cognitiva</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ELEMENTO DE SALTO DE PÁGINA PARA PRINT (FORZAR HOJA 5) */}
-                <div className="hidden print:block page-break-portfolio-end"></div>
-
-                {/* GRID DE CATEGORÍAS FINALES (Página 5 en PDF) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 print:mt-12">
-                  {/* 10. PRODUCTIVIDAD EJECUTIVA AI */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-microphone-lines text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Ingeniería de Voz y Comunicaciones</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Interfaces de traducción fluida en tiempo real y baja latencia <span className="text-slate-300 font-bold">(Talk.Me)</span> orquestadas junto a sistemas de dictado asincrónico para automatizar mapas mentales y resúmenes de gestión directiva <span className="text-slate-300 font-bold">(VoxMind AI)</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Voice-to-Action</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Conversación IA</span>
-                    </div>
-                  </div>
-
-                  {/* 11. EXPERIENCIAS NARRATIVAS IA */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-book-open text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Experiencias Narrativas con IA</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Aplicaciones de bienestar y entretenimiento familiar generadas dinamicamente. Cuentos inmersivos narrados por voz en portugues, disenados para entrenar el oido al idioma y aprender de forma natural. Traduccion interactiva palabra por palabra <span className="text-slate-300 font-bold">(Jardin de Historias)</span>, sobre arquitectura serverless con proxy Cloudflare.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Inmersion Linguistica</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Aprendizaje Activo</span>
-                    </div>
-                  </div>
-
-                  {/* 12. AGENTES INTELIGENTES & COMMAND CENTER */}
-                  <div className="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all">
-                        <i className="fas fa-robot text-amber-500 text-lg"></i>
-                      </div>
-                    </div>
-                    <h3 className="text-white text-[13px] font-black uppercase tracking-tight mb-2">Agentes Inteligentes de Monitoreo</h3>
-                    <p className="text-slate-400 text-[11px] leading-relaxed flex-grow">
-                      Estructuración de bots asíncronos para detección de oportunidades en Real Estate <span className="text-slate-300 font-bold">(Vigilante AI)</span> y control ejecutivo de 25+ activos digitales con auditoría de seguridad y motores OSINT <span className="text-slate-300 font-bold">(Command Center v4.6)</span>. Soluciones integradas para la supervisión proactiva y toma de decisiones en tiempo real.
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Automatización Proactiva</span>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Ecosistemas IA</span>
-                    </div>
-                  </div>
-                </div>
-
-              </section>
-
-
-
-
-
-              {/* CALL TO ACTION DIGITAL - IMPACTO VISUAL FINAL */}
-              <section className="cta-section p-8 md:p-16 border-t border-slate-800/50 bg-gradient-to-br from-[#0a1120] to-[#040812] relative z-20 flex flex-col md:flex-row items-center justify-between gap-10 no-print">
-                <div className="absolute inset-0 bg-amber-500/5 opacity-50 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent"></div>
-
-                <div className="relative z-10 flex-1 text-center md:text-left">
-                  <h3 className="text-[10px] md:text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-3">
-                    <i className="fas fa-satellite-dish mr-2 animate-pulse"></i> Sincronización Directa
-                  </h3>
-                  <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
-                    Liderazgo & <span className="text-amber-500">Operaciones</span>
-                  </h2>
-                  <p className="text-slate-400 text-sm md:text-base max-w-xl leading-relaxed font-medium mb-6">
-                    Mi mayor fortaleza es administrar operaciones a gran escala, formar equipos y potenciar grandes redes de tiendas. Si tu empresa busca escalar su rentabilidad comercial y estructurar sus centros de negocios físicos y digitales, este es el momento de hablar.
-                  </p>
-                  <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                    <a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2">
-                      <i className="fab fa-linkedin-in text-lg"></i> Conectar en LinkedIn
-                    </a>
-                    <a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" className="no-print px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2">
-                      <i className="far fa-calendar-alt text-lg"></i> Agendar Cita
-                    </a>
-                  </div>
-                </div>
-
-                {/* QR Code / Digital Card visual */}
-                <div className="relative z-10 w-full md:w-auto flex justify-center perspective-[1000px]">
-                  <a href="mailto:Hjalmar.meza@gmail.com" className="block relative w-48 h-48 md:w-64 md:h-64 bg-slate-900/80 rounded-3xl border border-slate-700 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-all duration-700 group cursor-pointer">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur"></div>
-                    <div className="w-full h-full bg-[#0a1120] rounded-2xl border border-slate-800 flex flex-col items-center justify-center p-6 relative overflow-hidden">
-                      {/* Fake scanning line */}
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-amber-500 shadow-[0_0_15px_#f59e0b] animate-[scan_3s_ease-in-out_infinite]"></div>
-                      <style dangerouslySetInnerHTML={{
-                        __html: `
+                  </style><div class="glass-rail"></div><div class="carousel-track"><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Telemetría y Operaciones Geo</span></div><img src="fotogramas/fotogramas_hjal/optimized/Alerta%20vecinal.jpg" alt="Alerta Vecinal" class="frame-img" loading="lazy"><div class="frame-name">Alerta Vecinal</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/Allimentate.jpg" alt="Allimentate" class="frame-img" loading="lazy"><div class="frame-name">Allimentate</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Interfaces de Teleoperación</span></div><img src="fotogramas/fotogramas_hjal/optimized/Allivision.jpg" alt="Allivision" class="frame-img" loading="lazy"><div class="frame-name">Allivision</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/chartless.jpg" alt="Chart Less" class="frame-img" loading="lazy"><div class="frame-name">Chart Less</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Asesoría de Modas Computarizada</span></div><img src="fotogramas/fotogramas_hjal/optimized/Facecut.jpg" alt="FaceCut" class="frame-img" loading="lazy"><div class="frame-name">FaceCut</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Auditoría de Redes y Medios</span></div><img src="fotogramas/fotogramas_hjal/optimized/Georadio.jpg" alt="GeoRadio" class="frame-img" loading="lazy"><div class="frame-name">GeoRadio</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Interfaces de Teleoperación</span></div><img src="fotogramas/fotogramas_hjal/optimized/Handracer.jpg" alt="HandRacer" class="frame-img" loading="lazy"><div class="frame-name">HandRacer</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Experiencias Narrativas con IA</span></div><img src="fotogramas/fotogramas_hjal/optimized/Jardim%20de%20historia.jpg" alt="Jardim de Historia" class="frame-img" loading="lazy"><div class="frame-name">Jardim de Historia</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Sistemas de Gestión Comercial</span></div><img src="fotogramas/fotogramas_hjal/optimized/Kopilot.jpg" alt="Kopilot" class="frame-img" loading="lazy"><div class="frame-name">Kopilot</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Minería de Datos y Autopilotos</span></div><img src="fotogramas/fotogramas_hjal/optimized/Linkedinmatic.jpg" alt="Linkedinmatic" class="frame-img" loading="lazy"><div class="frame-name">Linkedinmatic</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/Moodweather.jpg" alt="MoodWeather" class="frame-img" loading="lazy"><div class="frame-name">MoodWeather</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Auditoría de Redes y Medios</span></div><img src="fotogramas/fotogramas_hjal/optimized/Musichris.jpg" alt="MusiChris" class="frame-img" loading="lazy"><div class="frame-name">MusiChris</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Sistemas de Gestión Comercial</span></div><img src="fotogramas/fotogramas_hjal/optimized/Restaurant.jpg" alt="Restaurante360" class="frame-img" loading="lazy"><div class="frame-name">Restaurante360</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Ingeniería de Voz y Comunicaciones</span></div><img src="fotogramas/fotogramas_hjal/optimized/Talkme.jpg" alt="Talk.Me" class="frame-img" loading="lazy"><div class="frame-name">Talk.Me</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Asesoría de Modas Computarizada</span></div><img src="fotogramas/fotogramas_hjal/optimized/Tara.jpg" alt="Style TARA" class="frame-img" loading="lazy"><div class="frame-name">Style TARA</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Agentes Inteligentes de Monitoreo</span></div><img src="fotogramas/fotogramas_hjal/optimized/Vigilante%20Ai.jpg" alt="Vigilante AI" class="frame-img" loading="lazy"><div class="frame-name">Vigilante AI</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Ingeniería de Voz y Comunicaciones</span></div><img src="fotogramas/fotogramas_hjal/optimized/voxmind.jpg" alt="VoxMind AI" class="frame-img" loading="lazy"><div class="frame-name">VoxMind AI</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Telemetría y Operaciones Geo</span></div><img src="fotogramas/fotogramas_hjal/optimized/Alerta%20vecinal.jpg" alt="Alerta Vecinal" class="frame-img" loading="lazy"><div class="frame-name">Alerta Vecinal</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/Allimentate.jpg" alt="Allimentate" class="frame-img" loading="lazy"><div class="frame-name">Allimentate</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Interfaces de Teleoperación</span></div><img src="fotogramas/fotogramas_hjal/optimized/Allivision.jpg" alt="Allivision" class="frame-img" loading="lazy"><div class="frame-name">Allivision</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/chartless.jpg" alt="Chart Less" class="frame-img" loading="lazy"><div class="frame-name">Chart Less</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Asesoría de Modas Computarizada</span></div><img src="fotogramas/fotogramas_hjal/optimized/Facecut.jpg" alt="FaceCut" class="frame-img" loading="lazy"><div class="frame-name">FaceCut</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Auditoría de Redes y Medios</span></div><img src="fotogramas/fotogramas_hjal/optimized/Georadio.jpg" alt="GeoRadio" class="frame-img" loading="lazy"><div class="frame-name">GeoRadio</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Interfaces de Teleoperación</span></div><img src="fotogramas/fotogramas_hjal/optimized/Handracer.jpg" alt="HandRacer" class="frame-img" loading="lazy"><div class="frame-name">HandRacer</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Experiencias Narrativas con IA</span></div><img src="fotogramas/fotogramas_hjal/optimized/Jardim%20de%20historia.jpg" alt="Jardim de Historia" class="frame-img" loading="lazy"><div class="frame-name">Jardim de Historia</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Sistemas de Gestión Comercial</span></div><img src="fotogramas/fotogramas_hjal/optimized/Kopilot.jpg" alt="Kopilot" class="frame-img" loading="lazy"><div class="frame-name">Kopilot</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Minería de Datos y Autopilotos</span></div><img src="fotogramas/fotogramas_hjal/optimized/Linkedinmatic.jpg" alt="Linkedinmatic" class="frame-img" loading="lazy"><div class="frame-name">Linkedinmatic</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Tecnología de Salud e Inclusión</span></div><img src="fotogramas/fotogramas_hjal/optimized/Moodweather.jpg" alt="MoodWeather" class="frame-img" loading="lazy"><div class="frame-name">MoodWeather</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Auditoría de Redes y Medios</span></div><img src="fotogramas/fotogramas_hjal/optimized/Musichris.jpg" alt="MusiChris" class="frame-img" loading="lazy"><div class="frame-name">MusiChris</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Sistemas de Gestión Comercial</span></div><img src="fotogramas/fotogramas_hjal/optimized/Restaurant.jpg" alt="Restaurante360" class="frame-img" loading="lazy"><div class="frame-name">Restaurante360</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Ingeniería de Voz y Comunicaciones</span></div><img src="fotogramas/fotogramas_hjal/optimized/Talkme.jpg" alt="Talk.Me" class="frame-img" loading="lazy"><div class="frame-name">Talk.Me</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Asesoría de Modas Computarizada</span></div><img src="fotogramas/fotogramas_hjal/optimized/Tara.jpg" alt="Style TARA" class="frame-img" loading="lazy"><div class="frame-name">Style TARA</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Agentes Inteligentes de Monitoreo</span></div><img src="fotogramas/fotogramas_hjal/optimized/Vigilante%20Ai.jpg" alt="Vigilante AI" class="frame-img" loading="lazy"><div class="frame-name">Vigilante AI</div></div><div class="frame-container"><div class="frame-indicator"><span class="cat-label">Ingeniería de Voz y Comunicaciones</span></div><img src="fotogramas/fotogramas_hjal/optimized/voxmind.jpg" alt="VoxMind AI" class="frame-img" loading="lazy"><div class="frame-name">VoxMind AI</div></div></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-8"><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-motorcycle text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Logística y Entregas Rápidas</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Arquitecturas de comercio digital y reservas <span class="text-slate-300 font-bold">(Alacena)</span>. Ecosistemas alojados en <span class="text-amber-500/80 font-bold">Firebase</span> gestionando reglas de horarios nocturnos en tiempo real, integrados nativamente.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Comercio Digital</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Bases NoSQL</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-store text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Sistemas de Gestión Comercial</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Planificación de recursos de bases de datos serverless <span class="text-slate-300 font-bold">(Kopilot)</span> y gestión del sector de restaurantes <span class="text-slate-300 font-bold">(Restaurante360)</span>. Consolidación de inventarios y atención.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Puntos de Venta</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Planificación</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-map-marked-alt text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Telemetría y Operaciones Geo</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Sistemas Web Progresivos de radares geolocalizados para control y prevención comunitaria <span class="text-slate-300 font-bold">(Alerta Vecinal, ChrisLocation)</span>, emitiendo alertas de emergencia al instante.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Mapas Digitales</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Tiempo Real</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-database text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Minería de Datos y Autopilotos</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Agentes de extracción empresarial y OCR <span class="text-slate-300 font-bold">(OptiCompra, Scripto)</span>, y sistemas autónomos Text-to-Image para el despliegue de contenido de Marketing en redes <span class="text-slate-300 font-bold">(Linkedinmatic V2)</span>.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Minería Web</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Reconocimiento Óptico</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-wifi text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Auditoría de Redes y Medios</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Plataformas unificadas para escaneo y auditoría perimetral de redes <span class="text-slate-300 font-bold">(WiFiSentinel)</span>, orquestadas junto a ecosistemas de transmisión sin servidor <span class="text-slate-300 font-bold">(GeoRadio, Musichris)</span>.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Topología Local</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Transmisión</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-heartbeat text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Tecnología de Salud e Inclusión</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Prevención mediante algoritmos predictivos <span class="text-slate-300 font-bold">(MoodWeather)</span>, interfaces inclusivas <span class="text-slate-300 font-bold">(CHART_LESS)</span> y controles de nutrición médica <span class="text-slate-300 font-bold">(Mediclock, AlliMentate)</span>.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Salud Integral</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Inclusión Digital</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-hand-paper text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Interfaces de Teleoperación</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Integración de sistemas de reconocimiento gestual a manos libres <span class="text-slate-300 font-bold">(HandRacer)</span> y controladores virtuales asíncronos <span class="text-slate-300 font-bold">(Allivision, MediPresenter)</span> para teleoperación física.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Sensores Ópticos</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Mandos a Distancia</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-camera-retro text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Asesoría de Modas Computarizada</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Modelos predictivos de geometría facial y asesoría visual de indumentaria mediante probadores sintéticos <span class="text-slate-300 font-bold">(FaceCut, Style TARA)</span> procesados analíticamente con el motor MLLM.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Generación Gráfica</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Análisis Predictivo</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col md:col-span-2 lg:col-span-1"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-brain text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Procesadores Lingüísticos</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Arquitecturas de interacción avanzadas conectadas a hojas de cálculo. Asistentes estructurales de redacción y comprensión semántica profunda <span class="text-slate-300 font-bold">(SELAH, Biblia-Cool, Lírica Celestial)</span>.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Razonamiento Lógico</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Asistencia Cognitiva</span></div></div></div><div class="hidden print:block page-break-portfolio-end"></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 print:mt-12"><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-microphone-lines text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Ingeniería de Voz y Comunicaciones</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Interfaces de traducción fluida en tiempo real y baja latencia <span class="text-slate-300 font-bold">(Talk.Me)</span> orquestadas junto a sistemas de dictado asincrónico para automatizar mapas mentales y resúmenes de gestión directiva <span class="text-slate-300 font-bold">(VoxMind AI)</span>.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Voice-to-Action</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Conversación IA</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-book-open text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Experiencias Narrativas con IA</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Aplicaciones de bienestar y entretenimiento familiar generadas dinamicamente. Cuentos inmersivos narrados por voz en portugues, disenados para entrenar el oido al idioma y aprender de forma natural. Traduccion interactiva palabra por palabra <span class="text-slate-300 font-bold">(Jardin de Historias)</span>, sobre arquitectura serverless con proxy Cloudflare.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Inmersion Linguistica</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Aprendizaje Activo</span></div></div><div class="group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"><div class="flex items-start justify-between mb-4"><div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"><i class="fas fa-robot text-amber-500 text-lg"></i></div></div><h3 class="text-white text-[13px] font-black uppercase tracking-tight mb-2">Agentes Inteligentes de Monitoreo</h3><p class="text-slate-400 text-[11px] leading-relaxed flex-grow">Estructuración de bots asíncronos para detección de oportunidades en Real Estate <span class="text-slate-300 font-bold">(Vigilante AI)</span> y control ejecutivo de 25+ activos digitales con auditoría de seguridad y motores OSINT <span class="text-slate-300 font-bold">(Command Center v4.6)</span>. Soluciones integradas para la supervisión proactiva y toma de decisiones en tiempo real.</p><div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800/50"><span class="text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md">Automatización Proactiva</span><span class="text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md">Ecosistemas IA</span></div></div></div></section><section class="cta-section p-8 md:p-16 border-t border-slate-800/50 bg-gradient-to-br from-[#0a1120] to-[#040812] relative z-20 flex flex-col md:flex-row items-center justify-between gap-10 no-print"><div class="absolute inset-0 bg-amber-500/5 opacity-50 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent"></div><div class="relative z-10 flex-1 text-center md:text-left"><h3 class="text-[10px] md:text-xs font-black text-amber-500 uppercase tracking-[0.3em] mb-3"><i class="fas fa-satellite-dish mr-2 animate-pulse"></i> Sincronización Directa</h3><h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">Liderazgo &amp; <span class="text-amber-500">Operaciones</span></h2><p class="text-slate-400 text-sm md:text-base max-w-xl leading-relaxed font-medium mb-6">Mi mayor fortaleza es administrar operaciones a gran escala, formar equipos y potenciar grandes redes de tiendas. Si tu empresa busca escalar su rentabilidad comercial y estructurar sus centros de negocios físicos y digitales, este es el momento de hablar.</p><div class="flex flex-wrap gap-4 justify-center md:justify-start"><a href="https://www.linkedin.com/in/hjalmar-meza" target="_blank" rel="noreferrer" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2"><i class="fab fa-linkedin-in text-lg"></i> Conectar en LinkedIn</a><a href="https://calendar.app.google/MWMTrJf3pKRLHb3H6" target="_blank" rel="noreferrer" class="no-print px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-black uppercase text-xs md:text-sm tracking-widest rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 flex items-center gap-2"><i class="far fa-calendar-alt text-lg"></i> Agendar Cita</a></div></div><div class="relative z-10 w-full md:w-auto flex justify-center perspective-[1000px]"><a href="mailto:Hjalmar.meza@gmail.com" class="block relative w-48 h-48 md:w-64 md:h-64 bg-slate-900/80 rounded-3xl border border-slate-700 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-all duration-700 group cursor-pointer"><div class="absolute inset-0 bg-gradient-to-tr from-amber-500/20 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur"></div><div class="w-full h-full bg-[#0a1120] rounded-2xl border border-slate-800 flex flex-col items-center justify-center p-6 relative overflow-hidden"><div class="absolute top-0 left-0 right-0 h-1 bg-amber-500 shadow-[0_0_15px_#f59e0b] animate-[scan_3s_ease-in-out_infinite]"></div><style>
                       @keyframes scan {
                         0%, 100% { top: 0; opacity: 0; }
                         50% { top: 100%; opacity: 1; }
                       }
-                    `}} />
+                    </style><i class="fas fa-qrcode text-6xl md:text-8xl text-slate-400 group-hover:text-amber-500 transition-colors duration-500 mb-4"></i><div class="text-[9px] font-black uppercase tracking-[0.2em] text-center text-slate-300 flex flex-col gap-1"><span>Clickea Aquí</span><span class="text-amber-500">Para Enviar Correo</span></div></div></a></div></section></div><footer class="bg-slate-950 border-t border-slate-800 p-6 flex flex-col md:flex-row justify-between items-center gap-4 no-print"><div class="flex items-center gap-3"><div class="h-[1px] w-12 bg-amber-500"></div><p class="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-black">Hjalmar Meza Cortez • 2026</p></div><p class="text-[9px] text-slate-600 font-mono text-center md:text-right max-w-sm">Maximizando rentabilidad corporativa mediante Operaciones y Arquitectura de IA</p></footer><div class="hidden print:block border-t border-slate-200 mt-10 pt-6 text-center"><p class="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black mb-2">HJALMAR MEZA CORTEZ • Senior Management &amp; AI Strategy</p><p class="text-[8px] text-slate-400 uppercase tracking-widest">Documento generado digitalmente para fines ejecutivos • 2026</p></div></div><nav class="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/90 backdrop-blur-md border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] no-print"><button class="flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 text-amber-500"><i class="fas fa-user-tie text-[1.3rem]"></i><span class="text-[9px] font-black uppercase tracking-wider">Perfil &amp; Exp</span></button><button class="flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 text-slate-500 hover:text-slate-300"><i class="fas fa-certificate text-[1.3rem]"></i><span class="text-[9px] font-black uppercase tracking-wider">Skills</span></button><button class="flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 text-slate-500 hover:text-slate-300"><i class="fas fa-microchip text-[1.3rem]"></i><span class="text-[9px] font-black uppercase tracking-wider">Innovación</span></button></nav></div>
+    </div>
 
-                      <i className="fas fa-qrcode text-6xl md:text-8xl text-slate-400 group-hover:text-amber-500 transition-colors duration-500 mb-4"></i>
-                      <div className="text-[9px] font-black uppercase tracking-[0.2em] text-center text-slate-300 flex flex-col gap-1">
-                        <span>Clickea Aquí</span>
-                        <span className="text-amber-500">Para Enviar Correo</span>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </section>
-            </div>
-
-            {/* FOOTER */}
-            <footer className="bg-slate-950 border-t border-slate-800 p-6 flex flex-col md:flex-row justify-between items-center gap-4 no-print">
-              <div className="flex items-center gap-3">
-                <div className="h-[1px] w-12 bg-amber-500"></div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-black">
-                  Hjalmar Meza Cortez • 2026
-                </p>
-              </div>
-              <p className="text-[9px] text-slate-600 font-mono text-center md:text-right max-w-sm">
-                Maximizando rentabilidad corporativa mediante Operaciones y Arquitectura de IA
-              </p>
-            </footer>
-
-            {/* PRINT FOOTER - SOLO PDF */}
-            <div className="hidden print:block border-t border-slate-200 mt-10 pt-6 text-center">
-              <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black mb-2">
-                HJALMAR MEZA CORTEZ • Senior Management & AI Strategy
-              </p>
-              <p className="text-[8px] text-slate-400 uppercase tracking-widest">
-                Documento generado digitalmente para fines ejecutivos • 2026
-              </p>
-            </div>
-          </div >
-
-          {/* MOBILE NAVIGATION TABS (Sticky Bottom) - ONLY VISIBLE ON MOBILE */}
-          < nav className="md:hidden fixed bottom-0 left-0 w-full bg-slate-950/90 backdrop-blur-md border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] no-print" >
-            <button
-              onClick={() => { setActiveTab('perfil'); window.scrollTo(0, 0); }}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'perfil' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`}>
-              <i className="fas fa-user-tie text-[1.3rem]"></i>
-              <span className="text-[9px] font-black uppercase tracking-wider">Perfil & Exp</span>
-            </button>
-            <button
-              onClick={() => { setActiveTab('skills'); window.scrollTo(0, 0); }}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'skills' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`}>
-              <i className="fas fa-certificate text-[1.3rem]"></i>
-              <span className="text-[9px] font-black uppercase tracking-wider">Skills</span>
-            </button>
-            <button
-              onClick={() => { setActiveTab('innovacion'); window.scrollTo(0, 0); }}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'innovacion' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`}>
-              <i className="fas fa-microchip text-[1.3rem]"></i>
-              <span className="text-[9px] font-black uppercase tracking-wider">Innovación</span>
-            </button>
-          </nav >
-        </div >
-      );
-    };
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
-  <script type="text/javascript">
-    (function(d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        v.onload = function() {
-          window.voiceflow.chat.load({
-            verify: { projectID: '69c08d57a25a54e79a7e95c0' },
-            url: 'https://general-runtime.voiceflow.com',
-            versionID: 'production',
-            voice: { url: "https://runtime-api.voiceflow.com" },
-            assistant: {
-              stylesheet: `
-                .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
-                @media (max-width: 767px) {
-                  .vfrc-chat-window { 
-                    bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                    width: 100% !important; height: 100% !important; border-radius: 0 !important; 
-                    z-index: 10001 !important;
+    <!-- Script de Voiceflow Original Restaurado -->
+    <script type="text/javascript">
+      (function(d, t) {
+          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+          v.onload = function() {
+            window.voiceflow.chat.load({
+              verify: { projectID: '69c08d57a25a54e79a7e95c0' },
+              url: 'https://general-runtime.voiceflow.com',
+              versionID: 'production',
+              voice: { url: "https://runtime-api.voiceflow.com" },
+              assistant: {
+                stylesheet: `
+                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
+                  @media (max-width: 767px) {
+                    .vfrc-chat-window { 
+                      bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                      width: 100% !important; height: 100% !important; border-radius: 0 !important; 
+                      z-index: 10001 !important;
+                    }
                   }
-                }
-              `
-            }
-          });
-          const hideInputBar = () => {
-            const vfWidget = document.querySelector('#voiceflow-chat');
-            if (vfWidget && vfWidget.shadowRoot) {
-              const style = document.createElement('style');
-              style.textContent = '.vfrc-footer { display: none !important; } .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }';
-              vfWidget.shadowRoot.appendChild(style);
-            } else {
-              setTimeout(hideInputBar, 300);
-            }
-          };
-          hideInputBar();
-        }
-        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-    })(document, 'script');
-  </script>
+                `
+              }
+            });
+            const hideInputBar = () => {
+              const vfWidget = document.querySelector('#voiceflow-chat');
+              if (vfWidget && vfWidget.shadowRoot) {
+                const style = document.createElement('style');
+                style.textContent = '.vfrc-footer { display: none !important; } .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }';
+                vfWidget.shadowRoot.appendChild(style);
+              } else {
+                setTimeout(hideInputBar, 300);
+              }
+            };
+            hideInputBar();
+          }
+          v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+      })(document, 'script');
+    </script>
+  
+    <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
+    <div id="custom-ia-btn" onclick="window.voiceflow?.chat?.open()" 
+         style="position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; z-index: 10000; cursor: pointer; border: 2px solid #020617; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);"
+         class="md:hidden no-print">
+      <i class="fas fa-comment" style="color: #020617; font-size: 26px;"></i>
+      <span style="position: absolute; color: #ffffff; font-size: 8px; font-weight: 900; transform: translateY(-1px); pointer-events: none;">IA</span>
+    </div>
 
-  <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
-  <div id="custom-ia-btn" onclick="window.voiceflow?.chat?.open()" 
-       style="position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; z-index: 10000; cursor: pointer; border: 2px solid #020617; box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);"
-       class="md:hidden no-print">
-    <i class="fas fa-comment" style="color: #020617; font-size: 26px;"></i>
-    <span style="position: absolute; color: #ffffff; font-size: 8px; font-weight: 900; transform: translateY(-1px); pointer-events: none;">IA</span>
-  </div>
+    <!-- Script de Tabs para Móvil (Reemplazo de React) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = ['perfil', 'experiencia', 'innovacion'];
+            
+            // Localizar botones de navegación móvil (están en el <nav> al final de #root)
+            const mobileNav = document.querySelector('nav.md\\:hidden');
+            if (!mobileNav) return;
+            
+            const tabButtons = Array.from(mobileNav.querySelectorAll('button'));
+            
+            const sections = {
+                perfil: document.getElementById('content-perfil'),
+                experiencia: document.getElementById('content-experiencia'),
+                innovacion: document.getElementById('content-innovacion')
+            };
+
+            tabButtons.forEach((btn, index) => {
+                const targetTab = tabs[index];
+                
+                btn.addEventListener('click', () => {
+                    // Update active tab logic
+                    tabs.forEach(t => {
+                        const section = sections[t];
+                        if (section) {
+                            if (t === targetTab) {
+                                // Mostrar sección
+                                if (t === 'perfil') {
+                                    section.classList.remove('hidden');
+                                    section.classList.add('block');
+                                } else {
+                                    section.classList.remove('hidden', 'md:block');
+                                    section.classList.add('block');
+                                }
+                            } else {
+                                // Ocultar sección (mantener md:block para desktop)
+                                if (t === 'perfil') {
+                                    section.classList.remove('block');
+                                    section.classList.add('hidden');
+                                } else {
+                                    section.classList.remove('block');
+                                    section.classList.add('hidden', 'md:block');
+                                }
+                            }
+                        }
+                    });
+
+                    // Update button styles
+                    tabButtons.forEach((b, i) => {
+                        if (i === index) {
+                            b.classList.add('text-amber-500');
+                            b.classList.remove('text-slate-500', 'hover:text-slate-300');
+                        } else {
+                            b.classList.remove('text-amber-500');
+                            b.classList.add('text-slate-500', 'hover:text-slate-300');
+                        }
+                    });
+
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
