@@ -1075,23 +1075,23 @@
                   <div className="carousel-track">
                     {(() => {
                       const appData = [
-                        { file: "Alerta vecinal.png", cat: "Telemetría y Operaciones Geo", name: "Alerta Vecinal" },
-                        { file: "Allimentate.png", cat: "Tecnología de Salud e Inclusión", name: "Allimentate" },
-                        { file: "Allivision.png", cat: "Interfaces de Teleoperación", name: "Allivision" },
-                        { file: "chartless.png", cat: "Tecnología de Salud e Inclusión", name: "Chart Less" },
-                        { file: "Facecut.png", cat: "Asesoría de Modas Computarizada", name: "FaceCut" },
-                        { file: "Georadio.png", cat: "Auditoría de Redes y Medios", name: "GeoRadio" },
-                        { file: "Handracer.png", cat: "Interfaces de Teleoperación", name: "HandRacer" },
-                        { file: "Jardim de historia.png", cat: "Experiencias Narrativas con IA", name: "Jardim de Historia" },
-                        { file: "Kopilot.png", cat: "Sistemas de Gestión Comercial", name: "Kopilot" },
-                        { file: "Linkedinmatic.png", cat: "Minería de Datos y Autopilotos", name: "Linkedinmatic" },
-                        { file: "Moodweather.png", cat: "Tecnología de Salud e Inclusión", name: "MoodWeather" },
-                        { file: "Musichris.png", cat: "Auditoría de Redes y Medios", name: "MusiChris" },
-                        { file: "Restaurant.png", cat: "Sistemas de Gestión Comercial", name: "Restaurante360" },
-                        { file: "Talkme.png", cat: "Ingeniería de Voz y Comunicaciones", name: "Talk.Me" },
-                        { file: "Tara.png", cat: "Asesoría de Modas Computarizada", name: "Style TARA" },
-                        { file: "Vigilante Ai.png", cat: "Agentes Inteligentes de Monitoreo", name: "Vigilante AI" },
-                        { file: "voxmind.png", cat: "Ingeniería de Voz y Comunicaciones", name: "VoxMind AI" }
+                        { file: "Alerta vecinal.jpg", cat: "Telemetría y Operaciones Geo", name: "Alerta Vecinal" },
+                        { file: "Allimentate.jpg", cat: "Tecnología de Salud e Inclusión", name: "Allimentate" },
+                        { file: "Allivision.jpg", cat: "Interfaces de Teleoperación", name: "Allivision" },
+                        { file: "chartless.jpg", cat: "Tecnología de Salud e Inclusión", name: "Chart Less" },
+                        { file: "Facecut.jpg", cat: "Asesoría de Modas Computarizada", name: "FaceCut" },
+                        { file: "Georadio.jpg", cat: "Auditoría de Redes y Medios", name: "GeoRadio" },
+                        { file: "Handracer.jpg", cat: "Interfaces de Teleoperación", name: "HandRacer" },
+                        { file: "Jardim de historia.jpg", cat: "Experiencias Narrativas con IA", name: "Jardim de Historia" },
+                        { file: "Kopilot.jpg", cat: "Sistemas de Gestión Comercial", name: "Kopilot" },
+                        { file: "Linkedinmatic.jpg", cat: "Minería de Datos y Autopilotos", name: "Linkedinmatic" },
+                        { file: "Moodweather.jpg", cat: "Tecnología de Salud e Inclusión", name: "MoodWeather" },
+                        { file: "Musichris.jpg", cat: "Auditoría de Redes y Medios", name: "MusiChris" },
+                        { file: "Restaurant.jpg", cat: "Sistemas de Gestión Comercial", name: "Restaurante360" },
+                        { file: "Talkme.jpg", cat: "Ingeniería de Voz y Comunicaciones", name: "Talk.Me" },
+                        { file: "Tara.jpg", cat: "Asesoría de Modas Computarizada", name: "Style TARA" },
+                        { file: "Vigilante Ai.jpg", cat: "Agentes Inteligentes de Monitoreo", name: "Vigilante AI" },
+                        { file: "voxmind.jpg", cat: "Ingeniería de Voz y Comunicaciones", name: "VoxMind AI" }
                       ];
                       
                       const allApps = [...appData, ...appData]; // Double for seamless loop
@@ -1101,7 +1101,7 @@
                           <div className="frame-indicator">
                             <span className="cat-label">{app.cat}</span>
                           </div>
-                          <img src={`fotogramas/fotogramas_hjal/${app.file.replace(/ /g, '%20')}`} alt={app.name} className="frame-img" />
+                          <img src={`fotogramas/fotogramas_hjal/optimized/${app.file.replace(/ /g, '%20')}`} alt={app.name} className="frame-img" loading="lazy" />
                           <div className="frame-name">{app.name}</div>
                         </div>
                       ));
