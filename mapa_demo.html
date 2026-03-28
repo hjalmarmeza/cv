@@ -505,6 +505,22 @@
             .impact-legend { 
                 width: 100%;
             }
+
+            /* Nodos reducidos para evitar desbordamiento en celular */
+            .marker {
+                width: 7px;
+                height: 7px;
+            }
+            .marker::after {
+                inset: -2px;
+                border-width: 1px;
+                animation: markerPulseMobile 2s infinite;
+            }
+        }
+
+        @keyframes markerPulseMobile {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(3.5); opacity: 0; }
         }
 
     </style>
