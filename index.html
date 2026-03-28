@@ -405,7 +405,8 @@ const ExperienceItem = ({
   company,
   location,
   items,
-  isLast
+  isLast,
+  customButton
 }) => /*#__PURE__*/React.createElement("div", {
   className: `relative pl-8 experience-item ${isLast ? '' : 'border-l border-slate-800 pb-10'}`
 }, /*#__PURE__*/React.createElement("div", {
@@ -414,9 +415,11 @@ const ExperienceItem = ({
   className: "flex flex-col md:flex-row md:justify-between md:items-start mb-2 gap-1"
 }, /*#__PURE__*/React.createElement("h3", {
   className: "text-lg font-bold text-white uppercase tracking-tight leading-tight"
-}, title), /*#__PURE__*/React.createElement("span", {
-  className: "text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge"
-}, period)), /*#__PURE__*/React.createElement("div", {
+}, title), /*#__PURE__*/React.createElement("div", {
+  className: "flex flex-col md:items-end items-start gap-1 mt-2 md:mt-0 shrink-0"
+}, /*#__PURE__*/React.createElement("span", {
+  className: "text-xs font-mono text-amber-500/70 bg-amber-500/5 px-2 py-1 rounded border border-amber-500/10 whitespace-nowrap period-badge w-fit"
+}, period), customButton)), /*#__PURE__*/React.createElement("div", {
   className: "text-slate-400 text-sm font-semibold mb-4 company-info"
 }, company, " | ", location), /*#__PURE__*/React.createElement("ul", {
   className: "space-y-3 experience-list"
@@ -756,7 +759,15 @@ const App = () => {
     company: "Telef\xF3nica",
     location: "Lima, Per\xFA",
     isLast: true,
-    items: ["Dirección estratégica de 52 Centros de Atención gestionando ~600.000 clientes mensuales.", "Ahorro de 110.000 € liderando el proyecto de remodelación y modernización integral de tiendas de atención y venta.", "Reducción del 15% en la carga de atención física presencial mediante virtualización estratégica."]
+    customButton: /*#__PURE__*/React.createElement("a", {
+      href: "mapa_demo.html",
+      className: "inline-flex items-center justify-center gap-1.5 px-3 py-1 mt-1 text-[10px] font-bold text-white uppercase tracking-widest bg-slate-800/80 border border-slate-700 hover:border-amber-500 hover:text-amber-500 rounded-lg transition-all shadow-[0_4px_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_12px_rgba(245,158,11,0.25)] no-print",
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-map-marked-alt text-amber-500"
+    }), " MAPA"),
+    items: ["Dirección estratégica de 52 Centros de Atención gestionando ~160.000 clientes mensuales.", "Ahorro de 110.000 € liderando el proyecto de remodelación y modernización integral de tiendas de atención y venta.", "Reducción del 15% en la carga de atención física presencial mediante virtualización estratégica."]
   }))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 pt-12 border-t border-slate-800/50 no-print"
   }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h3", {
