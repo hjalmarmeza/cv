@@ -1783,6 +1783,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               
               // Flag global para permitir el despliegue inicial
               const isOpening = window.isChatOpening;
+              const CACHE_NAME = 'cv-v8.3';
               const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
               
               if (isChatOpen) {
@@ -1831,14 +1832,49 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             observer.observe(vfHost.shadowRoot, { childList: true, subtree: true });
           };
 
+          // Definir openChat en el ámbito global (window) - EARLY LOADING
+          window.isChatOpening = false;
+          window.openChat = function() {
+            if (window.voiceflow && window.voiceflow.chat) {
+              try {
+                window.isChatOpening = true;
+                const vfHost = document.querySelector('#voiceflow-chat');
+                if (vfHost) {
+                  // Expansión visual inmediata del host
+                  vfHost.style.display = 'block';
+                  vfHost.style.width = '100vw';
+                  vfHost.style.height = '100dvh';
+                  vfHost.style.pointerEvents = 'auto';
+                  vfHost.style.zIndex = '99999999';
+                  vfHost.style.opacity = '1';
+                  
+                  setTimeout(() => {
+                    window.voiceflow.chat.open();
+                    if (vfHost.shadowRoot) {
+                      const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
+                      if (l) l.click();
+                    }
+                  }, 150);
+                }
+                setTimeout(() => { window.isChatOpening = false; }, 4000);
+              } catch(e) {
+                console.warn("Falla en apertura IA:", e);
+                window.isChatOpening = false;
+              }
+            } else {
+              // Si no ha cargado el script remoto, se reintenta (Resiliencia Mobile)
+              setTimeout(window.openChat, 400);
+            }
+          };
+
           const findVF = () => {
             const vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost && vfHost.shadowRoot) {
               setupObserver(vfHost);
-              // Forzar primer ciclo
               vfHost.style.position = 'fixed';
               vfHost.style.bottom = '0';
               vfHost.style.right = '0';
+              console.log("IA Engine Ready (v8.3)");
             } else {
               setTimeout(findVF, 500);
             }
@@ -1919,46 +1955,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
     </div>
   </div>
 
-  <script>
-    // Flag global para controlar el estado de apertura
-    window.isChatOpening = false;
-    
-    // Función de apertura global infalible para el botón IA
-    window.openChat = function() {
-      if (window.voiceflow && window.voiceflow.chat) {
-        try {
-          window.isChatOpening = true;
-          var vfHost = document.querySelector('#voiceflow-chat');
-          if (vfHost) {
-            // Forzar visibilidad y expansión del contenedor de Voiceflow
-            vfHost.style.display = 'block';
-            vfHost.style.width = '100vw';
-            vfHost.style.height = '100dvh';
-            vfHost.style.pointerEvents = 'auto';
-            vfHost.style.zIndex = '99999999';
-            vfHost.style.opacity = '1';
-            
-            setTimeout(function() {
-              window.voiceflow.chat.open();
-              // Respaldo por click sintético en el launcher original (si existe)
-              if (vfHost.shadowRoot) {
-                var l = vfHost.shadowRoot.querySelector('.vfrc-launcher');
-                if (l) l.click();
-              }
-            }, 100);
-          }
-          // Resetear flag tras un tiempo prudencial
-          setTimeout(function() { window.isChatOpening = false; }, 4000);
-        } catch(e) {
-          console.warn("Falla en apertura del chat:", e);
-          window.isChatOpening = false;
-        }
-      } else {
-        // Reintentar si Voiceflow aún no ha cargado sus recursos
-        setTimeout(window.openChat, 300);
-      }
-    };
-  </script>
+
 
   <script>
     if ('serviceWorker' in navigator) {
