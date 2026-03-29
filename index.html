@@ -1853,23 +1853,30 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #custom-ia-btn {
       position: fixed;
-      bottom: 120px; /* Elevado para NO tapar la pestaña Innovación */
-      right: 25px;
-      width: 70px;
-      height: 70px;
+      bottom: 85px; /* Altura optimizada para móvil */
+      right: 20px;
+      width: 52px; /* Tamaño reducido y más estilizado */
+      height: 52px;
       background: #f59e0b;
-      border-radius: 20px;
+      border-radius: 14px; /* Proporción ajustada al tamaño */
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2147483647;
       cursor: pointer;
-      border: 3px solid #020617;
-      box-shadow: 0 0 35px rgba(245, 158, 11, 0.4), 0 10px 30px rgba(0,0,0,0.5);
+      border: 2px solid #020617;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 5px 15px rgba(0,0,0,0.4);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       pointer-events: auto !important;
+    }
+    /* Reposicionamiento para PC */
+    @media (min-width: 1024px) {
+      #custom-ia-btn {
+        bottom: 30px;
+        right: 30px;
+      }
     }
     #custom-ia-btn .ia-icon-wrapper {
       position: relative;
@@ -1879,19 +1886,18 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       color: #020617;
     }
     #custom-ia-btn .ia-bubble {
-      font-size: 42px; /* Burbuja de mensaje estilizada */
+      font-size: 32px; /* Tamaño del icono escalado */
     }
     #custom-ia-btn .ia-text {
       position: absolute;
-      top: 41%; /* Ajuste fino de centrado */
+      top: 41%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 13px;
-      font-weight: 800;
-      color: #f59e0b; /* Letras naranja-amarillas dentro de la burbuja negra */
+      font-size: 10px; /* Letras más pequeñas y elegantes */
+      font-weight: 900;
+      color: #f59e0b;
       font-family: 'Inter', sans-serif;
-      letter-spacing: -0.5px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      letter-spacing: -0.2px;
     }
     /* El botón ahora es visible en TODAS las plataformas para consistencia visual */
     #custom-ia-btn:active {
