@@ -1814,28 +1814,37 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       position: fixed;
       bottom: 85px;
       right: 20px;
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       background: #f59e0b;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20000;
+      z-index: 99999;
       cursor: pointer;
       border: 2px solid #020617;
-      box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease, opacity 0.3s ease;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      pointer-events: auto !important;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    /* Ocultar en desktop con media query nativa (no depende de Tailwind) */
+    @media (min-width: 768px) {
+      #custom-ia-btn {
+        display: none !important;
+      }
     }
     #custom-ia-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.88) !important;
       background: #d97706;
     }
     #custom-ia-btn i {
       color: #1e293b;
-      font-size: 26px;
+      font-size: 24px;
       pointer-events: none;
     }
     #custom-ia-btn span {
@@ -1843,31 +1852,44 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       color: #ffffff;
       font-size: 8px;
       font-weight: 900;
-      transform: translateY(-1px);
+      bottom: 5px;
+      right: 5px;
       pointer-events: none;
+      line-height: 1;
     }
   </style>
-  <div id="custom-ia-btn" class="md:hidden no-print">
-    <i class="fas fa-comment"></i>
+  <div id="custom-ia-btn" class="no-print">
+    <i class="fas fa-comment-dots"></i>
     <span>IA</span>
   </div>
 
   <script>
-    document.getElementById('custom-ia-btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (window.voiceflow && window.voiceflow.chat) {
-        window.voiceflow.chat.open();
+    (function() {
+      var btn = document.getElementById('custom-ia-btn');
+      if (!btn) return;
+
+      function openChat() {
+        if (window.voiceflow && window.voiceflow.chat) {
+          window.voiceflow.chat.open();
+        } else {
+          // Reintenta si Voiceflow aun no carge
+          setTimeout(openChat, 500);
+        }
       }
-    });
 
-    document.getElementById('custom-ia-btn').addEventListener('touchstart', function(e) {
-      this.style.transform = 'scale(0.9)';
-    }, {passive: true});
+      // touchend: mas rapido y confiable en iOS/Android que click
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        openChat();
+      }, {passive: false});
 
-    document.getElementById('custom-ia-btn').addEventListener('touchend', function(e) {
-      this.style.transform = 'scale(1)';
-    }, {passive: true});
+      // click: fallback para desktop o navegadores sin touch
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openChat();
+      });
+    })();
   </script>
 
   <script>
