@@ -1779,8 +1779,19 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               if (!btn || !vfHost.shadowRoot) return;
 
               // Check por presencia de elementos de chat abierto (Header o Ventana de Chat visible)
-              // Ignoramos mensajes individuales porque pueden ser proactivos ocultos
-              const isChatOpen = !!vfHost.shadowRoot.querySelector('.vfrc-header, .vfrc-chat-window');
+              // Validamos opacidad para evitar falsos positivos al inicio de carga
+              const header = vfHost.shadowRoot.querySelector('.vfrc-header');
+              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
+              
+              // El chat se considera abierto solo si el header existe y no es transparente
+              let isChatOpen = false;
+              if (header) {
+                const style = window.getComputedStyle(header);
+                isChatOpen = style.opacity !== '0' && style.display !== 'none';
+              } else if (chatWindow) {
+                const style = window.getComputedStyle(chatWindow);
+                isChatOpen = style.opacity !== '0' && style.display !== 'none';
+              }
               
               if (isChatOpen) {
                 btn.style.opacity = '0';
