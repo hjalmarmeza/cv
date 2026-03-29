@@ -1778,27 +1778,19 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               const btn = document.getElementById('custom-ia-btn');
               if (!btn || !vfHost.shadowRoot) return;
 
-              // Check por presencia de elementos de chat abierto (Header o Ventana de Chat visible)
-              // Validamos opacidad para evitar falsos positivos al inicio de carga
-              const header = vfHost.shadowRoot.querySelector('.vfrc-header');
+              // Detección Robusta por Altura (Antigravity v8.3)
               const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
               
-              // El chat se considera abierto solo si el header existe y no es transparente
-              let isChatOpen = false;
-              if (header) {
-                const style = window.getComputedStyle(header);
-                isChatOpen = style.opacity !== '0' && style.display !== 'none';
-              } else if (chatWindow) {
-                const style = window.getComputedStyle(chatWindow);
-                isChatOpen = style.opacity !== '0' && style.display !== 'none';
-              }
+              // El chat se considera abierto si existe y tiene una altura mayor a 50px
+              // Esto evita falsos positivos de elementos transparentes o minimizados
+              const isChatOpen = chatWindow && chatWindow.offsetHeight > 50;
               
               if (isChatOpen) {
                 btn.style.opacity = '0';
                 btn.style.transform = 'scale(0)';
                 btn.style.pointerEvents = 'none';
                 
-                // Capa de bloqueo solo si el chat está abierto
+                // Modo Pantalla Completa Activo (Host expandido)
                 vfHost.style.pointerEvents = 'auto';
                 vfHost.style.width = '100vw';
                 vfHost.style.height = '100dvh';
@@ -1808,7 +1800,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 btn.style.transform = 'scale(1)';
                 btn.style.pointerEvents = 'auto';
                 
-                // HOST MINIMIZADO AL MÁXIMO (0px) para no interceptar clics en pestañas
+                // Modo Reposo (Host minimizado para no bloquear la web)
                 vfHost.style.pointerEvents = 'none';
                 vfHost.style.width = '0px';
                 vfHost.style.height = '0px';
@@ -1881,12 +1873,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       user-select: none;
       -webkit-user-select: none;
     }
-    /* Ocultar en desktop con media query nativa (no depende de Tailwind) */
-    @media (min-width: 768px) {
-      #custom-ia-btn {
-        display: none !important;
-      }
-    }
+    /* El botón ahora es visible en TODAS las plataformas para consistencia visual */
     #custom-ia-btn:active {
       transform: scale(0.88) !important;
       background: #d97706;
