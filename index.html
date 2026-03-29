@@ -1209,6 +1209,13 @@ const App = () => {
                       position: relative;
                       z-index: 10;
                     }
+                    #voiceflow-chat {
+                      position: fixed !important;
+                      display: block !important;
+                      opacity: 1 !important;
+                      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                      /* El posicionamiento dinámico se gestiona vía findVF() en JS v8.5 */
+                    }
                     /* ELIMINADO: Ya no se detiene al pasar el mouse */
                     .frame-container {
                       width: 250px;
@@ -1235,7 +1242,7 @@ const App = () => {
                       cursor: pointer;
                     }
                     .frame-container:hover .frame-img {
-                      filter: saturate(1.1) drop-shadow(0 15px 30px rgba(245, 158, 11, 0.25));
+                      filter: saturate(1.1) drop-shadow(0 15px 30px rgba(245,158,11,0.25));
                       transform: translateY(-8px) scale(1.05);
                     }
                     .frame-indicator {
@@ -1769,214 +1776,107 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             }
           });
 
-          // Protocolo Antigravity v8.3 - Shadow DOM Watcher
+          // Protocolo Antigravity v8.5 - Master Safari-Fix
           let observer = null;
           const setupObserver = (vfHost) => {
             if (observer) observer.disconnect();
-            
             observer = new MutationObserver(() => {
-              const btn = document.getElementById('custom-ia-btn');
-              if (!btn || !vfHost.shadowRoot) return;
+              if (!vfHost.shadowRoot) return;
+              
+              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-widget--chat');
+              const isChatOpen = chatWindow && chatWindow.offsetHeight > 100;
 
-              // Detección Robusta por Altura (Antigravity v8.3)
-              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
-              
-              // Flag global para permitir el despliegue inicial
-              const isOpening = window.isChatOpening;
-              const CACHE_NAME = 'cv-v8.3';
-              const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
-              
               if (isChatOpen) {
-                btn.style.opacity = '0';
-                btn.style.transform = 'scale(0)';
-                btn.style.pointerEvents = 'none';
-                
-                // Modo Pantalla Completa Activo (Host expandido)
-                vfHost.style.pointerEvents = 'auto';
+                // MODO CHAT ABIERTO: Expansión total
                 vfHost.style.width = '100vw';
                 vfHost.style.height = '100dvh';
+                vfHost.style.bottom = '0';
+                vfHost.style.right = '0';
                 vfHost.style.zIndex = '99999999';
               } else {
-                btn.style.opacity = '1';
-                btn.style.transform = 'scale(1)';
-                btn.style.pointerEvents = 'auto';
-                
-                // Modo Reposo (Host minimizado para no bloquear la web)
-                vfHost.style.pointerEvents = 'none';
-                vfHost.style.width = '0px';
-                vfHost.style.height = '0px';
-                vfHost.style.zIndex = '-1';
-                vfHost.style.overflow = 'hidden';
+                // MODO BOTÓN: Posicionamiento preciso
+                vfHost.style.width = '52px';
+                vfHost.style.height = '52px';
+                if (window.innerWidth <= 768) {
+                  vfHost.style.bottom = '85px';
+                  vfHost.style.right = '20px';
+                } else {
+                  vfHost.style.bottom = '155px';
+                  vfHost.style.right = '45px';
+                }
+                vfHost.style.zIndex = '2147483647';
               }
 
-              // Inyectar estilos internos si no están (Resilencia)
+              // Inyección de estética Hjalmar en el botón nativo de Voiceflow
               if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
                 const style = document.createElement('style');
                 style.id = 'ag-vf-styles';
-                style.textContent = `
-                  .vfrc-footer { display: none !important; }
-                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
-                  @media (max-width: 767px) {
-                    .vfrc-widget, .vfrc-chat-window {
-                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
-                       max-height: 100dvh !important;
-                       z-index: 10001 !important;
+                style.innerHTML = `
+                  .vfrc-launcher {
+                    background-color: #f59e0b !important;
+                    border: 2px solid #020617 !important;
+                    border-radius: 14px !important;
+                    width: 52px !important;
+                    height: 52px !important;
+                    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4) !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    right: 0 !important;
+                    bottom: 0 !important;
+                  }
+                  .vfrc-launcher svg { display: none !important; }
+                  .vfrc-launcher::after {
+                    content: "IA";
+                    font-family: 'Inter', sans-serif !important;
+                    font-weight: 900 !important;
+                    color: #020617 !important;
+                    font-size: 14px !important;
+                  }
+                  /* Ajustes móviles para que el chat use toda la pantalla real */
+                  @media (max-width: 768px) {
+                    .vfrc-widget--chat {
+                      width: 100vw !important;
+                      height: 100dvh !important;
+                      right: 0 !important;
+                      bottom: 0 !important;
+                      border-radius: 0 !important;
                     }
                   }
                 `;
                 vfHost.shadowRoot.appendChild(style);
               }
             });
-
             observer.observe(vfHost.shadowRoot, { childList: true, subtree: true });
           };
 
-          // Definir openChat en el ámbito global (window) - EARLY LOADING
-          window.isChatOpening = false;
-          window.openChat = function() {
-            if (window.voiceflow && window.voiceflow.chat) {
-              try {
-                window.isChatOpening = true;
-                const vfHost = document.querySelector('#voiceflow-chat');
-                if (vfHost) {
-                  // Apertura inmediata (v8.4 - Sin retardo para contexto táctil)
-                  window.voiceflow.chat.open();
-                  
-                  // Expansión visual forzada del host
-                  vfHost.style.display = 'block';
-                  vfHost.style.width = '100vw';
-                  vfHost.style.height = '100dvh';
-                  vfHost.style.pointerEvents = 'auto';
-                  vfHost.style.zIndex = '99999999';
-                  vfHost.style.opacity = '1';
-                  
-                  // Respaldo de click sólo si el shadowRoot ya está listo
-                  if (vfHost.shadowRoot) {
-                    const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
-                    if (l) l.click();
-                  }
-                }
-                setTimeout(() => { window.isChatOpening = false; }, 4000);
-              } catch(e) {
-                console.warn("Falla en apertura IA:", e);
-                window.isChatOpening = false;
-              }
-            } else {
-              setTimeout(window.openChat, 400);
-            }
-          };
-
-          // Vincular eventos táctiles nativos para mayor fidelidad (v8.4)
-          const bindIAEvents = () => {
-            const btn = document.getElementById('custom-ia-btn');
-            if (btn) {
-              const trigger = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.openChat();
-              };
-              btn.addEventListener('touchstart', trigger, { passive: false });
-              btn.addEventListener('click', trigger);
-              console.log("IA Events Bound (v8.4 Native)");
-            } else {
-              setTimeout(bindIAEvents, 500);
-            }
-          };
-          bindIAEvents();
-
-          const findVF = () => {
+          const checkVF = () => {
             const vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost && vfHost.shadowRoot) {
               setupObserver(vfHost);
-              vfHost.style.position = 'fixed';
-              vfHost.style.bottom = '0';
-              vfHost.style.right = '0';
-              console.log("IA Engine Ready (v8.3)");
             } else {
-              setTimeout(findVF, 500);
+              setTimeout(checkVF, 500);
             }
           };
-          findVF();
+          checkVF();
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
   </script>
 
-  <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
   <style>
-    #custom-ia-btn {
-      position: fixed;
-      bottom: 85px; /* Altura optimizada para móvil */
+    #voiceflow-chat {
+      position: fixed !important;
+      bottom: 85px;
       right: 20px;
-      width: 52px; /* Tamaño reducido y más estilizado */
+      width: 52px;
       height: 52px;
-      background: #f59e0b;
-      border-radius: 14px; /* Proporción ajustada al tamaño */
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 2147483647;
-      cursor: pointer;
-      border: 2px solid #020617;
-      padding: 0; /* Corrección para tag <button> */
-      margin: 0;
-      outline: none;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 5px 15px rgba(0,0,0,0.4);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      pointer-events: auto !important;
-    }
-    /* Reposicionamiento para PC (Encima del campo Infraestructura) */
-    @media (min-width: 1024px) {
-      #custom-ia-btn {
-        bottom: 155px; /* Altura ideal para quedar sobre el campo Infraestructura */
-        right: 45px;   /* Alineado con la última tarjeta del grid */
-        width: 48px;
-        height: 48px;
-        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
-      }
-    }
-    #custom-ia-btn .ia-icon-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #020617;
-    }
-    #custom-ia-btn .ia-bubble {
-      font-size: 32px; /* Tamaño del icono escalado */
-    }
-    #custom-ia-btn .ia-text {
-      position: absolute;
-      top: 41%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 10px; /* Letras más pequeñas y elegantes */
-      font-weight: 900;
-      color: #f59e0b;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: -0.2px;
-    }
-    /* El botón ahora es visible en TODAS las plataformas para consistencia visual */
-    #custom-ia-btn:active {
-      transform: scale(0.88) !important;
-      background: #d97706;
-    }
-    #custom-ia-btn i {
-      color: #020617;
-      pointer-events: none;
+      display: block !important;
+      opacity: 1 !important;
+      transition: all 0.3s ease;
     }
   </style>
-  <button id="custom-ia-btn" class="no-print" aria-label="Abrir asistente IA">
-    <div class="ia-icon-wrapper">
-      <i class="fas fa-comment ia-bubble"></i>
-      <span class="ia-text">IA</span>
-    </div>
-  </button>
-
-
 
   <script>
     if ('serviceWorker' in navigator) {
