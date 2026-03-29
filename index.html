@@ -1769,61 +1769,76 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             }
           });
 
-          let styleInjected = false;
-          const watchState = () => {
-            const vfHost = document.querySelector('#voiceflow-chat');
-            const btn = document.getElementById('custom-ia-btn');
+          // Protocolo Antigravity v8.3 - Shadow DOM Watcher
+          let observer = null;
+          const setupObserver = (vfHost) => {
+            if (observer) observer.disconnect();
+            
+            observer = new MutationObserver(() => {
+              const btn = document.getElementById('custom-ia-btn');
+              if (!btn || !vfHost.shadowRoot) return;
 
-            if (vfHost && vfHost.shadowRoot) {
-              // 1. Inyectar estilos robustamente al Shadow Root (solo una vez)
-              if (!styleInjected) {
+              // Check por presencia de elementos de chat activo
+              const isChatActive = !!vfHost.shadowRoot.querySelector('.vfrc-chat-window, .vfrc-header, .vfrc-message');
+              
+              if (isChatActive) {
+                btn.style.opacity = '0';
+                btn.style.transform = 'scale(0)';
+                btn.style.pointerEvents = 'none';
+                
+                // Asegurar que el host ocupe pantalla pero permita interacción
+                vfHost.style.pointerEvents = 'auto';
+                vfHost.style.width = '100vw';
+                vfHost.style.height = '100dvh';
+                vfHost.style.zIndex = '99999999';
+              } else {
+                btn.style.opacity = '1';
+                btn.style.transform = 'scale(1)';
+                btn.style.pointerEvents = 'auto';
+                
+                // Host minimizado para no bloquear clicks accidentales
+                vfHost.style.pointerEvents = 'none';
+                vfHost.style.width = '1px';
+                vfHost.style.height = '1px';
+                vfHost.style.zIndex = '-1';
+              }
+
+              // Inyectar estilos internos si no están (Resilencia)
+              if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
                 const style = document.createElement('style');
+                style.id = 'ag-vf-styles';
                 style.textContent = `
                   .vfrc-footer { display: none !important; }
                   .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
                   @media (max-width: 767px) {
-                    .vfrc-widget {
+                    .vfrc-widget, .vfrc-chat-window {
                        bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
                        width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
-                    }
-                    .vfrc-chat-window { 
-                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important; 
                        max-height: 100dvh !important;
+                       z-index: 10001 !important;
                     }
                   }
                 `;
                 vfHost.shadowRoot.appendChild(style);
-                styleInjected = true;
               }
+            });
 
-              // 2. Proteger al host en el DOM global contra solapamiento de React
+            observer.observe(vfHost.shadowRoot, { childList: true, subtree: true });
+          };
+
+          const findVF = () => {
+            const vfHost = document.querySelector('#voiceflow-chat');
+            if (vfHost && vfHost.shadowRoot) {
+              setupObserver(vfHost);
+              // Forzar primer ciclo
               vfHost.style.position = 'fixed';
-              vfHost.style.zIndex = '999999';
               vfHost.style.bottom = '0';
               vfHost.style.right = '0';
-
-              // 3. Monitorizar el estado de apertura/cierre detectando el Header
-              if (btn) {
-                const header = vfHost.shadowRoot.querySelector('.vfrc-header');
-                const widgetWindow = vfHost.shadowRoot.querySelector('.vfrc-widget');
-                
-                // Voiceflow añade o elimina el nodo, usamos esto como bandera
-                if (header || widgetWindow) {
-                  // Está Abierto -> Ocultar nuestra burbuja
-                  btn.style.transform = 'scale(0)';
-                  btn.style.opacity = '0';
-                  btn.style.pointerEvents = 'none';
-                } else {
-                  // Está Cerrado -> Mostrar nuestra burbuja
-                  btn.style.transform = 'scale(1)';
-                  btn.style.opacity = '1';
-                  btn.style.pointerEvents = 'auto';
-                }
-              }
+            } else {
+              setTimeout(findVF, 500);
             }
           };
-          setInterval(watchState, 200);
+          findVF();
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
@@ -1833,20 +1848,20 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #custom-ia-btn {
       position: fixed;
-      bottom: 85px;
-      right: 20px;
-      width: 52px;
-      height: 52px;
+      bottom: 105px; /* Subido 20px para evitar barra de Safary/Android */
+      right: 15px;
+      width: 58px; /* Ligeramente más grande para mejor zona de toque */
+      height: 58px;
       background: #f59e0b;
-      border-radius: 14px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 99999;
+      z-index: 2147483647; /* Máximo z-index posible en browsers */
       cursor: pointer;
-      border: 2px solid #020617;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 4px 15px rgba(0,0,0,0.4);
-      transition: transform 0.2s ease, opacity 0.3s ease;
+      border: 3px solid #020617;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.7), 0 8px 30px rgba(0,0,0,0.6);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       pointer-events: auto !important;
@@ -1889,26 +1904,30 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       var btn = document.getElementById('custom-ia-btn');
       if (!btn) return;
 
-      function openChat(retries) {
-        retries = retries || 0;
-        try {
-          if (window.voiceflow && window.voiceflow.chat) {
-            if (typeof window.voiceflow.chat.open === 'function') {
-              window.voiceflow.chat.open();
-            }
-            // Fallback robusto al botón original dentro del shadow DOM
+      function openChat() {
+        if (window.voiceflow && window.voiceflow.chat) {
+          try {
+            // Método Primario
+            window.voiceflow.chat.open();
+            
+            // Método Secundario (Si el widget-next tiene delay en el DOM)
             var vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost && vfHost.shadowRoot) {
-              var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
-              if (launcher) launcher.click();
+              var mainLauncher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
+              if (mainLauncher) mainLauncher.click();
+              
+              // Si el chat ya está en el DOM pero oculto por el host minimizado
+              vfHost.style.width = '100vw';
+              vfHost.style.height = '100dvh';
+              vfHost.style.pointerEvents = 'auto';
+              vfHost.style.zIndex = '99999999';
             }
+          } catch(e) {
+            console.warn("Falla en apertura de Voiceflow", e);
           }
-        } catch (e) {
-          console.error("No se pudo iniciar chat", e);
-        }
-
-        if (retries < 10 && (!window.voiceflow || !window.voiceflow.chat)) {
-          setTimeout(function() { openChat(retries + 1); }, 500);
+        } else {
+          // Reintento recursivo si click antes de carga
+          setTimeout(openChat, 300);
         }
       }
 
