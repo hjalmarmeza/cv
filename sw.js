@@ -1,4 +1,5 @@
-const CACHE_NAME = 'cv-master-v9.0';
+// Service Worker v9.1 - Refactor Máster (Pestañas + Persistencia IA)
+const CACHE_NAME = 'cv-master-v9.1';
 const urlsToCache = [
   './',
   './index.html',

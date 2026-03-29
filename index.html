@@ -813,7 +813,7 @@ const App = () => {
   }, "Espa\xF1ol"), /*#__PURE__*/React.createElement("div", {
     className: "text-amber-500/80 text-[10px] md:text-[11px] font-bold mt-1.5 uppercase"
   }, "Nativo")), /*#__PURE__*/React.createElement("div", {
-    className: "relative pl-5 border-l-2 border-slate-800"
+className: "relative pl-5 border-l-2 border-slate-800"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-white text-xs md:text-sm font-bold uppercase tracking-tight"
   }, "Ingl\xE9s"), /*#__PURE__*/React.createElement("div", {
@@ -1783,7 +1783,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               
               // Flag global para permitir el despliegue inicial
               const isOpening = window.isChatOpening;
-              const CACHE_NAME = 'cv-v8.3';
+              const CACHE_NAME = 'cv-master-v9.1';
               const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
               
               if (isChatOpen) {
@@ -1797,14 +1797,16 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 vfHost.style.height = '100dvh';
                 vfHost.style.zIndex = '99999999';
               } else {
+                // Restauración Forzada del Botón (Antigravity v8.3 Reforzado)
                 btn.style.opacity = '1';
                 btn.style.transform = 'scale(1)';
                 btn.style.pointerEvents = 'auto';
+                btn.style.visibility = 'visible';
                 
-                // Modo Reposo (Host minimizado para no bloquear la web)
+                // Modo Reposo Mejorado
                 vfHost.style.pointerEvents = 'none';
-                vfHost.style.width = '0px';
-                vfHost.style.height = '0px';
+                vfHost.style.width = '1px';
+                vfHost.style.height = '1px';
                 vfHost.style.zIndex = '-1';
                 vfHost.style.overflow = 'hidden';
               }
