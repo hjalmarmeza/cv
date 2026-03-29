@@ -1786,7 +1786,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             render: { mode: 'overlay' }
           });
 
-          // Protocolo Antigravity v8.7 Master - SKILL FLOW
+          // Protocolo Antigravity v8.8 Master - SKILL FLOW
           let observer = null;
           const setupObserver = (vfHost) => {
             if (observer) observer.disconnect();
@@ -1797,26 +1797,26 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               const isChatOpen = chatWindow && chatWindow.offsetHeight > 100;
 
               if (isChatOpen) {
-                vfHost.style.width = '100vw';
-                vfHost.style.height = '100dvh';
-                vfHost.style.bottom = '0';
-                vfHost.style.right = '0';
-                vfHost.style.zIndex = '99999999';
+                vfHost.style.setProperty('width', '100vw', 'important');
+                vfHost.style.setProperty('height', '100dvh', 'important');
+                vfHost.style.setProperty('bottom', '0', 'important');
+                vfHost.style.setProperty('right', '0', 'important');
+                vfHost.style.setProperty('z-index', '99999999', 'important');
               } else {
-                vfHost.style.width = '52px';
-                vfHost.style.height = '52px';
-                // REUBICACIÓN MÁSTER v8.7: Evitar pestaña INNOVACION
+                vfHost.style.setProperty('width', '52px', 'important');
+                vfHost.style.setProperty('height', '52px', 'important');
+                // ELEVACIÓN RADICAL v8.8: 180px para liberar Innovación
                 if (window.innerWidth <= 768) {
-                  vfHost.style.bottom = '135px';
-                  vfHost.style.right = '20px';
+                  vfHost.style.setProperty('bottom', '180px', 'important');
+                  vfHost.style.setProperty('right', '20px', 'important');
                 } else {
-                  vfHost.style.bottom = '155px';
-                  vfHost.style.right = '45px';
+                  vfHost.style.setProperty('bottom', '155px', 'important');
+                  vfHost.style.setProperty('right', '45px', 'important');
                 }
-                vfHost.style.zIndex = '2147483647';
+                vfHost.style.setProperty('z-index', '2147483647', 'important');
               }
 
-              // Estética Prémium de Hjalmar v8.7 (SKILL FLOW)
+              // Estética Prémium de Hjalmar v8.8 (SKILL FLOW)
               if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
                 const style = document.createElement('style');
                 style.id = 'ag-vf-styles';
@@ -1828,42 +1828,36 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                     width: 52px !important;
                     height: 52px !important;
                     box-shadow: 0 0 20px rgba(245, 158, 11, 0.4) !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
+                    display: grid !important;
+                    place-items: center !important;
                     right: 0 !important;
                     bottom: 0 !important;
                     position: relative !important;
                   }
                   .vfrc-launcher svg { display: none !important; }
                   
-                  /* LA BURBUJA NEGRA (RESTAURACION v8.7) */
+                  /* LA BURBUJA NEGRA (RESTAURACION v8.8) */
                   .vfrc-launcher::before {
                     content: "" !important;
-                    position: absolute !important;
+                    grid-area: 1/1 !important;
                     width: 32px !important;
                     height: 28px !important;
                     background-color: #020617 !important;
                     mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
                     -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
                     z-index: 1 !important;
-                    top: 50% !important;
-                    left: 50% !important;
-                    transform: translate(-50%, -50%) !important;
                   }
                   
-                  /* EL TEXTO IA (RESTAURACION v8.7) */
+                  /* EL TEXTO IA (RESTAURACION v8.8) */
                   .vfrc-launcher::after {
                     content: "IA" !important;
-                    position: absolute !important;
+                    grid-area: 1/1 !important;
                     z-index: 2 !important;
                     font-family: 'Inter', sans-serif !important;
                     font-weight: 900 !important;
                     color: #f59e0b !important;
-                    font-size: 9px !important;
-                    top: 45% !important;
-                    left: 50% !important;
-                    transform: translate(-50%, -50%) !important;
+                    font-size: 8.5px !important;
+                    margin-bottom: 3.5px !important;
                   }
                   
                   @media (max-width: 768px) {
@@ -1899,11 +1893,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #voiceflow-chat {
       position: fixed !important;
-      bottom: 135px;
-      right: 20px;
-      width: 52px;
-      height: 52px;
-      z-index: 2147483647;
+      bottom: 180px !important;
+      right: 20px !important;
+      width: 52px !important;
+      height: 52px !important;
+      z-index: 2147483647 !important;
       display: block !important;
       opacity: 1 !important;
       transition: all 0.3s ease;
@@ -1915,6 +1909,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => {
           console.log('SW Registrado', reg.scope);
+        }).catch(err => console.log('SW Fallo', err));
+      });
+    }
+  </script>
+</body>
+</html>SW Registrado', reg.scope);
         }).catch(err => console.log('SW Fallo', err));
       });
     }
