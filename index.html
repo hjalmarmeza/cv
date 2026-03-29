@@ -1764,6 +1764,9 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
             voice: { url: "https://runtime-api.voiceflow.com" },
+            render: {
+              mode: 'overlay'
+            },
             assistant: {
               stylesheet: `
                 .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
@@ -1867,27 +1870,33 @@ root.render(/*#__PURE__*/React.createElement(App, null));
     (function() {
       var btn = document.getElementById('custom-ia-btn');
       if (!btn) return;
+      var _touching = false;
 
-      function openChat() {
-        if (window.voiceflow && window.voiceflow.chat) {
+      function openChat(retries) {
+        retries = retries || 0;
+        if (window.voiceflow && window.voiceflow.chat && typeof window.voiceflow.chat.open === 'function') {
           window.voiceflow.chat.open();
-        } else {
-          // Reintenta si Voiceflow aun no carge
-          setTimeout(openChat, 500);
+        } else if (retries < 10) {
+          setTimeout(function() { openChat(retries + 1); }, 500);
         }
       }
 
-      // touchend: mas rapido y confiable en iOS/Android que click
+      btn.addEventListener('touchstart', function(e) {
+        _touching = true;
+      }, {passive: true});
+
       btn.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        openChat();
+        if (_touching) {
+          _touching = false;
+          e.preventDefault();
+          openChat();
+        }
       }, {passive: false});
 
-      // click: fallback para desktop o navegadores sin touch
       btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openChat();
+        if (!_touching) {
+          openChat();
+        }
       });
     })();
   </script>
