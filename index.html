@@ -1778,15 +1778,16 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               const btn = document.getElementById('custom-ia-btn');
               if (!btn || !vfHost.shadowRoot) return;
 
-              // Check por presencia de elementos de chat activo
-              const isChatActive = !!vfHost.shadowRoot.querySelector('.vfrc-chat-window, .vfrc-header, .vfrc-message');
+              // Check por presencia de elementos de chat abierto (Header o Ventana de Chat visible)
+              // Ignoramos mensajes individuales porque pueden ser proactivos ocultos
+              const isChatOpen = !!vfHost.shadowRoot.querySelector('.vfrc-header, .vfrc-chat-window');
               
-              if (isChatActive) {
+              if (isChatOpen) {
                 btn.style.opacity = '0';
                 btn.style.transform = 'scale(0)';
                 btn.style.pointerEvents = 'none';
                 
-                // Asegurar que el host ocupe pantalla pero permita interacción
+                // Capa de bloqueo solo si el chat está abierto
                 vfHost.style.pointerEvents = 'auto';
                 vfHost.style.width = '100vw';
                 vfHost.style.height = '100dvh';
@@ -1796,11 +1797,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 btn.style.transform = 'scale(1)';
                 btn.style.pointerEvents = 'auto';
                 
-                // Host minimizado para no bloquear clicks accidentales
+                // HOST MINIMIZADO AL MÁXIMO (0px) para no interceptar clics en pestañas
                 vfHost.style.pointerEvents = 'none';
-                vfHost.style.width = '1px';
-                vfHost.style.height = '1px';
+                vfHost.style.width = '0px';
+                vfHost.style.height = '0px';
                 vfHost.style.zIndex = '-1';
+                vfHost.style.overflow = 'hidden';
               }
 
               // Inyectar estilos internos si no están (Resilencia)
