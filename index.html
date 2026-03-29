@@ -1840,7 +1840,10 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 window.isChatOpening = true;
                 const vfHost = document.querySelector('#voiceflow-chat');
                 if (vfHost) {
-                  // Expansión visual inmediata del host
+                  // Apertura inmediata (v8.4 - Sin retardo para contexto táctil)
+                  window.voiceflow.chat.open();
+                  
+                  // Expansión visual forzada del host
                   vfHost.style.display = 'block';
                   vfHost.style.width = '100vw';
                   vfHost.style.height = '100dvh';
@@ -1848,13 +1851,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                   vfHost.style.zIndex = '99999999';
                   vfHost.style.opacity = '1';
                   
-                  setTimeout(() => {
-                    window.voiceflow.chat.open();
-                    if (vfHost.shadowRoot) {
-                      const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
-                      if (l) l.click();
-                    }
-                  }, 150);
+                  // Respaldo de click sólo si el shadowRoot ya está listo
+                  if (vfHost.shadowRoot) {
+                    const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
+                    if (l) l.click();
+                  }
                 }
                 setTimeout(() => { window.isChatOpening = false; }, 4000);
               } catch(e) {
@@ -1862,10 +1863,27 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 window.isChatOpening = false;
               }
             } else {
-              // Si no ha cargado el script remoto, se reintenta (Resiliencia Mobile)
               setTimeout(window.openChat, 400);
             }
           };
+
+          // Vincular eventos táctiles nativos para mayor fidelidad (v8.4)
+          const bindIAEvents = () => {
+            const btn = document.getElementById('custom-ia-btn');
+            if (btn) {
+              const trigger = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.openChat();
+              };
+              btn.addEventListener('touchstart', trigger, { passive: false });
+              btn.addEventListener('click', trigger);
+              console.log("IA Events Bound (v8.4 Native)");
+            } else {
+              setTimeout(bindIAEvents, 500);
+            }
+          };
+          bindIAEvents();
 
           const findVF = () => {
             const vfHost = document.querySelector('#voiceflow-chat');
@@ -1901,6 +1919,9 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       z-index: 2147483647;
       cursor: pointer;
       border: 2px solid #020617;
+      padding: 0; /* Corrección para tag <button> */
+      margin: 0;
+      outline: none;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 5px 15px rgba(0,0,0,0.4);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -webkit-tap-highlight-color: transparent;
@@ -1948,12 +1969,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       pointer-events: none;
     }
   </style>
-  <div id="custom-ia-btn" class="no-print" onclick="window.openChat()">
+  <button id="custom-ia-btn" class="no-print" aria-label="Abrir asistente IA">
     <div class="ia-icon-wrapper">
       <i class="fas fa-comment ia-bubble"></i>
       <span class="ia-text">IA</span>
     </div>
-  </div>
+  </button>
 
 
 
