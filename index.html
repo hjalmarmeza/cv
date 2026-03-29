@@ -1766,58 +1766,64 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             voice: { url: "https://runtime-api.voiceflow.com" },
             render: {
               mode: 'overlay'
-            },
-            assistant: {
-              stylesheet: `
-                .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
-                @media (max-width: 767px) {
-                  .vfrc-chat-window.vf-opened { 
-                    bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                    width: 100% !important; height: 100% !important; border-radius: 0 !important; 
-                    z-index: 10001 !important;
-                  }
-                }
-              `
             }
           });
-          const hideInputBar = () => {
-            const vfWidget = document.querySelector('#voiceflow-chat');
-            if (vfWidget && vfWidget.shadowRoot) {
-              const style = document.createElement('style');
-              style.textContent = '.vfrc-footer { display: none !important; } .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }';
-              vfWidget.shadowRoot.appendChild(style);
-            } else {
-              setTimeout(hideInputBar, 300);
-            }
-          };
-          hideInputBar();
 
-          window.voiceflow.chat.on('open', () => {
-            const btn = document.getElementById('custom-ia-btn');
-            if(btn) { btn.style.transform = 'scale(0)'; btn.style.opacity = '0'; }
-            // Aplicar clase para pantalla completa en móvil
+          let styleInjected = false;
+          const watchState = () => {
             const vfHost = document.querySelector('#voiceflow-chat');
-            if(vfHost && vfHost.shadowRoot) {
-              const vfWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
-              if(vfWindow) vfWindow.classList.add('vf-opened');
-              
-              // Evitar que otro elemento lo tape
+            const btn = document.getElementById('custom-ia-btn');
+
+            if (vfHost && vfHost.shadowRoot) {
+              // 1. Inyectar estilos robustamente al Shadow Root (solo una vez)
+              if (!styleInjected) {
+                const style = document.createElement('style');
+                style.textContent = `
+                  .vfrc-footer { display: none !important; }
+                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
+                  @media (max-width: 767px) {
+                    .vfrc-widget {
+                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
+                    }
+                    .vfrc-chat-window { 
+                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important; 
+                       max-height: 100dvh !important;
+                    }
+                  }
+                `;
+                vfHost.shadowRoot.appendChild(style);
+                styleInjected = true;
+              }
+
+              // 2. Proteger al host en el DOM global contra solapamiento de React
               vfHost.style.position = 'fixed';
               vfHost.style.zIndex = '999999';
               vfHost.style.bottom = '0';
               vfHost.style.right = '0';
+
+              // 3. Monitorizar el estado de apertura/cierre detectando el Header
+              if (btn) {
+                const header = vfHost.shadowRoot.querySelector('.vfrc-header');
+                const widgetWindow = vfHost.shadowRoot.querySelector('.vfrc-widget');
+                
+                // Voiceflow añade o elimina el nodo, usamos esto como bandera
+                if (header || widgetWindow) {
+                  // Está Abierto -> Ocultar nuestra burbuja
+                  btn.style.transform = 'scale(0)';
+                  btn.style.opacity = '0';
+                  btn.style.pointerEvents = 'none';
+                } else {
+                  // Está Cerrado -> Mostrar nuestra burbuja
+                  btn.style.transform = 'scale(1)';
+                  btn.style.opacity = '1';
+                  btn.style.pointerEvents = 'auto';
+                }
+              }
             }
-          });
-          window.voiceflow.chat.on('close', () => {
-            const btn = document.getElementById('custom-ia-btn');
-            if(btn) { btn.style.transform = 'scale(1)'; btn.style.opacity = '1'; }
-            // Quitar clase
-            const vfHost = document.querySelector('#voiceflow-chat');
-            if(vfHost && vfHost.shadowRoot) {
-              const vfWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
-              if(vfWindow) vfWindow.classList.remove('vf-opened');
-            }
-          });
+          };
+          setInterval(watchState, 200);
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
