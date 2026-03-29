@@ -1871,11 +1871,15 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       touch-action: manipulation;
       pointer-events: auto !important;
     }
-    /* Reposicionamiento para PC */
+    /* Reposicionamiento para PC (Integrado debajo de Carta de Presentación) */
     @media (min-width: 1024px) {
       #custom-ia-btn {
-        bottom: 30px;
-        right: 30px;
+        position: absolute;
+        bottom: -2px; /* Ajustado para alinearse debajo del cuadro de carta de presentación */
+        right: 83px; /* Alineación perfecta con el lateral derecho del contenedor del QR */
+        width: 48px;
+        height: 48px;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
       }
     }
     #custom-ia-btn .ia-icon-wrapper {
@@ -1909,7 +1913,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       pointer-events: none;
     }
   </style>
-  <div id="custom-ia-btn" class="no-print" onclick="openChat()">
+  <div id="custom-ia-btn" class="no-print" onclick="window.openChat()">
     <div class="ia-icon-wrapper">
       <i class="fas fa-comment ia-bubble"></i>
       <span class="ia-text">IA</span>
@@ -1918,17 +1922,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
 
   <script>
     (function() {
-      var btn = document.getElementById('custom-ia-btn');
-      if (!btn) return;
-
-      window.isChatOpening = false;
-      function openChat() {
+      // Definir openChat en el ámbito global (window) para que onclick funcione al 100%
+      window.openChat = function() {
         if (window.voiceflow && window.voiceflow.chat) {
           try {
-            // Flag de expansión inmediata
             window.isChatOpening = true;
             
-            // Forzar visualización de host antes de llamar a .open()
             var vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost) {
               vfHost.style.display = 'block';
@@ -1938,10 +1937,8 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               vfHost.style.zIndex = '99999999';
               vfHost.style.opacity = '1';
               
-              // Pequeño retardo para que el host esté listo en el DOM
               setTimeout(function() {
                 window.voiceflow.chat.open();
-                // Click sintético como respaldo
                 if (vfHost.shadowRoot) {
                   var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
                   if (launcher) launcher.click();
@@ -1950,18 +1947,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             }
             
             setTimeout(function() { window.isChatOpening = false; }, 4000);
-
           } catch(e) {
             console.warn("Falla en apertura", e);
             window.isChatOpening = false;
           }
         } else {
-          setTimeout(openChat, 300);
-        }
-      }
-
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
         e.stopPropagation();
         openChat();
       });
