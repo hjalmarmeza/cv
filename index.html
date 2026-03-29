@@ -1786,7 +1786,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             render: { mode: 'overlay' }
           });
 
-          // Protocolo Antigravity v8.6 Master - SKILL FLOW
+          // Protocolo Antigravity v8.7 Master - SKILL FLOW
           let observer = null;
           const setupObserver = (vfHost) => {
             if (observer) observer.disconnect();
@@ -1805,8 +1805,9 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               } else {
                 vfHost.style.width = '52px';
                 vfHost.style.height = '52px';
+                // REUBICACIÓN MÁSTER v8.7: Evitar pestaña INNOVACION
                 if (window.innerWidth <= 768) {
-                  vfHost.style.bottom = '85px';
+                  vfHost.style.bottom = '135px';
                   vfHost.style.right = '20px';
                 } else {
                   vfHost.style.bottom = '155px';
@@ -1815,7 +1816,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 vfHost.style.zIndex = '2147483647';
               }
 
-              // Estética Prémium de Hjalmar v8.6
+              // Estética Prémium de Hjalmar v8.7 (SKILL FLOW)
               if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
                 const style = document.createElement('style');
                 style.id = 'ag-vf-styles';
@@ -1835,16 +1836,23 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                     position: relative !important;
                   }
                   .vfrc-launcher svg { display: none !important; }
+                  
+                  /* LA BURBUJA NEGRA (RESTAURACION v8.7) */
                   .vfrc-launcher::before {
                     content: "" !important;
                     position: absolute !important;
-                    width: 34px !important;
-                    height: 30px !important;
+                    width: 32px !important;
+                    height: 28px !important;
                     background-color: #020617 !important;
                     mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
                     -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
                     z-index: 1 !important;
+                    top: 50% !important;
+                    left: 50% !important;
+                    transform: translate(-50%, -50%) !important;
                   }
+                  
+                  /* EL TEXTO IA (RESTAURACION v8.7) */
                   .vfrc-launcher::after {
                     content: "IA" !important;
                     position: absolute !important;
@@ -1852,11 +1860,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                     font-family: 'Inter', sans-serif !important;
                     font-weight: 900 !important;
                     color: #f59e0b !important;
-                    font-size: 10px !important;
-                    top: 42% !important;
+                    font-size: 9px !important;
+                    top: 45% !important;
                     left: 50% !important;
                     transform: translate(-50%, -50%) !important;
                   }
+                  
                   @media (max-width: 768px) {
                     .vfrc-widget--chat {
                       width: 100vw !important;
@@ -1890,7 +1899,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #voiceflow-chat {
       position: fixed !important;
-      bottom: 85px;
+      bottom: 135px;
       right: 20px;
       width: 52px;
       height: 52px;
