@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cv-master-v8.9';
+const CACHE_NAME = 'cv-master-v9.0';
 const urlsToCache = [
   './',
   './index.html',

@@ -29,18 +29,6 @@
 
 
   <style>
-    /* Estética Master v8.6 SKILL FLOW mantenida */
-    .ia-badge {
-      background: #f59e0b;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 0.7rem;
-      color: #000;
-      display: inline-block;
-      border: 1px solid #000;
-    }
-
     body {
       font-family: 'Inter', sans-serif;
       background-color: #020617;
@@ -1221,13 +1209,6 @@ const App = () => {
                       position: relative;
                       z-index: 10;
                     }
-                    #voiceflow-chat {
-                      position: fixed !important;
-                      display: block !important;
-                      opacity: 1 !important;
-                      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                      /* El posicionamiento dinámico se gestiona vía findVF() en JS v8.5 */
-                    }
                     /* ELIMINADO: Ya no se detiene al pasar el mouse */
                     .frame-container {
                       width: 250px;
@@ -1254,7 +1235,7 @@ const App = () => {
                       cursor: pointer;
                     }
                     .frame-container:hover .frame-img {
-                      filter: saturate(1.1) drop-shadow(0 15px 30px rgba(245,158,11,0.25));
+                      filter: saturate(1.1) drop-shadow(0 15px 30px rgba(245, 158, 11, 0.25));
                       transform: translateY(-8px) scale(1.05);
                     }
                     .frame-indicator {
@@ -1783,126 +1764,197 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
             voice: { url: "https://runtime-api.voiceflow.com" },
-            render: { mode: 'overlay' }
+            render: {
+              mode: 'overlay'
+            }
           });
 
-          // Protocolo Antigravity v8.9 Master - SKILL FLOW
+          // Protocolo Antigravity v8.3 - Shadow DOM Watcher
           let observer = null;
           const setupObserver = (vfHost) => {
             if (observer) observer.disconnect();
+            
             observer = new MutationObserver(() => {
-              if (!vfHost.shadowRoot) return;
-              
-              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-widget--chat');
-              const isChatOpen = chatWindow && chatWindow.offsetHeight > 100;
+              const btn = document.getElementById('custom-ia-btn');
+              if (!btn || !vfHost.shadowRoot) return;
 
+              // Detección Robusta por Altura (Antigravity v8.3)
+              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
+              
+              // Flag global para permitir el despliegue inicial
+              const isOpening = window.isChatOpening;
+              const CACHE_NAME = 'cv-v8.3';
+              const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
+              
               if (isChatOpen) {
-                vfHost.style.setProperty('width', '100vw', 'important');
-                vfHost.style.setProperty('height', '100dvh', 'important');
-                vfHost.style.setProperty('bottom', '0', 'important');
-                vfHost.style.setProperty('right', '0', 'important');
-                vfHost.style.setProperty('z-index', '99999999', 'important');
+                btn.style.opacity = '0';
+                btn.style.transform = 'scale(0)';
+                btn.style.pointerEvents = 'none';
+                
+                // Modo Pantalla Completa Activo (Host expandido)
+                vfHost.style.pointerEvents = 'auto';
+                vfHost.style.width = '100vw';
+                vfHost.style.height = '100dvh';
+                vfHost.style.zIndex = '99999999';
               } else {
-                vfHost.style.setProperty('width', '52px', 'important');
-                vfHost.style.setProperty('height', '52px', 'important');
-                // ELEVACIÓN MÁSTER v8.9: 200px (Seguridad Total)
-                if (window.innerWidth <= 768) {
-                  vfHost.style.setProperty('bottom', '200px', 'important');
-                  vfHost.style.setProperty('right', '20px', 'important');
-                } else {
-                  vfHost.style.setProperty('bottom', '155px', 'important');
-                  vfHost.style.setProperty('right', '45px', 'important');
-                }
-                vfHost.style.setProperty('z-index', '2147483647', 'important');
+                btn.style.opacity = '1';
+                btn.style.transform = 'scale(1)';
+                btn.style.pointerEvents = 'auto';
+                
+                // Modo Reposo (Host minimizado para no bloquear la web)
+                vfHost.style.pointerEvents = 'none';
+                vfHost.style.width = '0px';
+                vfHost.style.height = '0px';
+                vfHost.style.zIndex = '-1';
+                vfHost.style.overflow = 'hidden';
               }
 
-              // Estética Prémium de Hjalmar v8.9 (SKILL FLOW)
+              // Inyectar estilos internos si no están (Resilencia)
               if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
                 const style = document.createElement('style');
                 style.id = 'ag-vf-styles';
-                style.innerHTML = `
-                  .vfrc-launcher {
-                    background-color: #f59e0b !important;
-                    border: 2px solid #020617 !important;
-                    border-radius: 14px !important;
-                    width: 52px !important;
-                    height: 52px !important;
-                    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4) !important;
-                    display: grid !important;
-                    place-items: center !important;
-                    right: 0 !important;
-                    bottom: 0 !important;
-                    position: relative !important;
-                  }
-                  .vfrc-launcher svg { display: none !important; }
-                  
-                  /* LA BURBUJA NEGRA (MASTER v8.9) */
-                  .vfrc-launcher::before {
-                    content: "" !important;
-                    grid-area: 1/1 !important;
-                    width: 34px !important;
-                    height: 30px !important;
-                    background-color: #020617 !important;
-                    mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
-                    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.3c-11.4 4.8-24.5 6.1-36.5 4.1c-8.2-1.4-14.4-7.8-15.7-15.9c-.9-5.1-.3-10.2 1.7-15c4.4-10.4 10.1-20.9 17-31c4.5-6.6 9.4-12.8 14.7-18.7C28.2 357.1 0 301.7 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>') no-repeat center !important;
-                    z-index: 1 !important;
-                  }
-                  
-                  /* EL TEXTO IA (MASTER v8.9) */
-                  .vfrc-launcher::after {
-                    content: "IA" !important;
-                    grid-area: 1/1 !important;
-                    z-index: 2 !important;
-                    font-family: 'Inter', sans-serif !important;
-                    font-weight: 900 !important;
-                    color: #f59e0b !important;
-                    font-size: 9px !important;
-                    margin-bottom: 4px !important;
-                  }
-                  
-                  @media (max-width: 768px) {
-                    .vfrc-widget--chat {
-                      width: 100vw !important;
-                      height: 100dvh !important;
-                      right: 0 !important;
-                      bottom: 0 !important;
-                      border-radius: 0 !important;
+                style.textContent = `
+                  .vfrc-footer { display: none !important; }
+                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
+                  @media (max-width: 767px) {
+                    .vfrc-widget, .vfrc-chat-window {
+                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
+                       max-height: 100dvh !important;
+                       z-index: 10001 !important;
                     }
                   }
                 `;
                 vfHost.shadowRoot.appendChild(style);
               }
             });
+
             observer.observe(vfHost.shadowRoot, { childList: true, subtree: true });
           };
 
-          const checkVF = () => {
+          // Definir openChat en el ámbito global (window) - EARLY LOADING
+          window.isChatOpening = false;
+          window.openChat = function() {
+            if (window.voiceflow && window.voiceflow.chat) {
+              try {
+                window.isChatOpening = true;
+                const vfHost = document.querySelector('#voiceflow-chat');
+                if (vfHost) {
+                  // Expansión visual inmediata del host
+                  vfHost.style.display = 'block';
+                  vfHost.style.width = '100vw';
+                  vfHost.style.height = '100dvh';
+                  vfHost.style.pointerEvents = 'auto';
+                  vfHost.style.zIndex = '99999999';
+                  vfHost.style.opacity = '1';
+                  // Ejecución síncrona para no perder el contexto de interacción del usuario (Safari Fix)
+                  window.voiceflow.chat.open();
+                  if (vfHost.shadowRoot) {
+                    const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
+                    if (l) l.click();
+                  }
+                  
+                }
+                setTimeout(() => { window.isChatOpening = false; }, 4000);
+              } catch(e) {
+                console.warn("Falla en apertura IA:", e);
+                window.isChatOpening = false;
+              }
+            } else {
+              // Si no ha cargado el script remoto, se reintenta (Resiliencia Mobile)
+              setTimeout(window.openChat, 400);
+            }
+          };
+
+          const findVF = () => {
             const vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost && vfHost.shadowRoot) {
               setupObserver(vfHost);
+              vfHost.style.position = 'fixed';
+              vfHost.style.bottom = '0';
+              vfHost.style.right = '0';
+              console.log("IA Engine Ready (v8.3)");
             } else {
-              setTimeout(checkVF, 500);
+              setTimeout(findVF, 500);
             }
           };
-          checkVF();
+          findVF();
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
   </script>
 
+  <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
   <style>
-    #voiceflow-chat {
-      position: fixed !important;
-      bottom: 200px !important;
-      right: 20px !important;
-      width: 52px !important;
-      height: 52px !important;
-      z-index: 2147483647 !important;
-      display: block !important;
-      opacity: 1 !important;
-      transition: all 0.3s ease;
+    #custom-ia-btn {
+      position: fixed;
+      bottom: 140px; /* Altura optimizada para móvil (despeja la pestaña Innovación) */
+      right: 20px;
+      width: 52px; /* Tamaño reducido y más estilizado */
+      height: 52px;
+      background: #f59e0b;
+      border-radius: 14px; /* Proporción ajustada al tamaño */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2147483647;
+      cursor: pointer;
+      border: 2px solid #020617;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 5px 15px rgba(0,0,0,0.4);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      pointer-events: auto !important;
+    }
+    /* Reposicionamiento para PC (Encima del campo Infraestructura) */
+    @media (min-width: 1024px) {
+      #custom-ia-btn {
+        bottom: 155px; /* Altura ideal para quedar sobre el campo Infraestructura */
+        right: 45px;   /* Alineado con la última tarjeta del grid */
+        width: 48px;
+        height: 48px;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+      }
+    }
+    #custom-ia-btn .ia-icon-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+    }
+    #custom-ia-btn .ia-bubble {
+      font-size: 32px; /* Tamaño del icono escalado */
+    }
+    #custom-ia-btn .ia-text {
+      position: absolute;
+      top: 41%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px; /* Letras más pequeñas y elegantes */
+      font-weight: 900;
+      color: #f59e0b;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.2px;
+    }
+    /* El botón ahora es visible en TODAS las plataformas para consistencia visual */
+    #custom-ia-btn:active {
+      transform: scale(0.88) !important;
+      background: #d97706;
+    }
+    #custom-ia-btn i {
+      color: #020617;
+      pointer-events: none;
     }
   </style>
+  <div id="custom-ia-btn" class="no-print" onclick="window.openChat()">
+    <div class="ia-icon-wrapper">
+      <i class="fas fa-comment ia-bubble"></i>
+      <span class="ia-text">IA</span>
+    </div>
+  </div>
+
+
 
   <script>
     if ('serviceWorker' in navigator) {
