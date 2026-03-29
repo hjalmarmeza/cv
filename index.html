@@ -1796,15 +1796,27 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             const btn = document.getElementById('custom-ia-btn');
             if(btn) { btn.style.transform = 'scale(0)'; btn.style.opacity = '0'; }
             // Aplicar clase para pantalla completa en móvil
-            const vfWindow = document.querySelector('.vfrc-chat-window');
-            if(vfWindow) vfWindow.classList.add('vf-opened');
+            const vfHost = document.querySelector('#voiceflow-chat');
+            if(vfHost && vfHost.shadowRoot) {
+              const vfWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
+              if(vfWindow) vfWindow.classList.add('vf-opened');
+              
+              // Evitar que otro elemento lo tape
+              vfHost.style.position = 'fixed';
+              vfHost.style.zIndex = '999999';
+              vfHost.style.bottom = '0';
+              vfHost.style.right = '0';
+            }
           });
           window.voiceflow.chat.on('close', () => {
             const btn = document.getElementById('custom-ia-btn');
             if(btn) { btn.style.transform = 'scale(1)'; btn.style.opacity = '1'; }
             // Quitar clase
-            const vfWindow = document.querySelector('.vfrc-chat-window');
-            if(vfWindow) vfWindow.classList.remove('vf-opened');
+            const vfHost = document.querySelector('#voiceflow-chat');
+            if(vfHost && vfHost.shadowRoot) {
+              const vfWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
+              if(vfWindow) vfWindow.classList.remove('vf-opened');
+            }
           });
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
@@ -1870,33 +1882,34 @@ root.render(/*#__PURE__*/React.createElement(App, null));
     (function() {
       var btn = document.getElementById('custom-ia-btn');
       if (!btn) return;
-      var _touching = false;
 
       function openChat(retries) {
         retries = retries || 0;
-        if (window.voiceflow && window.voiceflow.chat && typeof window.voiceflow.chat.open === 'function') {
-          window.voiceflow.chat.open();
-        } else if (retries < 10) {
+        try {
+          if (window.voiceflow && window.voiceflow.chat) {
+            if (typeof window.voiceflow.chat.open === 'function') {
+              window.voiceflow.chat.open();
+            }
+            // Fallback robusto al botón original dentro del shadow DOM
+            var vfHost = document.querySelector('#voiceflow-chat');
+            if (vfHost && vfHost.shadowRoot) {
+              var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
+              if (launcher) launcher.click();
+            }
+          }
+        } catch (e) {
+          console.error("No se pudo iniciar chat", e);
+        }
+
+        if (retries < 10 && (!window.voiceflow || !window.voiceflow.chat)) {
           setTimeout(function() { openChat(retries + 1); }, 500);
         }
       }
 
-      btn.addEventListener('touchstart', function(e) {
-        _touching = true;
-      }, {passive: true});
-
-      btn.addEventListener('touchend', function(e) {
-        if (_touching) {
-          _touching = false;
-          e.preventDefault();
-          openChat();
-        }
-      }, {passive: false});
-
       btn.addEventListener('click', function(e) {
-        if (!_touching) {
-          openChat();
-        }
+        e.preventDefault();
+        e.stopPropagation();
+        openChat();
       });
     })();
   </script>
