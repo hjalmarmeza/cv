@@ -1781,9 +1781,9 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               // Detección Robusta por Altura (Antigravity v8.3)
               const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
               
-              // El chat se considera abierto si existe y tiene una altura mayor a 50px
-              // Esto evita falsos positivos de elementos transparentes o minimizados
-              const isChatOpen = chatWindow && chatWindow.offsetHeight > 50;
+              // Flag global para permitir el despliegue inicial
+              const isOpening = window.isChatOpening;
+              const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
               
               if (isChatOpen) {
                 btn.style.opacity = '0';
@@ -1853,20 +1853,20 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #custom-ia-btn {
       position: fixed;
-      bottom: 105px; /* Subido 20px para evitar barra de Safary/Android */
-      right: 15px;
-      width: 58px; /* Ligeramente más grande para mejor zona de toque */
-      height: 58px;
+      bottom: 25px; /* Bajado un poco más para centrarse mejor visualmente en móviles */
+      right: 25px;
+      width: 65px; /* Un poco más imponente como botón IA central */
+      height: 65px;
       background: #f59e0b;
-      border-radius: 18px;
+      border-radius: 22px; /* Esquinas más suaves */
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2147483647; /* Máximo z-index posible en browsers */
+      z-index: 2147483647;
       cursor: pointer;
-      border: 3px solid #020617;
-      box-shadow: 0 0 25px rgba(245, 158, 11, 0.7), 0 8px 30px rgba(0,0,0,0.6);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 4px solid #020617;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.4), 0 10px 30px rgba(0,0,0,0.5);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       pointer-events: auto !important;
@@ -1884,18 +1884,15 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       pointer-events: none;
     }
     #custom-ia-btn span {
-      position: absolute;
-      color: #ffffff;
-      font-size: 8px;
+      color: #0f172a;
+      font-size: 22px;
       font-weight: 900;
-      bottom: 5px;
-      right: 5px;
       pointer-events: none;
       line-height: 1;
+      letter-spacing: -1px;
     }
   </style>
   <div id="custom-ia-btn" class="no-print">
-    <i class="fas fa-comment-dots"></i>
     <span>IA</span>
   </div>
 
@@ -1904,29 +1901,39 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       var btn = document.getElementById('custom-ia-btn');
       if (!btn) return;
 
+      window.isChatOpening = false;
       function openChat() {
         if (window.voiceflow && window.voiceflow.chat) {
           try {
+            // Flag para que el MutationObserver permita la expansión inicial
+            window.isChatOpening = true;
+            
             // Método Primario
             window.voiceflow.chat.open();
             
-            // Método Secundario (Si el widget-next tiene delay en el DOM)
+            // Asegurar expansión inmediata del host
             var vfHost = document.querySelector('#voiceflow-chat');
-            if (vfHost && vfHost.shadowRoot) {
-              var mainLauncher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
-              if (mainLauncher) mainLauncher.click();
-              
-              // Si el chat ya está en el DOM pero oculto por el host minimizado
+            if (vfHost) {
               vfHost.style.width = '100vw';
               vfHost.style.height = '100dvh';
               vfHost.style.pointerEvents = 'auto';
               vfHost.style.zIndex = '99999999';
+              
+              // Forzar click en launcher interno por si open() falla
+              if (vfHost.shadowRoot) {
+                var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
+                if (launcher) launcher.click();
+              }
             }
+            
+            // Auto-cerrar la bandera tras un tiempo prudencial
+            setTimeout(function() { window.isChatOpening = false; }, 3000);
+
           } catch(e) {
             console.warn("Falla en apertura de Voiceflow", e);
+            window.isChatOpening = false;
           }
         } else {
-          // Reintento recursivo si click antes de carga
           setTimeout(openChat, 300);
         }
       }
