@@ -1920,17 +1920,17 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   </div>
 
   <script>
-    // Flag global controlado
+    // Flag global para controlar el estado de apertura
     window.isChatOpening = false;
     
-    // Función de apertura global infalible
+    // Función de apertura global infalible para el botón IA
     window.openChat = function() {
       if (window.voiceflow && window.voiceflow.chat) {
         try {
           window.isChatOpening = true;
           var vfHost = document.querySelector('#voiceflow-chat');
           if (vfHost) {
-            // Expansión inmediata del host para que el chat se vea
+            // Forzar visibilidad y expansión del contenedor de Voiceflow
             vfHost.style.display = 'block';
             vfHost.style.width = '100vw';
             vfHost.style.height = '100dvh';
@@ -1940,14 +1940,24 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             
             setTimeout(function() {
               window.voiceflow.chat.open();
-              // Respaldo por click sintético
+              // Respaldo por click sintético en el launcher original (si existe)
               if (vfHost.shadowRoot) {
                 var l = vfHost.shadowRoot.querySelector('.vfrc-launcher');
                 if (l) l.click();
               }
             }, 100);
           }
-    })();
+          // Resetear flag tras un tiempo prudencial
+          setTimeout(function() { window.isChatOpening = false; }, 4000);
+        } catch(e) {
+          console.warn("Falla en apertura del chat:", e);
+          window.isChatOpening = false;
+        }
+      } else {
+        // Reintentar si Voiceflow aún no ha cargado sus recursos
+        setTimeout(window.openChat, 300);
+      }
+    };
   </script>
 
   <script>
