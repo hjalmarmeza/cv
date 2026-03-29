@@ -1853,25 +1853,45 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   <style>
     #custom-ia-btn {
       position: fixed;
-      bottom: 25px; /* Bajado un poco más para centrarse mejor visualmente en móviles */
+      bottom: 120px; /* Elevado para NO tapar la pestaña Innovación */
       right: 25px;
-      width: 65px; /* Un poco más imponente como botón IA central */
-      height: 65px;
+      width: 70px;
+      height: 70px;
       background: #f59e0b;
-      border-radius: 22px; /* Esquinas más suaves */
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2147483647;
       cursor: pointer;
-      border: 4px solid #020617;
+      border: 3px solid #020617;
       box-shadow: 0 0 35px rgba(245, 158, 11, 0.4), 0 10px 30px rgba(0,0,0,0.5);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       pointer-events: auto !important;
-      user-select: none;
-      -webkit-user-select: none;
+    }
+    #custom-ia-btn .ia-icon-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+    }
+    #custom-ia-btn .ia-bubble {
+      font-size: 42px; /* Burbuja de mensaje estilizada */
+    }
+    #custom-ia-btn .ia-text {
+      position: absolute;
+      top: 41%; /* Ajuste fino de centrado */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 13px;
+      font-weight: 800;
+      color: #f59e0b; /* Letras naranja-amarillas dentro de la burbuja negra */
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.5px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
     /* El botón ahora es visible en TODAS las plataformas para consistencia visual */
     #custom-ia-btn:active {
@@ -1879,21 +1899,15 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       background: #d97706;
     }
     #custom-ia-btn i {
-      color: #1e293b;
-      font-size: 24px;
+      color: #020617;
       pointer-events: none;
-    }
-    #custom-ia-btn span {
-      color: #0f172a;
-      font-size: 22px;
-      font-weight: 900;
-      pointer-events: none;
-      line-height: 1;
-      letter-spacing: -1px;
     }
   </style>
-  <div id="custom-ia-btn" class="no-print">
-    <span>IA</span>
+  <div id="custom-ia-btn" class="no-print" onclick="openChat()">
+    <div class="ia-icon-wrapper">
+      <i class="fas fa-comment ia-bubble"></i>
+      <span class="ia-text">IA</span>
+    </div>
   </div>
 
   <script>
@@ -1905,32 +1919,34 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       function openChat() {
         if (window.voiceflow && window.voiceflow.chat) {
           try {
-            // Flag para que el MutationObserver permita la expansión inicial
+            // Flag de expansión inmediata
             window.isChatOpening = true;
             
-            // Método Primario
-            window.voiceflow.chat.open();
-            
-            // Asegurar expansión inmediata del host
+            // Forzar visualización de host antes de llamar a .open()
             var vfHost = document.querySelector('#voiceflow-chat');
             if (vfHost) {
+              vfHost.style.display = 'block';
               vfHost.style.width = '100vw';
               vfHost.style.height = '100dvh';
               vfHost.style.pointerEvents = 'auto';
               vfHost.style.zIndex = '99999999';
+              vfHost.style.opacity = '1';
               
-              // Forzar click en launcher interno por si open() falla
-              if (vfHost.shadowRoot) {
-                var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
-                if (launcher) launcher.click();
-              }
+              // Pequeño retardo para que el host esté listo en el DOM
+              setTimeout(function() {
+                window.voiceflow.chat.open();
+                // Click sintético como respaldo
+                if (vfHost.shadowRoot) {
+                  var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
+                  if (launcher) launcher.click();
+                }
+              }, 100);
             }
             
-            // Auto-cerrar la bandera tras un tiempo prudencial
-            setTimeout(function() { window.isChatOpening = false; }, 3000);
+            setTimeout(function() { window.isChatOpening = false; }, 4000);
 
           } catch(e) {
-            console.warn("Falla en apertura de Voiceflow", e);
+            console.warn("Falla en apertura", e);
             window.isChatOpening = false;
           }
         } else {
