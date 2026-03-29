@@ -1871,12 +1871,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       touch-action: manipulation;
       pointer-events: auto !important;
     }
-    /* Reposicionamiento para PC (Integrado debajo de Carta de Presentación) */
+    /* Reposicionamiento para PC (Encima del campo Infraestructura) */
     @media (min-width: 1024px) {
       #custom-ia-btn {
-        position: absolute;
-        bottom: -2px; /* Ajustado para alinearse debajo del cuadro de carta de presentación */
-        right: 83px; /* Alineación perfecta con el lateral derecho del contenedor del QR */
+        bottom: 155px; /* Altura ideal para quedar sobre el campo Infraestructura */
+        right: 45px;   /* Alineado con la última tarjeta del grid */
         width: 48px;
         height: 48px;
         box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
@@ -1921,40 +1920,33 @@ root.render(/*#__PURE__*/React.createElement(App, null));
   </div>
 
   <script>
-    (function() {
-      // Definir openChat en el ámbito global (window) para que onclick funcione al 100%
-      window.openChat = function() {
-        if (window.voiceflow && window.voiceflow.chat) {
-          try {
-            window.isChatOpening = true;
+    // Flag global controlado
+    window.isChatOpening = false;
+    
+    // Función de apertura global infalible
+    window.openChat = function() {
+      if (window.voiceflow && window.voiceflow.chat) {
+        try {
+          window.isChatOpening = true;
+          var vfHost = document.querySelector('#voiceflow-chat');
+          if (vfHost) {
+            // Expansión inmediata del host para que el chat se vea
+            vfHost.style.display = 'block';
+            vfHost.style.width = '100vw';
+            vfHost.style.height = '100dvh';
+            vfHost.style.pointerEvents = 'auto';
+            vfHost.style.zIndex = '99999999';
+            vfHost.style.opacity = '1';
             
-            var vfHost = document.querySelector('#voiceflow-chat');
-            if (vfHost) {
-              vfHost.style.display = 'block';
-              vfHost.style.width = '100vw';
-              vfHost.style.height = '100dvh';
-              vfHost.style.pointerEvents = 'auto';
-              vfHost.style.zIndex = '99999999';
-              vfHost.style.opacity = '1';
-              
-              setTimeout(function() {
-                window.voiceflow.chat.open();
-                if (vfHost.shadowRoot) {
-                  var launcher = vfHost.shadowRoot.querySelector('.vfrc-launcher');
-                  if (launcher) launcher.click();
-                }
-              }, 100);
-            }
-            
-            setTimeout(function() { window.isChatOpening = false; }, 4000);
-          } catch(e) {
-            console.warn("Falla en apertura", e);
-            window.isChatOpening = false;
+            setTimeout(function() {
+              window.voiceflow.chat.open();
+              // Respaldo por click sintético
+              if (vfHost.shadowRoot) {
+                var l = vfHost.shadowRoot.querySelector('.vfrc-launcher');
+                if (l) l.click();
+              }
+            }, 100);
           }
-        } else {
-        e.stopPropagation();
-        openChat();
-      });
     })();
   </script>
 
