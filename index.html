@@ -1760,21 +1760,21 @@ root.render(/*#__PURE__*/React.createElement(App, null));
         var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
         v.onload = function() {
           window.voiceflow.chat.load({
-            verify: { projectID: '69c08d57a25a54e79a7e95c0' },
+            verify: { projectID: '67a7da0954b9d073f8a449fc' },
             url: 'https://general-runtime.voiceflow.com',
             versionID: 'production',
-            voice: { url: "https://runtime-api.voiceflow.com" },
+            user: { name: 'Hjalmar Meza' },
             render: {
-              mode: 'overlay'
-            }
+              mode: 'overlay',
+              showLauncher: false
+            },
+            autostart: false
           }).then(() => {
-            // Protocolo Antigravity v8.5 - Limpieza de Fuerza Bruta
             const btn = document.getElementById('custom-ia-btn');
             
-            const cleanShadowDOM = (vfHost) => {
+            const killAll = (vfHost) => {
               if (!vfHost || !vfHost.shadowRoot) return;
               
-              // Selectores de exterminio
               const selectors = [
                 '.vfrc-launcher', 
                 '.vfrc-proactive-message', 
@@ -1786,38 +1786,24 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               ];
 
               selectors.forEach(sel => {
-                const el = vfHost.shadowRoot.querySelector(sel);
-                if (el) {
-                  el.style.display = 'none';
+                const els = vfHost.shadowRoot.querySelectorAll(sel);
+                els.forEach(el => {
                   el.style.setProperty('display', 'none', 'important');
-                  el.style.visibility = 'hidden';
-                  el.style.opacity = '0';
-                  el.style.pointerEvents = 'none';
-                }
+                  el.style.setProperty('visibility', 'hidden', 'important');
+                  el.style.setProperty('opacity', '0', 'important');
+                  el.style.setProperty('pointer-events', 'none', 'important');
+                });
               });
 
-              // Re-inyectar estilos si es necesario
-              if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
+              if (!vfHost.shadowRoot.querySelector('#ag-shield-v9')) {
                 const style = document.createElement('style');
-                style.id = 'ag-vf-styles';
+                style.id = 'ag-shield-v9';
                 style.textContent = `
-                  .vfrc-footer { display: none !important; }
-                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive, 
-                  [class*="launcher"], [class*="proactive"], .vfrc-button--message { 
+                  .vfrc-footer, .vfrc-launcher, .vfrc-proactive-message, 
+                  [class*="launcher"], [class*="proactive"] { 
                     display: none !important; 
                     visibility: hidden !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                    width: 0 !important;
-                    height: 0 !important;
-                  }
-                  @media (max-width: 767px) {
-                    .vfrc-widget, .vfrc-chat-window {
-                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
-                       max-height: 100dvh !important;
-                       z-index: 10001 !important;
-                    }
+                    width: 0 !important; height: 0 !important; 
                   }
                 `;
                 vfHost.shadowRoot.appendChild(style);
@@ -1826,19 +1812,17 @@ root.render(/*#__PURE__*/React.createElement(App, null));
 
             const showBtn = () => {
               if (!btn) return;
+              btn.style.display = 'flex';
               btn.style.opacity = '1';
               btn.style.transform = 'scale(1)';
               btn.style.pointerEvents = 'auto';
-              btn.style.visibility = 'visible';
-              btn.style.display = 'flex';
               
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
-                 vfHost.style.pointerEvents = 'none';
-                 vfHost.style.width = '1px';
-                 vfHost.style.height = '1px';
-                 vfHost.style.zIndex = '-1';
-                 cleanShadowDOM(vfHost);
+                 vfHost.style.setProperty('width', '1px', 'important');
+                 vfHost.style.setProperty('height', '1px', 'important');
+                 vfHost.style.setProperty('z-index', '-1', 'important');
+                 killAll(vfHost);
               }
             };
 
@@ -1850,42 +1834,25 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
-                 vfHost.style.pointerEvents = 'auto';
-                 vfHost.style.width = '100vw';
-                 vfHost.style.height = '100dvh';
-                 vfHost.style.zIndex = '99999999';
+                 vfHost.style.setProperty('width', '100vw', 'important');
+                 vfHost.style.setProperty('height', '100dvh', 'important');
+                 vfHost.style.setProperty('z-index', '999999', 'important');
               }
             };
 
-            // Escucha de Eventos Oficiales Voiceflow (Capa 1)
+            setInterval(() => {
+              const vfHost = document.querySelector('#voiceflow-chat');
+              if (vfHost && (btn.style.opacity === '1' || btn.style.display === 'flex')) {
+                killAll(vfHost);
+                vfHost.style.setProperty('width', '1px', 'important');
+                vfHost.style.setProperty('height', '1px', 'important');
+              }
+            }, 100);
+
             window.voiceflow.chat.on('open', hideBtn);
             window.voiceflow.chat.on('close', showBtn);
             window.voiceflow.chat.on('hide', showBtn);
 
-            // Shadow DOM Watcher (Capa 2 - Mejorado v8.5)
-            let observer = null;
-            const setupObserver = (vfHost) => {
-              if (observer) observer.disconnect();
-              observer = new MutationObserver(() => {
-                cleanShadowDOM(vfHost);
-                const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
-                const isOpening = window.isChatOpening;
-                const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
-                
-                if (isChatOpen) {
-                  hideBtn();
-                } else if (!isOpening) {
-                  showBtn();
-                }
-              });
-
-              observer.observe(vfHost.shadowRoot, { 
-                childList: true, 
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['style', 'class']
-              });
-            };
 
             // Inicialización de Watcher
             const findVF = () => {
