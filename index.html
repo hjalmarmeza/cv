@@ -1760,9 +1760,9 @@ root.render(/*#__PURE__*/React.createElement(App, null));
         var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
         v.onload = function() {
           window.voiceflow.chat.load({
-            verify: { projectID: '67a7da0954b9d073f8a449fc' },
+            verify: { projectID: '69c08d57a25a54e79a7e95c0' },
             url: 'https://general-runtime.voiceflow.com',
-            versionID: 'production',
+            versionID: '69c08d57a25a54e79a7e95c1',
             user: { name: 'Hjalmar Meza' },
             render: {
               mode: 'overlay',
@@ -1771,11 +1771,10 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             autostart: true
           }).then(() => {
             const btn = document.getElementById('custom-ia-btn');
+            window.isChatOpen = false;
             
             const killAll = (vfHost) => {
               if (!vfHost || !vfHost.shadowRoot) return;
-              
-              // Selectores de limpieza (v9.4)
               const selectors = ['.vfrc-launcher', '.vfrc-proactive-message', '.vfrc-button--message', '[class*="launcher"]', '[class*="proactive"]', '[class*="test-your-agent"]'];
               selectors.forEach(sel => {
                 try {
@@ -1786,53 +1785,47 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                   });
                 } catch(e) {}
               });
-
-              if (!vfHost.shadowRoot.querySelector('#ag-final-v9-4')) {
+              if (!vfHost.shadowRoot.querySelector('#ag-v10')) {
                 const style = document.createElement('style');
-                style.id = 'ag-final-v9-4';
+                style.id = 'ag-v10';
                 style.textContent = `.vfrc-footer, .vfrc-launcher, .vfrc-proactive-message, [class*="launcher"] { display: none !important; visibility: hidden !important; }`;
                 vfHost.shadowRoot.appendChild(style);
               }
             };
 
             const showBtn = () => {
-              if (btn) {
-                btn.style.setProperty('display', 'flex', 'important');
-                btn.style.setProperty('opacity', '1', 'important');
-              }
+              window.isChatOpen = false;
+              if (btn) btn.style.setProperty('display', 'flex', 'important');
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
                  vfHost.style.setProperty('display', 'none', 'important');
                  vfHost.style.setProperty('z-index', '-1', 'important');
-                 killAll(vfHost);
               }
             };
 
             const hideBtn = () => {
-              if (btn) {
-                btn.style.setProperty('display', 'none', 'important'); // DESAPARECER AL INSTANTE
-                btn.style.setProperty('opacity', '0', 'important');
-              }
+              window.isChatOpen = true;
+              if (btn) btn.style.setProperty('display', 'none', 'important');
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
                  vfHost.style.setProperty('display', 'block', 'important');
                  vfHost.style.setProperty('width', '100vw', 'important');
                  vfHost.style.setProperty('height', '100dvh', 'important');
-                 vfHost.style.setProperty('z-index', '2147483647', 'important'); // PRIORIDAD ABSOLUTA
+                 vfHost.style.setProperty('z-index', '2147483647', 'important');
               }
             };
 
-            // Heartbeat de Pureza Estética
+            // Master Engine Heartbeat (v10.0)
             setInterval(() => {
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
                 killAll(vfHost);
-                // Si el botón está visible, el host debe seguir oculto
-                if (btn && btn.style.display !== 'none' && !window.isChatOpening) {
+                // Solo ocultamos el host si el chat NO está marcado como abierto
+                if (!window.isChatOpen && !window.isChatOpening) {
                    vfHost.style.setProperty('display', 'none', 'important');
                 }
               }
-            }, 50);
+            }, 100);
 
             window.voiceflow.chat.on('open', hideBtn);
             window.voiceflow.chat.on('close', showBtn);
@@ -1858,7 +1851,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               const vfHost = document.querySelector('#voiceflow-chat');
               if(vfHost) vfHost.style.setProperty('display', 'block', 'important');
               window.voiceflow.chat.open();
-              setTimeout(() => { window.isChatOpening = false; }, 2000);
+              setTimeout(() => { window.isChatOpening = false; }, 1500);
             } else {
               setTimeout(window.openChat, 300);
             }
