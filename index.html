@@ -1767,120 +1767,121 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             render: {
               mode: 'overlay'
             }
+          }).then(() => {
+            // Protocolo Antigravity v8.4 - Resiliencia Absoluta
+            const btn = document.getElementById('custom-ia-btn');
+            const showBtn = () => {
+              if (!btn) return;
+              btn.style.opacity = '1';
+              btn.style.transform = 'scale(1)';
+              btn.style.pointerEvents = 'auto';
+              btn.style.visibility = 'visible';
+              btn.style.display = 'flex';
+              
+              const vfHost = document.querySelector('#voiceflow-chat');
+              if (vfHost) {
+                 vfHost.style.pointerEvents = 'none';
+                 vfHost.style.width = '1px';
+                 vfHost.style.height = '1px';
+                 vfHost.style.zIndex = '-1';
+              }
+            };
+
+            const hideBtn = () => {
+              if (!btn) return;
+              btn.style.opacity = '0';
+              btn.style.transform = 'scale(0)';
+              btn.style.pointerEvents = 'none';
+              
+              const vfHost = document.querySelector('#voiceflow-chat');
+              if (vfHost) {
+                 vfHost.style.pointerEvents = 'auto';
+                 vfHost.style.width = '100vw';
+                 vfHost.style.height = '100dvh';
+                 vfHost.style.zIndex = '99999999';
+              }
+            };
+
+            // Escucha de Eventos Oficiales Voiceflow (Capa 1)
+            window.voiceflow.chat.on('open', hideBtn);
+            window.voiceflow.chat.on('close', showBtn);
+            window.voiceflow.chat.on('hide', showBtn);
+
+            // Shadow DOM Watcher (Capa 2 - Mejorado v8.4)
+            let observer = null;
+            const setupObserver = (vfHost) => {
+              if (observer) observer.disconnect();
+              observer = new MutationObserver(() => {
+                const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
+                const isOpening = window.isChatOpening;
+                const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
+                
+                if (isChatOpen) {
+                  hideBtn();
+                } else if (!isOpening) {
+                  showBtn();
+                }
+
+                // Inyectar estilos internos (Resilencia)
+                if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
+                  const style = document.createElement('style');
+                  style.id = 'ag-vf-styles';
+                  style.textContent = `
+                    .vfrc-footer { display: none !important; }
+                    .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
+                    @media (max-width: 767px) {
+                      .vfrc-widget, .vfrc-chat-window {
+                         bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
+                         width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
+                         max-height: 100dvh !important;
+                         z-index: 10001 !important;
+                      }
+                    }
+                  `;
+                  vfHost.shadowRoot.appendChild(style);
+                }
+              });
+
+              observer.observe(vfHost.shadowRoot, { 
+                childList: true, 
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+              });
+            };
+
+            // Inicialización de Watcher
+            const findVF = () => {
+              const vfHost = document.querySelector('#voiceflow-chat');
+              if (vfHost && vfHost.shadowRoot) {
+                setupObserver(vfHost);
+                vfHost.style.position = 'fixed';
+                vfHost.style.bottom = '0';
+                vfHost.style.right = '0';
+              } else {
+                setTimeout(findVF, 500);
+              }
+            };
+            findVF();
           });
 
-          // Protocolo Antigravity v8.3 - Shadow DOM Watcher
-          let observer = null;
-          const setupObserver = (vfHost) => {
-            if (observer) observer.disconnect();
-            
-            observer = new MutationObserver(() => {
-              const btn = document.getElementById('custom-ia-btn');
-              if (!btn || !vfHost.shadowRoot) return;
-
-              // Detección Robusta por Altura (Antigravity v8.3)
-              const chatWindow = vfHost.shadowRoot.querySelector('.vfrc-chat-window');
-              
-              // Flag global para permitir el despliegue inicial
-              const isOpening = window.isChatOpening;
-              const CACHE_NAME = 'cv-master-v9.1';
-              const isChatOpen = (chatWindow && chatWindow.offsetHeight > 50) || isOpening;
-              
-              if (isChatOpen) {
-                btn.style.opacity = '0';
-                btn.style.transform = 'scale(0)';
-                btn.style.pointerEvents = 'none';
-                
-                // Modo Pantalla Completa Activo (Host expandido)
-                vfHost.style.pointerEvents = 'auto';
-                vfHost.style.width = '100vw';
-                vfHost.style.height = '100dvh';
-                vfHost.style.zIndex = '99999999';
-              } else {
-                // Restauración Forzada del Botón (Antigravity v8.3 Reforzado)
-                btn.style.opacity = '1';
-                btn.style.transform = 'scale(1)';
-                btn.style.pointerEvents = 'auto';
-                btn.style.visibility = 'visible';
-                
-                // Modo Reposo Mejorado
-                vfHost.style.pointerEvents = 'none';
-                vfHost.style.width = '1px';
-                vfHost.style.height = '1px';
-                vfHost.style.zIndex = '-1';
-                vfHost.style.overflow = 'hidden';
-              }
-
-              // Inyectar estilos internos si no están (Resilencia)
-              if (!vfHost.shadowRoot.querySelector('#ag-vf-styles')) {
-                const style = document.createElement('style');
-                style.id = 'ag-vf-styles';
-                style.textContent = `
-                  .vfrc-footer { display: none !important; }
-                  .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
-                  @media (max-width: 767px) {
-                    .vfrc-widget, .vfrc-chat-window {
-                       bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
-                       width: 100vw !important; height: 100dvh !important; border-radius: 0 !important;
-                       max-height: 100dvh !important;
-                       z-index: 10001 !important;
-                    }
-                  }
-                `;
-                vfHost.shadowRoot.appendChild(style);
-              }
-            });
-
-            observer.observe(vfHost.shadowRoot, { childList: true, subtree: true });
-          };
-
-          // Definir openChat en el ámbito global (window) - EARLY LOADING
+          // Funciones Globales para Control de Apertura
           window.isChatOpening = false;
           window.openChat = function() {
             if (window.voiceflow && window.voiceflow.chat) {
               try {
                 window.isChatOpening = true;
-                const vfHost = document.querySelector('#voiceflow-chat');
-                if (vfHost) {
-                  // Expansión visual inmediata del host
-                  vfHost.style.display = 'block';
-                  vfHost.style.width = '100vw';
-                  vfHost.style.height = '100dvh';
-                  vfHost.style.pointerEvents = 'auto';
-                  vfHost.style.zIndex = '99999999';
-                  vfHost.style.opacity = '1';
-                  // Ejecución síncrona para no perder el contexto de interacción del usuario (Safari Fix)
-                  window.voiceflow.chat.open();
-                  if (vfHost.shadowRoot) {
-                    const l = vfHost.shadowRoot.querySelector('.vfrc-launcher') || vfHost.shadowRoot.querySelector('[class*="launcher"]');
-                    if (l) l.click();
-                  }
-                  
-                }
-                setTimeout(() => { window.isChatOpening = false; }, 4000);
+                window.voiceflow.chat.open();
+                // Flag de seguridad temporal
+                setTimeout(() => { window.isChatOpening = false; }, 3000);
               } catch(e) {
                 console.warn("Falla en apertura IA:", e);
                 window.isChatOpening = false;
               }
             } else {
-              // Si no ha cargado el script remoto, se reintenta (Resiliencia Mobile)
               setTimeout(window.openChat, 400);
             }
           };
-
-          const findVF = () => {
-            const vfHost = document.querySelector('#voiceflow-chat');
-            if (vfHost && vfHost.shadowRoot) {
-              setupObserver(vfHost);
-              vfHost.style.position = 'fixed';
-              vfHost.style.bottom = '0';
-              vfHost.style.right = '0';
-              console.log("IA Engine Ready (v8.3)");
-            } else {
-              setTimeout(findVF, 500);
-            }
-          };
-          findVF();
         }
         v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
     })(document, 'script');
