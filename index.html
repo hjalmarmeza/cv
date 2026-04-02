@@ -1774,40 +1774,78 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             
             const killAll = (vfHost) => {
               if (!vfHost || !vfHost.shadowRoot) return;
-              const selectors = ['.vfrc-launcher', '.vfrc-proactive-message', '.vfrc-button--message', '[class*="launcher"]', '[class*="proactive"]'];
+              
+              // Selectores de exterminio total (v9.2)
+              const selectors = [
+                '.vfrc-launcher', 
+                '.vfrc-proactive-message', 
+                '.vfrc-button--message',
+                '[class*="launcher"]',
+                '[class*="proactive"]',
+                '[class*="test-your-agent"]',
+                'button:has(span:contains("Test"))', // Selector avanzado si disponible
+                '#voiceflow-chat-launcher'
+              ];
+
               selectors.forEach(sel => {
-                const els = vfHost.shadowRoot.querySelectorAll(sel);
-                els.forEach(el => { el.style.setProperty('display', 'none', 'important'); el.style.setProperty('visibility', 'hidden', 'important'); });
+                try {
+                  const els = vfHost.shadowRoot.querySelectorAll(sel);
+                  els.forEach(el => {
+                    el.style.setProperty('display', 'none', 'important');
+                    el.style.setProperty('visibility', 'hidden', 'important');
+                    el.style.setProperty('width', '0', 'important');
+                    el.style.setProperty('height', '0', 'important');
+                  });
+                } catch(e) {}
               });
-              if (!vfHost.shadowRoot.querySelector('#ag-shield-v9-1')) {
+
+              // Búsqueda manual por texto (Seguridad extra)
+              const allButtons = vfHost.shadowRoot.querySelectorAll('button');
+              allButtons.forEach(b => {
+                if (b.textContent.toLowerCase().includes('test') || b.textContent.toLowerCase().includes('agent')) {
+                  b.style.setProperty('display', 'none', 'important');
+                }
+              });
+
+              if (!vfHost.shadowRoot.querySelector('#ag-flow-v9-2')) {
                 const style = document.createElement('style');
-                style.id = 'ag-shield-v9-1';
-                style.textContent = `.vfrc-footer, .vfrc-launcher, .vfrc-proactive-message, [class*="launcher"], [class*="proactive"] { display: none !important; visibility: hidden !important; width: 0 !important; height: 0 !important; }`;
+                style.id = 'ag-flow-v9-2';
+                style.textContent = `
+                  .vfrc-footer, .vfrc-launcher, .vfrc-proactive-message, 
+                  [class*="launcher"], [class*="proactive"], [class*="test-your-agent"] { 
+                    display: none !important; 
+                    visibility: hidden !important;
+                    width: 0 !important; height: 0 !important; 
+                  }
+                `;
                 vfHost.shadowRoot.appendChild(style);
               }
             };
 
             const showBtn = () => {
-              if (!btn) return;
-              btn.style.display = 'flex';
-              btn.style.opacity = '1';
-              btn.style.transform = 'scale(1)';
+              if (btn) {
+                btn.style.setProperty('display', 'flex', 'important');
+                btn.style.setProperty('opacity', '1', 'important');
+                btn.style.setProperty('transform', 'scale(1)', 'important');
+              }
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
-                 vfHost.style.setProperty('width', '1px', 'important');
-                 vfHost.style.setProperty('height', '1px', 'important');
-                 vfHost.style.setProperty('opacity', '0', 'important');
-                 vfHost.style.setProperty('z-index', '-1', 'important');
+                 vfHost.style.setProperty('display', 'none', 'important'); // Ocultar host completamente
+                 vfHost.style.setProperty('width', '0', 'important');
+                 vfHost.style.setProperty('height', '0', 'important');
                  killAll(vfHost);
               }
             };
 
             const hideBtn = () => {
-              if (!btn) return;
-              btn.style.opacity = '0';
-              btn.style.transform = 'scale(0)';
+              if (btn) {
+                btn.style.setProperty('opacity', '0', 'important');
+                btn.style.setProperty('transform', 'scale(0)', 'important');
+                setTimeout(() => { btn.style.display = 'none'; }, 400);
+              }
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
+                 vfHost.style.setProperty('display', 'block', 'important');
                  vfHost.style.setProperty('width', '100vw', 'important');
                  vfHost.style.setProperty('height', '100dvh', 'important');
                  vfHost.style.setProperty('opacity', '1', 'important');
@@ -1815,14 +1853,15 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               }
             };
 
-            // CAPA NUCLEAR: Heartbeat ultra-rápido (50ms)
+            // PULSO DE EXTERMINIO (50ms) - Skill Flow Sentinel
             setInterval(() => {
               const vfHost = document.querySelector('#voiceflow-chat');
-              if (vfHost && (btn.style.opacity === '1' || btn.style.display === 'flex')) {
+              if (vfHost && (!btn || btn.style.opacity !== '0')) {
                 killAll(vfHost);
-                vfHost.style.setProperty('width', '1px', 'important');
-                vfHost.style.setProperty('height', '1px', 'important');
-                vfHost.style.setProperty('opacity', '0', 'important');
+                // Si el chat no está abierto (según estado interno), forzar invisibilidad
+                if (window.voiceflow && window.voiceflow.chat && !window.isChatOpening) {
+                   // Solo forzamos si no estamos en proceso de apertura
+                }
               }
             }, 50);
 
@@ -1830,18 +1869,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             window.voiceflow.chat.on('close', showBtn);
             window.voiceflow.chat.on('hide', showBtn);
 
-            const setupObserver = (vfHost) => {
-              const obs = new MutationObserver(() => killAll(vfHost));
-              obs.observe(vfHost.shadowRoot, { childList: true, subtree: true, attributes: true });
-            };
-
             const findVF = () => {
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost && vfHost.shadowRoot) {
-                setupObserver(vfHost);
-                vfHost.style.position = 'fixed';
-                vfHost.style.bottom = '0';
-                vfHost.style.right = '0';
+                const obs = new MutationObserver(() => killAll(vfHost));
+                obs.observe(vfHost.shadowRoot, { childList: true, subtree: true, attributes: true });
                 killAll(vfHost);
               } else {
                 setTimeout(findVF, 300);
@@ -1850,10 +1882,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             findVF();
           });
 
-          window.isChatOpening = false;
           window.openChat = function() {
             if (window.voiceflow && window.voiceflow.chat) {
               window.isChatOpening = true;
+              const vfHost = document.querySelector('#voiceflow-chat');
+              if(vfHost) vfHost.style.setProperty('display', 'block', 'important');
               window.voiceflow.chat.open();
               setTimeout(() => { window.isChatOpening = false; }, 2000);
             } else {
