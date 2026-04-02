@@ -1828,7 +1828,12 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                   style.id = 'ag-vf-styles';
                   style.textContent = `
                     .vfrc-footer { display: none !important; }
-                    .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive { display: none !important; }
+                    .vfrc-launcher, .vfrc-proactive-message, .vfrc-launcher--proactive, [class*="launcher"], [class*="proactive"] { 
+                      display: none !important; 
+                      visibility: hidden !important;
+                      opacity: 0 !important;
+                      pointer-events: none !important;
+                    }
                     @media (max-width: 767px) {
                       .vfrc-widget, .vfrc-chat-window {
                          bottom: 0 !important; right: 0 !important; left: 0 !important; top: 0 !important; 
