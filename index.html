@@ -1771,10 +1771,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             autostart: true
           }).then(() => {
             const btn = document.getElementById('custom-ia-btn');
-            window.isChatOpen = false;
             
             const killAll = (vfHost) => {
               if (!vfHost || !vfHost.shadowRoot) return;
+              
+              // Solo eliminamos botones y launchers, NUNCA la ventana principal
               const selectors = ['.vfrc-launcher', '.vfrc-proactive-message', '.vfrc-button--message', '[class*="launcher"]', '[class*="proactive"]', '[class*="test-your-agent"]'];
               selectors.forEach(sel => {
                 try {
@@ -1785,45 +1786,46 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                   });
                 } catch(e) {}
               });
-              if (!vfHost.shadowRoot.querySelector('#ag-v10')) {
+
+              if (!vfHost.shadowRoot.querySelector('#ag-stable-v10-1')) {
                 const style = document.createElement('style');
-                style.id = 'ag-v10';
-                style.textContent = `.vfrc-footer, .vfrc-launcher, .vfrc-proactive-message, [class*="launcher"] { display: none !important; visibility: hidden !important; }`;
+                style.id = 'ag-stable-v10-1';
+                style.textContent = `
+                  .vfrc-launcher, .vfrc-proactive-message, [class*="launcher"] { 
+                    display: none !important; 
+                    visibility: hidden !important; 
+                  }
+                `;
                 vfHost.shadowRoot.appendChild(style);
               }
             };
 
             const showBtn = () => {
-              window.isChatOpen = false;
               if (btn) btn.style.setProperty('display', 'flex', 'important');
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
-                 vfHost.style.setProperty('display', 'none', 'important');
+                 vfHost.style.setProperty('opacity', '0', 'important');
+                 vfHost.style.setProperty('pointer-events', 'none', 'important');
                  vfHost.style.setProperty('z-index', '-1', 'important');
               }
             };
 
             const hideBtn = () => {
-              window.isChatOpen = true;
               if (btn) btn.style.setProperty('display', 'none', 'important');
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
-                 vfHost.style.setProperty('display', 'block', 'important');
-                 vfHost.style.setProperty('width', '100vw', 'important');
-                 vfHost.style.setProperty('height', '100dvh', 'important');
+                 vfHost.style.setProperty('opacity', '1', 'important');
+                 vfHost.style.setProperty('pointer-events', 'auto', 'important');
                  vfHost.style.setProperty('z-index', '2147483647', 'important');
               }
             };
 
-            // Master Engine Heartbeat (v10.0)
+            // Heartbeat de Limpieza Interna (Sin afectar la ventana)
             setInterval(() => {
               const vfHost = document.querySelector('#voiceflow-chat');
               if (vfHost) {
                 killAll(vfHost);
-                // Solo ocultamos el host si el chat NO está marcado como abierto
-                if (!window.isChatOpen && !window.isChatOpening) {
-                   vfHost.style.setProperty('display', 'none', 'important');
-                }
+                // Mantenemos el host vivo, solo oculto/visible según eventos
               }
             }, 100);
 
@@ -1837,6 +1839,8 @@ root.render(/*#__PURE__*/React.createElement(App, null));
                 const obs = new MutationObserver(() => killAll(vfHost));
                 obs.observe(vfHost.shadowRoot, { childList: true, subtree: true, attributes: true });
                 killAll(vfHost);
+                // Estado inicial: Oculto pero vivo
+                if (btn && btn.style.display !== 'none') showBtn();
               } else {
                 setTimeout(findVF, 300);
               }
@@ -1844,14 +1848,14 @@ root.render(/*#__PURE__*/React.createElement(App, null));
             findVF();
           });
 
-          window.isChatOpening = false;
           window.openChat = function() {
             if (window.voiceflow && window.voiceflow.chat) {
-              window.isChatOpening = true;
               const vfHost = document.querySelector('#voiceflow-chat');
-              if(vfHost) vfHost.style.setProperty('display', 'block', 'important');
+              if(vfHost) {
+                vfHost.style.setProperty('opacity', '1', 'important');
+                vfHost.style.setProperty('pointer-events', 'auto', 'important');
+              }
               window.voiceflow.chat.open();
-              setTimeout(() => { window.isChatOpening = false; }, 1500);
             } else {
               setTimeout(window.openChat, 300);
             }
