@@ -1366,14 +1366,14 @@ className: "relative pl-5 border-l-2 border-slate-800"
       name: "MusiChris Themes"
     }, {
       file: "musichris_breath_v.png",
-      cat: "Producción Cloud Ministerial & IA",
+      cat: "Producci\xF3n Cloud Ministerial & IA",
       name: "MusiChris Breath"
     }, {
-      file: "Musichris.jpg",
+      file: "musichris_radio_v.png",
       cat: "Auditoría de Redes y Medios",
       name: "MusiChris Radio"
     }, {
-      file: "Musichris Atmos.jpg",
+      file: "musichris_atmos_v.png",
       cat: "Automatización de Contenido & IA",
       name: "MusiChris Atmos"
     }, {
@@ -1381,7 +1381,7 @@ className: "relative pl-5 border-l-2 border-slate-800"
       cat: "Automatización de Contenido & IA",
       name: "MusiChris Studio"
     }, {
-      url: "https://raw.githubusercontent.com/hjalmarmeza/Musichris_Shorts/main/logo.png",
+      file: "musichris_shorts_v.png",
       cat: "Producción Cloud Animada & IA",
       name: "MusiChris Shorts Engine"
     }, {
@@ -1880,7 +1880,7 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "fas fa-microchip text-[1.3rem]"
   }), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-wider"
-  }, "Innovaci\xF3n"))));
+  }, "Innovaci\xF3n")))));
 };
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));
@@ -1959,9 +1959,16 @@ root.render(/*#__PURE__*/React.createElement(App, null));
               }
             }, 100);
 
-            window.voiceflow.chat.on('open', hideBtn);
-            window.voiceflow.chat.on('close', showBtn);
-            window.voiceflow.chat.on('hide', showBtn);
+            const initVF = () => {
+              if (window.voiceflow && window.voiceflow.chat && typeof window.voiceflow.chat.on === 'function') {
+                window.voiceflow.chat.on('open', hideBtn);
+                window.voiceflow.chat.on('close', showBtn);
+                window.voiceflow.chat.on('hide', showBtn);
+              } else {
+                setTimeout(initVF, 200);
+              }
+            };
+            initVF();
 
             const findVF = () => {
               const vfHost = document.querySelector('#voiceflow-chat');
