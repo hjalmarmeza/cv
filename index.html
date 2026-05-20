@@ -1526,7 +1526,25 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 transition-all"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-tower-broadcast text-amber-500 text-lg"
-  }))), /*#__PURE__*/React.createElement("h3", {
+  })), /*#__PURE__*/React.createElement("a", {
+    href: "https://hjalmarmeza.github.io/Musichristudio_radio/",
+    target: "_blank",
+    title: "Sintonizar MusiChris Studio Radio Live",
+    className: "musichris-radio-widget no-print"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "widget-logo-container"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "assets/musichris_logo.png",
+    alt: "Logo"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "widget-shine"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "widget-text-container"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "widget-label"
+  }, "Live Station"), /*#__PURE__*/React.createElement("span", {
+    className: "widget-title"
+  }, "MusiChris Radio")))), /*#__PURE__*/React.createElement("h3", {
     className: "text-white text-[13px] font-black uppercase tracking-tight mb-2"
   }, "INGENIER\xCDA DE EMISI\xD3N & CLOUD"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-400 text-[11px] leading-relaxed flex-grow"
@@ -2008,58 +2026,89 @@ root.render(/*#__PURE__*/React.createElement(App, null));
 
   <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
   <style>
-    #custom-radio-btn {
-      position: fixed;
-      bottom: 204px; /* Altura optimizada para móvil (140px bottom + 52px height + 12px margin) */
-      right: 20px;
-      width: 52px;
-      height: 52px;
-      background: #0f172a; /* Fondo pizarra oscuro para excelente contraste */
-      border-radius: 14px;
-      display: flex;
+    /* Widget de MusiChris Studio Radio dentro de la tarjeta de la Categoría */
+    .musichris-radio-widget {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      z-index: 2147483647;
+      gap: 8px;
+      padding: 4px 10px;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
-      border: 2px solid #f59e0b; /* Borde ámbar MusiChris */
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25), 0 5px 15px rgba(0,0,0,0.4);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      user-select: none;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      pointer-events: auto !important;
     }
-    @media (min-width: 1024px) {
-      #custom-radio-btn {
-        bottom: 215px; /* Altura ideal para PC (155px bottom + 48px height + 12px margin) */
-        right: 45px;
-        width: 48px;
-        height: 48px;
-        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
-      }
+    .musichris-radio-widget:hover {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
     }
-    #custom-radio-btn img {
-      width: 34px;
-      height: 34px;
-      object-fit: contain;
+    .musichris-radio-widget:active {
+      transform: scale(0.95);
+    }
+    .musichris-radio-widget .widget-logo-container {
+      position: relative;
+      width: 24px;
+      height: 24px;
       border-radius: 8px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: border-color 0.3s ease;
     }
-    @media (min-width: 1024px) {
-      #custom-radio-btn img {
-        width: 30px;
-        height: 30px;
-      }
+    .musichris-radio-widget:hover .widget-logo-container {
+      border-color: rgba(245, 158, 11, 0.5);
     }
-    #custom-radio-btn:hover {
-      transform: translateY(-4px) scale(1.05);
-      border-color: #fbbf24;
-      box-shadow: 0 0 25px rgba(245, 158, 11, 0.45), 0 8px 20px rgba(0,0,0,0.5);
+    .musichris-radio-widget .widget-logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
-    #custom-radio-btn:hover img {
-      transform: rotate(5deg) scale(1.05);
+    .musichris-radio-widget:hover .widget-logo-container img {
+      transform: scale(1.1) rotate(3deg);
     }
-    #custom-radio-btn:active {
-      transform: scale(0.88) !important;
+    .musichris-radio-widget .widget-logo-container .widget-shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top right, rgba(245, 158, 11, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .musichris-radio-widget:hover .widget-logo-container .widget-shine {
+      opacity: 1;
+    }
+    .musichris-radio-widget .widget-text-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.1;
+    }
+    .musichris-radio-widget .widget-label {
+      font-size: 8px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+    .musichris-radio-widget:hover .widget-label {
+      color: rgba(245, 158, 11, 0.8);
+    }
+    .musichris-radio-widget .widget-title {
+      font-size: 10px;
+      font-weight: 900;
+      color: #cbd5e1;
+      margin-top: 2px;
+      transition: color 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .musichris-radio-widget:hover .widget-title {
+      color: #fbbf24;
     }
 
     #custom-ia-btn {
@@ -2124,9 +2173,7 @@ root.render(/*#__PURE__*/React.createElement(App, null));
     }
   </style>
   
-  <a href="https://hjalmarmeza.github.io/Musichristudio_radio/" target="_blank" id="custom-radio-btn" class="no-print" title="Sintonizar MusiChris Studio Radio">
-    <img src="assets/musichris_logo.png" alt="MusiChris Studio Radio Logo" />
-  </a>
+
 
   <div id="custom-ia-btn" class="no-print" onclick="window.openChat()">
     <div class="ia-icon-wrapper">

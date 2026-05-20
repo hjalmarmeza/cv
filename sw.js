@@ -1,5 +1,5 @@
-// Service Worker v9.2 - Refactor Máster (Pestañas + Persistencia IA + Radio Widget)
-const CACHE_NAME = 'cv-master-v9.2';
+// Service Worker v9.3 - Refactor Máster (Pestañas + Persistencia IA + Radio Widget)
+const CACHE_NAME = 'cv-master-v9.3';
 const urlsToCache = [
   './',
   './index.html',
