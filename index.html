@@ -2008,6 +2008,60 @@ root.render(/*#__PURE__*/React.createElement(App, null));
 
   <!-- BOTÓN IA CUSTOM (MOBILE) - Cuadrado pequeño con icono y letras IA -->
   <style>
+    #custom-radio-btn {
+      position: fixed;
+      bottom: 204px; /* Altura optimizada para móvil (140px bottom + 52px height + 12px margin) */
+      right: 20px;
+      width: 52px;
+      height: 52px;
+      background: #0f172a; /* Fondo pizarra oscuro para excelente contraste */
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2147483647;
+      cursor: pointer;
+      border: 2px solid #f59e0b; /* Borde ámbar MusiChris */
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25), 0 5px 15px rgba(0,0,0,0.4);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      pointer-events: auto !important;
+    }
+    @media (min-width: 1024px) {
+      #custom-radio-btn {
+        bottom: 215px; /* Altura ideal para PC (155px bottom + 48px height + 12px margin) */
+        right: 45px;
+        width: 48px;
+        height: 48px;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+      }
+    }
+    #custom-radio-btn img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @media (min-width: 1024px) {
+      #custom-radio-btn img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    #custom-radio-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      border-color: #fbbf24;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.45), 0 8px 20px rgba(0,0,0,0.5);
+    }
+    #custom-radio-btn:hover img {
+      transform: rotate(5deg) scale(1.05);
+    }
+    #custom-radio-btn:active {
+      transform: scale(0.88) !important;
+    }
+
     #custom-ia-btn {
       position: fixed;
       bottom: 140px; /* Altura optimizada para móvil (despeja la pestaña Innovación) */
@@ -2069,6 +2123,11 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       pointer-events: none;
     }
   </style>
+  
+  <a href="https://hjalmarmeza.github.io/Musichristudio_radio/" target="_blank" id="custom-radio-btn" class="no-print" title="Sintonizar MusiChris Studio Radio">
+    <img src="assets/musichris_logo.png" alt="MusiChris Studio Radio Logo" />
+  </a>
+
   <div id="custom-ia-btn" class="no-print" onclick="window.openChat()">
     <div class="ia-icon-wrapper">
       <i class="fas fa-comment ia-bubble"></i>
