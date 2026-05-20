@@ -1,10 +1,11 @@
-// Service Worker v9.1 - Refactor Máster (Pestañas + Persistencia IA)
-const CACHE_NAME = 'cv-master-v9.1';
+// Service Worker v9.2 - Refactor Máster (Pestañas + Persistencia IA + Radio Widget)
+const CACHE_NAME = 'cv-master-v9.2';
 const urlsToCache = [
   './',
   './index.html',
   './styles.css',
   './manifest.json',
+  './assets/musichris_logo.png',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap'
 ];
