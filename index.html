@@ -2191,8 +2191,13 @@ root.render(/*#__PURE__*/React.createElement(App, null));
       pointer-events: none;
     }
     @media print {
-      #custom-ia-btn {
+      #custom-ia-btn, .ia-icon-wrapper, .ia-bubble, .ia-text {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        transform: scale(0) !important;
       }
     }
   </style>
