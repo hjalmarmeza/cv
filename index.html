@@ -51,6 +51,14 @@
         filter: none !important;
         backdrop-filter: none !important;
       }
+
+      /* Fix flexbox and overflow issues that cause blank pages on print */
+      #root, .min-h-screen, .max-w-6xl, body, html {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+      }
       
       header *, main *, aside *, section *, div *, p, span, li, h1, h2, h3, h4 {
         background-image: none !important;
