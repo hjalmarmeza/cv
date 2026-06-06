@@ -221,6 +221,15 @@
       .experience-item li { margin-bottom: 3px !important; font-size: 8.5pt !important; line-height: 1.2 !important; color: #334155 !important; }
       .experience-item i { color: #f59e0b !important; }
 
+      /* Inteligencia Dinámica (Auto-Fit): Si una experiencia tiene mucho texto/ítems, se auto-comprime */
+      .experience-item:has(li:nth-child(4)) h3 { font-size: 10pt !important; }
+      .experience-item:has(li:nth-child(4)) .company-info { font-size: 8pt !important; margin-bottom: 2px !important; }
+      .experience-item:has(li:nth-child(4)) li { font-size: 7.5pt !important; line-height: 1.15 !important; margin-bottom: 2px !important; }
+
+      /* Si tiene aún más (5 o más ítems), se comprime más fuerte para evitar salto de hoja */
+      .experience-item:has(li:nth-child(5)) h3 { font-size: 9.5pt !important; margin-bottom: 1px !important; }
+      .experience-item:has(li:nth-child(5)) .company-info { font-size: 7.5pt !important; }
+      .experience-item:has(li:nth-child(5)) li { font-size: 7pt !important; line-height: 1.1 !important; margin-bottom: 1.5px !important; }
       /* Regla de Oro e Info */
       .print-no-break, .bg-gradient-to-br {
         break-inside: avoid !important;
