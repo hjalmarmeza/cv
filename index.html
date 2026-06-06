@@ -288,6 +288,7 @@
 
       /* FORZAR SALTO DE PÁGINA antes de secciones estratégicas */
       .page-break-experience { page-break-before: always !important; break-before: page !important; }
+      .page-break-formacion { page-break-before: always !important; break-before: page !important; }
       .page-break-skills { 
         page-break-before: always !important; 
         break-before: page !important;
@@ -311,6 +312,7 @@
       /* Ajuste de márgenes para que quepan las certificaciones en Pág 1 */
       header { margin-bottom: 10px !important; }
       .space-y-16 > :not([hidden]) ~ :not([hidden]) { margin-top: 25px !important; }
+      .space-y-12 > :not([hidden]) ~ :not([hidden]) { margin-top: 15px !important; }
       .experience-item { margin-bottom: 8px !important; }
 
       /* Estilos para bloques de Sidebar en Print */
@@ -745,7 +747,7 @@ const App = () => {
   }, "Lo que funciona, NO se toca"), "; pero lo que puede optimizarse, lo transformo mediante flujos de trabajo aut\xF3nomos y soluciones de IA que generan valor inmediato.\""))), /*#__PURE__*/React.createElement("section", {
     className: "page-break-experience"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-4 mb-10"
+    className: "flex items-center gap-4 mb-10 print:mb-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "h-[2px] w-8 bg-amber-500"
   }), /*#__PURE__*/React.createElement("h2", {
@@ -926,7 +928,7 @@ className: "relative pl-5 border-l-2 border-slate-800"
       width: '35%'
     }
   }))))), /*#__PURE__*/React.createElement("section", {
-    className: "print-only print-sidebar-block"
+    className: "print-only print-sidebar-block page-break-formacion"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "print-sidebar-title"
   }, /*#__PURE__*/React.createElement("i", {
