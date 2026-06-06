@@ -451,6 +451,18 @@ const ExperienceItem = ({
 const App = () => {
   const [showToast, setShowToast] = useState(false);
   const [activeTab, setActiveTab] = useState('perfil');
+  const [activeNav, setActiveNav] = useState('perfil');
+
+  const handleTabChange = (tab) => {
+    if (activeNav === tab) return;
+    setActiveNav(tab);
+    // Pequeño timeout para no bloquear el renderizado del nav
+    setTimeout(() => {
+      setActiveTab(tab);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 10);
+  };
+
   const infografiaURL = "https://hjalmarmeza.github.io/cv/carta_presentacion.html";
   const miFotoURL = "https://lh3.googleusercontent.com/d/1deuM9cErfKSgeUM777akFZ0htDdMzwH7";
   const backupFotoURL = "https://media.licdn.com/dms/image/v2/D4D03AQE-3z7U3v5u4A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706634358178?e=1746057600&v=beta&t=o1n46L9z_B07Y7iY0K1G_Y9B5Xf0u8-6S7K2Z8J9wY8";
@@ -598,9 +610,9 @@ const App = () => {
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-6xl w-full bg-[#0a1120] md:border border-slate-800 md:shadow-2xl md:rounded-3xl overflow-hidden relative"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none no-print"
+    className: "absolute top-[-100px] right-[-100px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(245,158,11,0.07)_0%,transparent_70%)] pointer-events-none no-print"
   }), /*#__PURE__*/React.createElement("div", {
-    className: "absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 blur-[100px] pointer-events-none no-print"
+    className: "absolute bottom-[-100px] left-[-100px] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(59,130,246,0.07)_0%,transparent_70%)] pointer-events-none no-print"
   }), /*#__PURE__*/React.createElement("header", {
     className: `relative p-6 md:p-12 border-b border-slate-800/50 ${activeTab === 'perfil' ? 'flex' : 'hidden md:flex'} flex-col md:flex-row justify-between items-center md:items-start gap-10`
   }, /*#__PURE__*/React.createElement("div", {
@@ -1890,33 +1902,24 @@ className: "relative pl-5 border-l-2 border-slate-800"
   }, "HJALMAR MEZA CORTEZ \u2022 Senior Management & AI Strategy"), /*#__PURE__*/React.createElement("p", {
     className: "text-[8px] text-slate-400 uppercase tracking-widest"
   }, "Documento generado digitalmente para fines ejecutivos \u2022 2026"))), /*#__PURE__*/React.createElement("nav", {
-    className: "md:hidden fixed bottom-0 left-0 w-full bg-slate-950/90 backdrop-blur-md border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] no-print"
+    className: "md:hidden fixed bottom-0 left-0 w-full bg-[#020617] border-t border-slate-800 z-50 flex justify-around items-center px-1 pb-1 pt-2 shadow-[0_-10px_30px_rgba(0,0,0,0.8)] no-print"
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setActiveTab('perfil');
-      window.scrollTo(0, 0);
-    },
-    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'perfil' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
+    onClick: () => handleTabChange('perfil'),
+    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-200 ${activeNav === 'perfil' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-user-tie text-[1.3rem]"
   }), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-wider"
   }, "Perfil & Exp")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setActiveTab('skills');
-      window.scrollTo(0, 0);
-    },
-    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'skills' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
+    onClick: () => handleTabChange('skills'),
+    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-200 ${activeNav === 'skills' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-certificate text-[1.3rem]"
   }), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-wider"
   }, "Skills")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setActiveTab('innovacion');
-      window.scrollTo(0, 0);
-    },
-    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-300 ${activeTab === 'innovacion' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
+    onClick: () => handleTabChange('innovacion'),
+    className: `flex-1 flex flex-col items-center gap-1.5 py-2 transition-colors duration-200 ${activeNav === 'innovacion' ? 'text-amber-500' : 'text-slate-500 hover:text-slate-300'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-microchip text-[1.3rem]"
   }), /*#__PURE__*/React.createElement("span", {
