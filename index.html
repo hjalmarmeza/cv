@@ -534,50 +534,6 @@ const HackerText = ({ text, className }) => {
   }, displayText);
 };
 
-const EasterEggTelemetry = () => {
-  const [show, setShow] = React.useState(false);
-  // Simulación de valores de Supabase
-  const [v, setV] = React.useState(12450);
-  const [a, setA] = React.useState(3);
-
-  React.useEffect(() => {
-    if(show) {
-      const interval = setInterval(() => {
-        if(Math.random() > 0.5) setV(prev => prev + Math.floor(Math.random() * 3));
-        if(Math.random() > 0.7) setA(prev => Math.max(1, prev + (Math.random() > 0.5 ? 1 : -1)));
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [show]);
-
-  return /*#__PURE__*/React.createElement("div", { className: "relative inline-block" }, 
-    /*#__PURE__*/React.createElement("p", {
-      className: "text-[10px] uppercase tracking-[0.3em] text-slate-500 font-black cursor-crosshair select-none transition-colors hover:text-slate-400",
-      onDoubleClick: () => setShow(!show)
-    }, "Hjalmar Meza Cortez \u2022 2026"),
-    
-    // Panel Oculto Glassmorphism (animado por Framer Motion)
-    /*#__PURE__*/React.createElement(window.Motion.AnimatePresence, null, 
-      show && /*#__PURE__*/React.createElement(window.Motion.motion.div, {
-        initial: { opacity: 0, y: 10, scale: 0.95 },
-        animate: { opacity: 1, y: -40, scale: 1 },
-        exit: { opacity: 0, y: 10, scale: 0.95 },
-        className: "absolute bottom-full right-0 mb-2 p-3 bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-50 flex items-center gap-4 whitespace-nowrap"
-      }, 
-        /*#__PURE__*/React.createElement("div", { className: "flex items-center gap-2" }, 
-          /*#__PURE__*/React.createElement("div", { className: "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" }),
-          /*#__PURE__*/React.createElement("span", { className: "font-mono text-xs font-bold text-slate-300 tracking-wider" }, "V: ", v.toLocaleString())
-        ),
-        /*#__PURE__*/React.createElement("div", { className: "w-px h-4 bg-slate-700" }),
-        /*#__PURE__*/React.createElement("div", { className: "flex items-center gap-2" }, 
-          /*#__PURE__*/React.createElement("div", { className: "w-2 h-2 rounded-full bg-blue-500" }),
-          /*#__PURE__*/React.createElement("span", { className: "font-mono text-xs font-bold text-slate-300 tracking-wider" }, "A: ", a)
-        )
-      )
-    )
-  );
-};
-
 const App = () => {
   const [showToast, setShowToast] = useState(false);
   const [activeTab, setActiveTab] = useState('perfil');
