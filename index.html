@@ -370,6 +370,46 @@
         display: none !important;
       }
     }
+    /* SPOTLIGHT HOVER */
+    .spotlight-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .spotlight-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(245, 158, 11, 0.12), transparent 40%);
+      z-index: 0; opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .spotlight-card:hover::before { opacity: 1; }
+
+    /* MAGIC BORDER BEAM */
+    .magic-border-photo {
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+      padding: 3px;
+      background: transparent !important; /* Quitar el fondo para ver el before */
+      border: none !important; /* Quitar el borde de tailwind */
+    }
+    .magic-border-photo::before {
+      content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(from 0deg, transparent 70%, rgba(245, 158, 11, 0.1) 80%, rgba(245, 158, 11, 1) 100%);
+      animation: rotate-border 4s linear infinite; z-index: 0;
+    }
+    .magic-border-photo::after {
+      content: ""; position: absolute; inset: 3px; border-radius: 0.6rem; background: #0f172a; z-index: 1;
+    }
+    .magic-border-photo img {
+      position: relative;
+      z-index: 2;
+      border-radius: 0.6rem;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @keyframes rotate-border { 100% { transform: rotate(360deg); } }
+
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -461,6 +501,39 @@ const ExperienceItem = ({
 }, /*#__PURE__*/React.createElement("i", {
   className: "fas fa-chevron-right text-amber-500 text-[10px] shrink-0 mt-1.5"
 }), /*#__PURE__*/React.createElement("span", null, item)))));
+const HackerText = ({ text, className }) => {
+  const [displayText, setDisplayText] = React.useState(text);
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+  const intervalRef = React.useRef(null);
+
+  const playEffect = () => {
+    let iterations = 0;
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setDisplayText(text.split("").map((letter, index) => {
+        if(letter === ' ') return ' ';
+        if(index < iterations) return text[index];
+        return letters[Math.floor(Math.random() * letters.length)];
+      }).join(""));
+      if(iterations >= text.length) {
+        clearInterval(intervalRef.current);
+        setDisplayText(text);
+      }
+      iterations += 1/3;
+    }, 30);
+  };
+
+  React.useEffect(() => {
+    playEffect();
+    return () => clearInterval(intervalRef.current);
+  }, [text]);
+
+  return /*#__PURE__*/React.createElement("span", {
+    className: className,
+    onMouseEnter: playEffect
+  }, displayText);
+};
+
 const App = () => {
   const [showToast, setShowToast] = useState(false);
   const [activeTab, setActiveTab] = useState('perfil');
@@ -673,10 +746,8 @@ const App = () => {
   }, /*#__PURE__*/React.createElement("div", {
     className: "inline-block px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4"
   }, "Perfil Ejecutivo / Senior Management"), /*#__PURE__*/React.createElement("h1", {
-    className: "text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
-  }, "HJALMAR ", /*#__PURE__*/React.createElement("span", {
-    className: "text-amber-500"
-  }, "MEZA CORTEZ")), /*#__PURE__*/React.createElement("p", {
+    className: "text-4xl md:text-6xl font-black text-white tracking-tighter mb-4 cursor-default font-mono"
+  }, /*#__PURE__*/React.createElement(HackerText, { text: "HJALMAR ", className: "" }), /*#__PURE__*/React.createElement(HackerText, { text: "MEZA CORTEZ", className: "text-amber-500" })), /*#__PURE__*/React.createElement("p", {
     className: "text-lg md:text-xl font-medium text-slate-400 max-w-2xl leading-snug mb-8"
   }, "L\xEDder de Operaciones & Transformaci\xF3n Digital | Estratega en Automatizaci\xF3n de Procesos e IA Generativa"), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row items-center md:items-start gap-6"
@@ -726,7 +797,7 @@ const App = () => {
   }, /*#__PURE__*/React.createElement("div", {
     className: "absolute -inset-1 bg-gradient-to-tr from-amber-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700"
   }), /*#__PURE__*/React.createElement("div", {
-    className: "relative w-32 h-32 md:w-52 md:h-52 rounded-xl border border-amber-500/30 overflow-hidden bg-slate-900"
+    className: "magic-border-photo relative w-32 h-32 md:w-52 md:h-52 rounded-xl border border-amber-500/30 overflow-hidden bg-slate-900"
   }, /*#__PURE__*/React.createElement("img", {
     src: miFotoURL,
     alt: "Hjalmar Meza Cortez",
@@ -1570,8 +1641,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     whileInView: "show",
     viewport: { once: true, margin: "-50px" },
     variants: { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1592,8 +1666,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Comercio Digital"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Bases NoSQL"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Bases NoSQL"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1614,8 +1691,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Puntos de Venta"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Planificaci\xF3n"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Planificaci\xF3n"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1634,8 +1714,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Mapas Digitales"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Tiempo Real"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Tiempo Real"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1656,8 +1739,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Miner\xEDa Web"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Reconocimiento \xD3ptico"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Reconocimiento \xD3ptico"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1698,8 +1784,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "INFRAESTRUCTURA"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "BROADCAST"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "BROADCAST"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1722,8 +1811,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Salud Integral"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Inclusi\xF3n Digital"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Inclusi\xF3n Digital"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1744,8 +1836,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Sensores \xD3pticos"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Mandos a Distancia"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Mandos a Distancia"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1764,8 +1859,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Generaci\xF3n Gr\xE1fica"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "An\xE1lisis Predictivo"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col md:col-span-2 lg:col-span-1"
+  }, "An\xE1lisis Predictivo"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col md:col-span-2 lg:col-span-1"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1788,8 +1886,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "hidden print:block page-break-portfolio-end"
   }), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 print:mt-12"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1810,8 +1911,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "PRODUCCI\xD3N DIGITAL"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "WORKFLOWS IA"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "WORKFLOWS IA"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1832,8 +1936,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Voice-to-Action"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Conversaci\xF3n IA"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Conversaci\xF3n IA"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1852,8 +1959,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Inmersion Linguistica"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Aprendizaje Activo"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Aprendizaje Activo"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1872,8 +1982,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Automatizaci\xF3n Proactiva"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Ecosistemas IA"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Ecosistemas IA"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1892,8 +2005,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Interfaces IA"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "Control Remoto"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "Control Remoto"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1914,8 +2030,11 @@ className: "relative pl-5 border-l-2 border-slate-800"
     className: "text-[9px] font-black uppercase tracking-widest text-amber-500/80 px-2 py-0.5 bg-amber-500/10 rounded-md"
   }, "Cloud Ministerial"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-black uppercase tracking-widest text-slate-500 px-2 py-0.5 bg-slate-800 rounded-md"
-  }, "IA Prof\xE9tica"))), /*#__PURE__*/React.createElement("div", {
-    className: "group bg-[#0f172a] p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(245,158,11,0.05)] flex flex-col"
+  }, "IA Prof\xE9tica"))), /*#__PURE__*/React.createElement(window.Motion.motion.div, {
+    variants: { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0, transition: { type: "spring", bounce: 0.4 } } },
+    whileHover: { scale: 1.02, y: -5 },
+    onMouseMove: (e) => { const rect = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`); e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`); },
+    className: "spotlight-card group bg-slate-900/40 backdrop-blur-xl p-6 rounded-2xl border border-slate-800 hover:border-amber-500/40 hover:bg-slate-900/70 transition-colors duration-300 shadow-lg hover:shadow-[0_15px_30px_rgba(245,158,11,0.15)] flex flex-col"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between mb-4"
   }, /*#__PURE__*/React.createElement("div", {
